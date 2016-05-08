@@ -11,20 +11,21 @@ import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.paperdb.Paper;
 import me.ryanmiles.aqn.data.Data;
 import me.ryanmiles.aqn.data.Item;
 import me.ryanmiles.aqn.events.ChangeFragmentEvent;
 import me.ryanmiles.aqn.events.DataUpdateEvent;
 import me.ryanmiles.aqn.events.LogUpdateEvent;
-import me.ryanmiles.aqn.fragments.BuildingFragment;
 import me.ryanmiles.aqn.fragments.ViewPagerFragment;
 
 public class MainActivity extends AppCompatActivity {
-    private ViewPagerFragment mViewPagerFragment;
+    private static final String TAG = "MainActivity";
     @BindView(R.id.main_activity_storage_text_view)
     TextView mStorageTextView;
     @BindView(R.id.main_activity_log_text_view)
     TextView mLogTextView;
+    private ViewPagerFragment mViewPagerFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
                 .add(R.id.frame_layout, mViewPagerFragment)
                 .commit();
 
-
+        setLogText(Paper.book().read("LOG"));
         updateStorage();
 
     }
@@ -62,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager trans = getSupportFragmentManager();
         trans.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .replace(R.id.frame_layout, new BuildingFragment())
+                .replace(R.id.frame_layout, event.getFragment())
                 .addToBackStack(null)
                 .commit();
     }
@@ -70,8 +71,11 @@ public class MainActivity extends AppCompatActivity {
     public void updateStorage() {
         mStorageTextView.setText(" Storage:");
         for (Item item : Data.ALL_ITEMS) {
+            if (!item.isDiscovered() && item.getAmount() > 0) {
+                item.setDiscovered(true);
+            }
             if (item.isDiscovered()){
-                appendStorageTextView(" " + item.getName() + ": " + item.getAmount());
+                appendStorageTextView(" " + item.getName() + ": " + item.getAmount() + " / " + item.getMax());
             }
         }
     }
@@ -82,5 +86,22 @@ public class MainActivity extends AppCompatActivity {
 
     public void updateLog(String text){
         mLogTextView.setText(text +"\n" + mLogTextView.getText().toString());
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        App.saveData(mLogTextView.getText().toString());
+    }
+
+    public void setActionBarTitle(String title) {
+        getSupportActionBar().setTitle(title);
+    }
+
+    public void setLogText(java.lang.Object logText) {
+        if (logText != null) {
+            mLogTextView.setText(logText.toString());
+        }
     }
 }

@@ -2,26 +2,37 @@ package me.ryanmiles.aqn.data;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.Random;
+
 import me.ryanmiles.aqn.events.DataUpdateEvent;
 
 /**
  * Created by ryanm on 5/7/2016.
  */
-public class Item{
+public class Item extends Object {
+    Random rng;
     private int amount;
     private int increment;
     private int max;
-    private boolean discovered;
-    private String name;
-    private String saved_name;
+    private int randomChance;
+    private Item mInfo;
 
-    public Item(boolean discovered, int amount, int max, String name, String saved_name, int increment) {
+
+    public Item(boolean discovered, int amount, int max, String name, String saved_name, int increment, int randomChance) {
+        super(name, saved_name, discovered);
         this.amount = amount;
-        this.name = name;
-        this.saved_name = saved_name;
         this.increment = increment;
-        this.discovered = discovered;
         this.max = max;
+        this.randomChance = randomChance;
+        rng = new Random();
+    }
+
+    public int getRandomChance() {
+        return randomChance;
+    }
+
+    public void setRandomChance(int randomChance) {
+        this.randomChance = randomChance;
     }
 
     public int getMax() {
@@ -32,13 +43,6 @@ public class Item{
         this.max = max;
     }
 
-    public boolean isDiscovered() {
-        return discovered;
-    }
-
-    public void setDiscovered(boolean discovered) {
-        this.discovered = discovered;
-    }
 
     public int getIncrement() {
         return increment;
@@ -56,57 +60,58 @@ public class Item{
         this.amount = amount;
         updateData();
     }
-    public void remove(int remove){
+
+    public void remove(int remove) {
         amount -= remove;
         updateData();
     }
 
 
-
-    public void addAmount(int add){
-        if((add + amount) >= max){
+    public void addAmount(int add) {
+        if ((add + amount) >= max) {
             amount = max;
-            updateData("You can't carry anymore " + name);
-        }else{
+            updateData("You can't carry anymore " + getName());
+        } else {
             amount += add;
             updateData();
         }
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSaved_name() {
-        return saved_name;
-    }
-
-    public void setSaved_name(String saved_name) {
-        this.saved_name = saved_name;
-    }
 
     private void updateData() {
         EventBus.getDefault().post(new DataUpdateEvent(true, getLogText()));
     }
+
     private void updateData(String log) {
         EventBus.getDefault().post(new DataUpdateEvent(true, log));
     }
 
     public String getLogText() {
-        return "You collected " + increment + " " + name;
+        return "You collected " + increment + " " + getName();
     }
 
     public void addIncrement() {
-        if((increment + amount) >= max){
+        if ((increment + amount) >= max) {
             amount = max;
-            updateData("You can't carry anymore " + name);
-        }else{
+            updateData("");
+        } else {
             amount += increment;
             updateData();
         }
+    }
+
+    public void random() {
+        if (rng.nextInt(100) + 1 <= randomChance) {
+            addIncrement();
+        }
+    }
+
+
+    public void setInfo(Item info) {
+        amount = info.getAmount();
+        setDiscovered(info.isDiscovered());
+        increment = info.getIncrement();
+        max = info.getMax();
+        randomChance = info.getRandomChance();
     }
 }

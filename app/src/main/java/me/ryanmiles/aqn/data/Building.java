@@ -1,38 +1,30 @@
 package me.ryanmiles.aqn.data;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Created by ryanm on 5/7/2016.
  */
-public class Building {
-    private String name;
-    private String saved_name;
+public class Building extends Object {
     private HashMap<Item,Integer> required;
-    private boolean discovered;
+    private ArrayList<Object> activateList;
 
-    public Building(String name, String saved_name, HashMap<Item, Integer> required, boolean discovered) {
-        this.name = name;
-        this.saved_name = saved_name;
+
+    public Building(String name, String saved_name, HashMap<Item, Integer> required, boolean discovered, ArrayList<Object> activateList) {
+        super(name, saved_name, discovered);
         this.required = required;
-        this.discovered = discovered;
+        this.activateList = activateList;
     }
 
-    public String getName() {
-        return name;
+
+    public ArrayList<Object> getActivateList() {
+        return activateList;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSaved_name() {
-        return saved_name;
-    }
-
-    public void setSaved_name(String saved_name) {
-        this.saved_name = saved_name;
+    public void setActivateList(ArrayList<Object> activateList) {
+        this.activateList = activateList;
     }
 
     public HashMap<Item, Integer> getRequired() {
@@ -43,13 +35,6 @@ public class Building {
         this.required = required;
     }
 
-    public boolean isDiscovered() {
-        return discovered;
-    }
-
-    public void setDiscovered(boolean discovered) {
-        this.discovered = discovered;
-    }
 
     public String getContentString(){
         String content = "Needed Resources: \n";
@@ -68,15 +53,27 @@ public class Building {
                 return false;
             }
         }
+
         for(Map.Entry<Item, Integer> entry : required.entrySet()) {
             Item key = entry.getKey();
             int value = entry.getValue();
             key.setAmount(key.getAmount() - value);
         }
+
+        if (activateList != null) {
+            for (Object object : activateList) {
+                object.setDiscovered(true);
+            }
+        }
+        setDiscovered(false);
         return true;
     }
 
     public String getLogText() {
-        return "You built a " + name;
+        return "You built a " + getName();
+    }
+
+    public void setInfo(Building info) {
+        setDiscovered(info.isDiscovered());
     }
 }

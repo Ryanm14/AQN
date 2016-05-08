@@ -34,6 +34,7 @@ public class ForestFragment extends Fragment {
     @OnClick(R.id.wood)
     public void woodOnClick(){
         Data.WOOD.addIncrement();
+        Data.LEAVES.random();
     }
 
     @OnClick(R.id.stone)

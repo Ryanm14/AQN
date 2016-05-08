@@ -13,6 +13,7 @@ import org.greenrobot.eventbus.EventBus;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import me.ryanmiles.aqn.MainActivity;
 import me.ryanmiles.aqn.R;
 import me.ryanmiles.aqn.events.ChangeFragmentEvent;
 
@@ -35,6 +36,7 @@ public class CaveFragment extends Fragment {
         mCraftingButton.setVisibility(View.INVISIBLE);
         mVillageButton.setVisibility(View.INVISIBLE);
         mQuestsButton.setVisibility(View.INVISIBLE);
+        ((MainActivity) getActivity()).setActionBarTitle("A Quiet Night");
         return rootView;
     }
 

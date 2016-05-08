@@ -15,6 +15,7 @@ import com.afollestad.materialdialogs.AlertDialogWrapper;
 
 import org.greenrobot.eventbus.EventBus;
 
+import me.ryanmiles.aqn.MainActivity;
 import me.ryanmiles.aqn.R;
 import me.ryanmiles.aqn.data.Building;
 import me.ryanmiles.aqn.data.Data;
@@ -34,6 +35,7 @@ public class BuildingFragment extends Fragment {
         View rootView =  inflater.inflate(R.layout.building_fragment_layout, container, false);
         mLinearLayout = (LinearLayout) rootView.findViewById(R.id.buildings_fragment_linear_layout);
         updateBuildingButtons();
+        ((MainActivity) getActivity()).setActionBarTitle("Buildings");
         return rootView;
     }
 
@@ -45,21 +47,21 @@ public class BuildingFragment extends Fragment {
                 bt.setBackground(getResources().getDrawable(R.drawable.button_shape));
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                        375, LinearLayout.LayoutParams.WRAP_CONTENT);
-                params.setMargins(15, 0, 0, 0);
+                params.setMargins(15, 0, 0, 15);
                 bt.setLayoutParams(params);
                 bt.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Dialog dialog = new AlertDialogWrapper.Builder(getActivity())
-                                .setTitle(building.getName())
+                                .setTitle("Building: " + building.getName())
                                 .setMessage(building.getContentString())
-                                .setPositiveButton("Build", new DialogInterface.OnClickListener() {
+                                .setPositiveButton("Build a " + building.getName(), new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         if(building.build()){
                                             EventBus.getDefault().post(new LogUpdateEvent(building.getLogText()));
-                                            building.setDiscovered(false);
                                             mLinearLayout.removeView(bt);
+                                            updateBuildingButtons();
                                             dialog.dismiss();
                                         }else{
                                             Toast.makeText(getActivity(), "You need more supplies!", Toast.LENGTH_LONG).show();
