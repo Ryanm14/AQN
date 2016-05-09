@@ -7,9 +7,9 @@ import android.util.Log;
 import java.util.ArrayList;
 
 import io.paperdb.Paper;
-import me.ryanmiles.aqn.data.Building;
 import me.ryanmiles.aqn.data.Data;
-import me.ryanmiles.aqn.data.Item;
+import me.ryanmiles.aqn.data.model.Building;
+import me.ryanmiles.aqn.data.model.Item;
 
 /**
  * Created by ryanm on 5/8/2016.

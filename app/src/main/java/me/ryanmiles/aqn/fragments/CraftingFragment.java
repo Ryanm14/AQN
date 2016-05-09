@@ -18,52 +18,51 @@ import org.greenrobot.eventbus.EventBus;
 import me.ryanmiles.aqn.MainActivity;
 import me.ryanmiles.aqn.R;
 import me.ryanmiles.aqn.data.Data;
-import me.ryanmiles.aqn.data.model.Building;
+import me.ryanmiles.aqn.data.model.CraftedItem;
 import me.ryanmiles.aqn.events.LogUpdateEvent;
 
 /**
  * Created by ryanm on 5/7/2016.
  */
-public class BuildingFragment extends Fragment {
+public class CraftingFragment extends Fragment {
 
     LinearLayout mLinearLayout;
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView =  inflater.inflate(R.layout.building_fragment_layout, container, false);
-        mLinearLayout = (LinearLayout) rootView.findViewById(R.id.buildings_fragment_linear_layout);
-        updateBuildingButtons();
-        ((MainActivity) getActivity()).setActionBarTitle("Buildings");
+        View rootView = inflater.inflate(R.layout.crafting_fragment_layout, container, false);
+        mLinearLayout = (LinearLayout) rootView.findViewById(R.id.crafting_fragment_linear_layout);
+        updateCraftingButtons();
+        ((MainActivity) getActivity()).setActionBarTitle("Crafting");
         return rootView;
     }
 
-    private void updateBuildingButtons() {
-        for (final Building building : Data.ALL_BUILDINGS) {
-            if(building.isDiscovered()) {
+    private void updateCraftingButtons() {
+        for (final CraftedItem craftedItem : Data.ALL_CRAFTED_ITEMS) {
+            if (craftedItem.isDiscovered()) {
                 final Button bt = new Button(getActivity());
-                bt.setText(building.getName());
+                bt.setText(craftedItem.getName());
                 bt.setBackground(getResources().getDrawable(R.drawable.button_shape));
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                       375, LinearLayout.LayoutParams.WRAP_CONTENT);
+                        375, LinearLayout.LayoutParams.WRAP_CONTENT);
                 params.setMargins(15, 0, 0, 15);
                 bt.setLayoutParams(params);
                 bt.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Dialog dialog = new AlertDialogWrapper.Builder(getActivity())
-                                .setTitle("Building: " + building.getName())
-                                .setMessage(building.getContentString())
-                                .setPositiveButton("Build a " + building.getName(), new DialogInterface.OnClickListener() {
+                                .setTitle("Item: " + craftedItem.getName())
+                                .setMessage(craftedItem.getContentString())
+                                .setPositiveButton("Construct a " + craftedItem.getName(), new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        if(building.build()){
-                                            EventBus.getDefault().post(new LogUpdateEvent(building.getLogText()));
+                                        if (craftedItem.craft()) {
+                                            EventBus.getDefault().post(new LogUpdateEvent(craftedItem.getLogText()));
                                             mLinearLayout.removeView(bt);
-                                            updateBuildingButtons();
+                                            updateCraftingButtons();
                                             dialog.dismiss();
-                                        }else{
+                                        } else {
                                             Toast.makeText(getActivity(), "You need more supplies!", Toast.LENGTH_LONG).show();
                                         }
                                     }

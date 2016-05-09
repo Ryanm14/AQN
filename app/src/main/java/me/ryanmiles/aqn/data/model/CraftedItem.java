@@ -1,4 +1,4 @@
-package me.ryanmiles.aqn.data;
+package me.ryanmiles.aqn.data.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,17 +7,27 @@ import java.util.Map;
 /**
  * Created by ryanm on 5/7/2016.
  */
-public class Building extends Object {
-    private HashMap<Item,Integer> required;
+public class CraftedItem extends Object {
+    private HashMap<Item, Integer> required;
+    private HashMap<Item, Integer> addIncrement;
     private ArrayList<Object> activateList;
+    private boolean crafted = false;
 
 
-    public Building(String name, String saved_name, HashMap<Item, Integer> required, boolean discovered, ArrayList<Object> activateList) {
+    public CraftedItem(String name, String saved_name, HashMap<Item, Integer> required, boolean discovered, ArrayList<Object> activateList, HashMap<Item, Integer> addIncrement) {
         super(name, saved_name, discovered);
         this.required = required;
         this.activateList = activateList;
+        this.addIncrement = addIncrement;
     }
 
+    public HashMap<Item, Integer> getAddIncrement() {
+        return addIncrement;
+    }
+
+    public void setAddIncrement(HashMap<Item, Integer> addIncrement) {
+        this.addIncrement = addIncrement;
+    }
 
     public ArrayList<Object> getActivateList() {
         return activateList;
@@ -36,25 +46,26 @@ public class Building extends Object {
     }
 
 
-    public String getContentString(){
+    public String getContentString() {
         String content = "Needed Resources: \n";
-        for(Map.Entry<Item, Integer> entry : required.entrySet()) {
+        for (Map.Entry<Item, Integer> entry : required.entrySet()) {
             String key = entry.getKey().getName();
             int value = entry.getValue();
             content += (key + ": " + value + "\n");
         }
         return content;
     }
-    public boolean build() {
-        for(Map.Entry<Item, Integer> entry : required.entrySet()) {
+
+    public boolean craft() {
+        for (Map.Entry<Item, Integer> entry : required.entrySet()) {
             Item key = entry.getKey();
             int value = entry.getValue();
-            if(key.getAmount() < value){
+            if (key.getAmount() < value) {
                 return false;
             }
         }
 
-        for(Map.Entry<Item, Integer> entry : required.entrySet()) {
+        for (Map.Entry<Item, Integer> entry : required.entrySet()) {
             Item key = entry.getKey();
             int value = entry.getValue();
             key.setAmount(key.getAmount() - value);
@@ -65,15 +76,32 @@ public class Building extends Object {
                 object.setDiscovered(true);
             }
         }
+
+        if (addIncrement != null) {
+            for (Map.Entry<Item, Integer> entry : addIncrement.entrySet()) {
+                Item key = entry.getKey();
+                int value = entry.getValue();
+                key.setIncrement(value);
+            }
+        }
         setDiscovered(false);
+        crafted = true;
         return true;
     }
 
-    public String getLogText() {
-        return "You built a " + getName();
+    public boolean isCrafted() {
+        return crafted;
     }
 
-    public void setInfo(Building info) {
+    public void setCrafted(boolean crafted) {
+        this.crafted = crafted;
+    }
+
+    public String getLogText() {
+        return "You crafted a " + getName();
+    }
+
+    public void setInfo(CraftedItem info) {
         setDiscovered(info.isDiscovered());
     }
 }

@@ -15,6 +15,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.ryanmiles.aqn.MainActivity;
 import me.ryanmiles.aqn.R;
+import me.ryanmiles.aqn.data.Data;
 import me.ryanmiles.aqn.events.ChangeFragmentEvent;
 
 /**
@@ -40,10 +41,27 @@ public class CaveFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateButtons();
+    }
+
+    private void updateButtons() {
+        if (Data.TOOLBENCH.isBuilt()) {
+            mCraftingButton.setVisibility(View.VISIBLE);
+        }
+    }
+
     @OnClick(R.id.buildings)
     public void openBuildings() {
         EventBus.getDefault().post(new ChangeFragmentEvent(new BuildingFragment()));
 
+    }
+
+    @OnClick(R.id.crafting)
+    public void openCrafting() {
+        EventBus.getDefault().post(new ChangeFragmentEvent(new CraftingFragment()));
     }
 
 

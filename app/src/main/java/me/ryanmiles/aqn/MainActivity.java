@@ -13,7 +13,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.paperdb.Paper;
 import me.ryanmiles.aqn.data.Data;
-import me.ryanmiles.aqn.data.Item;
+import me.ryanmiles.aqn.data.model.Item;
 import me.ryanmiles.aqn.events.ChangeFragmentEvent;
 import me.ryanmiles.aqn.events.DataUpdateEvent;
 import me.ryanmiles.aqn.events.LogUpdateEvent;
@@ -41,8 +41,9 @@ public class MainActivity extends AppCompatActivity {
 
         setLogText(Paper.book().read("LOG"));
         updateStorage();
-
     }
+
+
     @Subscribe
     public void onEvent(DataUpdateEvent event) {
         if(event.UpdateStorage()){

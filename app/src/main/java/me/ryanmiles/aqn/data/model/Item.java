@@ -1,4 +1,4 @@
-package me.ryanmiles.aqn.data;
+package me.ryanmiles.aqn.data.model;
 
 import org.greenrobot.eventbus.EventBus;
 

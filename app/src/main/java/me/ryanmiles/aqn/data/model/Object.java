@@ -1,4 +1,4 @@
-package me.ryanmiles.aqn.data;
+package me.ryanmiles.aqn.data.model;
 
 /**
  * Created by ryanm on 5/8/2016.
