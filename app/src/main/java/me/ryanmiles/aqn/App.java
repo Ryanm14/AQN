@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import io.paperdb.Paper;
 import me.ryanmiles.aqn.data.Data;
 import me.ryanmiles.aqn.data.model.Building;
+import me.ryanmiles.aqn.data.model.CraftedItem;
 import me.ryanmiles.aqn.data.model.Item;
 
 /**
@@ -22,6 +23,7 @@ public class App extends Application {
     public static void saveData(String log) {
         Paper.book().write("ITEMS", Data.ALL_ITEMS);
         Paper.book().write("BUILDINGS", Data.ALL_BUILDINGS);
+        Paper.book().write("CRAFTED_ITEMS", Data.ALL_CRAFTED_ITEMS);
         Paper.book().write("LOG", log);
         Log.d(TAG, "saveData: Saving");
     }
@@ -41,6 +43,15 @@ public class App extends Application {
             for (Building savedBuilding : savedBuildings) {
                 if (building.getName().equals(savedBuilding.getName())) {
                     building.setInfo(savedBuilding);
+                }
+            }
+        }
+
+        ArrayList<CraftedItem> savedCraftedItems = Paper.book().read("CRAFTED_ITEMS", new ArrayList<CraftedItem>());
+        for (CraftedItem craftedItem : Data.ALL_CRAFTED_ITEMS) {
+            for (CraftedItem savedCraftedItem : savedCraftedItems) {
+                if (craftedItem.getName().equals(savedCraftedItem.getName())) {
+                    craftedItem.setInfo(savedCraftedItem);
                 }
             }
         }

@@ -57,4 +57,10 @@ public class ViewPagerFragment extends Fragment {
 
         return root;
     }
+
+    public void switchTab() {
+        if (mViewPager.getCurrentItem() == 1) {
+            mViewPager.setCurrentItem(0);
+        }
+    }
 }

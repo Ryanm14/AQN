@@ -9,16 +9,25 @@ import java.util.Map;
  */
 public class Building extends Object {
     private HashMap<Item,Integer> required;
+    private HashMap<Item, Integer> updateMax;
     private ArrayList<Object> activateList;
     private boolean built = false;
 
 
-    public Building(String name, String saved_name, HashMap<Item, Integer> required, boolean discovered, ArrayList<Object> activateList) {
+    public Building(String name, String saved_name, HashMap<Item, Integer> required, boolean discovered, ArrayList<Object> activateList, HashMap<Item, Integer> updateMax) {
         super(name, saved_name, discovered);
         this.required = required;
         this.activateList = activateList;
+        this.updateMax = updateMax;
     }
 
+    public HashMap<Item, Integer> getUpdateMax() {
+        return updateMax;
+    }
+
+    public void setUpdateMax(HashMap<Item, Integer> updateMax) {
+        this.updateMax = updateMax;
+    }
 
     public ArrayList<Object> getActivateList() {
         return activateList;
@@ -66,6 +75,14 @@ public class Building extends Object {
                 object.setDiscovered(true);
             }
         }
+
+        if (updateMax != null) {
+            for (Map.Entry<Item, Integer> entry : updateMax.entrySet()) {
+                Item key = entry.getKey();
+                int value = entry.getValue();
+                key.setMax(value);
+            }
+        }
         setDiscovered(false);
         built = true;
         return true;
@@ -85,5 +102,6 @@ public class Building extends Object {
 
     public void setInfo(Building info) {
         setDiscovered(info.isDiscovered());
+        setBuilt(info.isBuilt());
     }
 }

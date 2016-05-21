@@ -28,7 +28,14 @@ public class ForestFragment extends Fragment {
         ButterKnife.bind(this,rootView);
         mDirtyWaterButton.setVisibility(View.GONE);
         mHuntButton.setVisibility(View.GONE);
+        updateButtons();
         return rootView;
+    }
+
+    private void updateButtons() {
+        if (Data.STONESWORD.isCrafted()) {
+            mHuntButton.setVisibility(View.VISIBLE);
+        }
     }
 
     @OnClick(R.id.wood)
@@ -40,5 +47,14 @@ public class ForestFragment extends Fragment {
     @OnClick(R.id.stone)
     public void stoneOnClick(){
         Data.STONE.addIncrement();
+        if (Data.STONEPICK.isCrafted()) {
+            Data.TIN.random();
+        }
+    }
+
+    @OnClick(R.id.hunt)
+    public void huntOnClick() {
+        Data.MEAT.addIncrement();
+        Data.HIDE.random();
     }
 }

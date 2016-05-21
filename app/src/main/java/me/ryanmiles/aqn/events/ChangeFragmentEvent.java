@@ -7,9 +7,11 @@ import android.support.v4.app.Fragment;
  */
 public class ChangeFragmentEvent {
     private Fragment mFragment;
+    private String mTag;
 
-    public ChangeFragmentEvent(Fragment fragment) {
+    public ChangeFragmentEvent(Fragment fragment, String tag) {
         mFragment = fragment;
+        mTag = tag;
     }
 
     public Fragment getFragment() {
@@ -18,5 +20,9 @@ public class ChangeFragmentEvent {
 
     public void setFragment(Fragment fragment) {
         mFragment = fragment;
+    }
+
+    public String getTag() {
+        return mTag;
     }
 }

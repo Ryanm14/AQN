@@ -39,8 +39,9 @@ public class CraftingFragment extends Fragment {
     }
 
     private void updateCraftingButtons() {
+        mLinearLayout.removeAllViews();
         for (final CraftedItem craftedItem : Data.ALL_CRAFTED_ITEMS) {
-            if (craftedItem.isDiscovered()) {
+            if (craftedItem.isDiscovered() && !craftedItem.isCrafted()) {
                 final Button bt = new Button(getActivity());
                 bt.setText(craftedItem.getName());
                 bt.setBackground(getResources().getDrawable(R.drawable.button_shape));

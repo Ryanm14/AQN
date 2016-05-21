@@ -103,5 +103,6 @@ public class CraftedItem extends Object {
 
     public void setInfo(CraftedItem info) {
         setDiscovered(info.isDiscovered());
+        setCrafted(info.isCrafted());
     }
 }

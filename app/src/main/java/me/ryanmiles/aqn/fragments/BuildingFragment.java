@@ -19,7 +19,7 @@ import me.ryanmiles.aqn.MainActivity;
 import me.ryanmiles.aqn.R;
 import me.ryanmiles.aqn.data.Data;
 import me.ryanmiles.aqn.data.model.Building;
-import me.ryanmiles.aqn.events.LogUpdateEvent;
+import me.ryanmiles.aqn.events.DataUpdateEvent;
 
 /**
  * Created by ryanm on 5/7/2016.
@@ -40,8 +40,9 @@ public class BuildingFragment extends Fragment {
     }
 
     private void updateBuildingButtons() {
+        mLinearLayout.removeAllViews();
         for (final Building building : Data.ALL_BUILDINGS) {
-            if(building.isDiscovered()) {
+            if (building.isDiscovered() && !building.isBuilt()) {
                 final Button bt = new Button(getActivity());
                 bt.setText(building.getName());
                 bt.setBackground(getResources().getDrawable(R.drawable.button_shape));
@@ -59,7 +60,7 @@ public class BuildingFragment extends Fragment {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         if(building.build()){
-                                            EventBus.getDefault().post(new LogUpdateEvent(building.getLogText()));
+                                            EventBus.getDefault().post(new DataUpdateEvent(true, building.getLogText()));
                                             mLinearLayout.removeView(bt);
                                             updateBuildingButtons();
                                             dialog.dismiss();

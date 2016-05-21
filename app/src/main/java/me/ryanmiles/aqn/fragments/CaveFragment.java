@@ -55,16 +55,14 @@ public class CaveFragment extends Fragment {
 
     @OnClick(R.id.buildings)
     public void openBuildings() {
-        EventBus.getDefault().post(new ChangeFragmentEvent(new BuildingFragment()));
+        EventBus.getDefault().post(new ChangeFragmentEvent(new BuildingFragment(), "buildingFragment"));
 
     }
 
     @OnClick(R.id.crafting)
     public void openCrafting() {
-        EventBus.getDefault().post(new ChangeFragmentEvent(new CraftingFragment()));
+        EventBus.getDefault().post(new ChangeFragmentEvent(new CraftingFragment(), "craftingFragment"));
     }
-
-
 
 
 }

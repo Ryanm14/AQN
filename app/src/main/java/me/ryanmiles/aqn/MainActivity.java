@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         mViewPagerFragment = new ViewPagerFragment();
 
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.frame_layout, mViewPagerFragment)
+                .add(R.id.frame_layout, mViewPagerFragment, "mViewPager")
                 .commit();
 
         setLogText(Paper.book().read("LOG"));
@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager trans = getSupportFragmentManager();
         trans.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .replace(R.id.frame_layout, event.getFragment())
+                .replace(R.id.frame_layout, event.getFragment(), event.getTag())
                 .addToBackStack(null)
                 .commit();
     }
@@ -104,5 +104,16 @@ public class MainActivity extends AppCompatActivity {
         if (logText != null) {
             mLogTextView.setText(logText.toString());
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        ViewPagerFragment myFragment = (ViewPagerFragment) getSupportFragmentManager().findFragmentByTag("mViewPager");
+        if (myFragment != null && myFragment.isVisible()) {
+            mViewPagerFragment.switchTab();
+        } else {
+            super.onBackPressed();
+        }
+
     }
 }
