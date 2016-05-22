@@ -7,7 +7,7 @@ import java.util.HashMap;
 import me.ryanmiles.aqn.data.model.Building;
 import me.ryanmiles.aqn.data.model.CraftedItem;
 import me.ryanmiles.aqn.data.model.Item;
-import me.ryanmiles.aqn.data.model.Object;
+import me.ryanmiles.aqn.events.UpdateEvent;
 
 /**
  * Created by ryanm on 5/7/2016.
@@ -43,17 +43,17 @@ public class Data {
             "Leaves",
             "leaves",
             2,
-            45
+            25
     );
 
     public static Item TIN = new Item(
             false,
             0,
-            35,
+            15,
             "Tin",
             "tin",
             2,
-            20
+            10
     );
 
     public static Item HIDE = new Item(
@@ -76,9 +76,30 @@ public class Data {
             0
     );
 
-    public static ArrayList<Item> ALL_ITEMS = new ArrayList<>(Arrays.asList(WOOD, STONE, LEAVES, TIN, HIDE, MEAT));
+    public static Item TIN_BULLION = new Item(
+            false,
+            0,
+            15,
+            "Tin Bullion",
+            "tin_bullion",
+            1,
+            0
+    );
+
+    public static ArrayList<Item> ALL_ITEMS = new ArrayList<>(Arrays.asList(WOOD, STONE, LEAVES, TIN, HIDE, MEAT, TIN_BULLION));
 
     //BUILDINGS
+
+    public static Building BASIC_SMELTERY = new Building(
+            "Basic Smeltery",
+            "basic_smeltery",
+            new HashMap<Item, Integer>() {{
+                put(STONE, 85);
+                put(WOOD, 50);
+            }},
+            false,
+            null
+    );
 
     public static Building WOODPILE = new Building(
             "Wood Pile",
@@ -87,10 +108,7 @@ public class Data {
                 put(WOOD, 50);
             }},
             false,
-            null,
-            new HashMap<Item, Integer>() {{
-                put(WOOD, 100);
-            }}
+            new UpdateEvent().setChangeMaxEvent(WOOD, 100)
     );
 
     public static Building STONEPILE = new Building(
@@ -100,10 +118,7 @@ public class Data {
                 put(STONE, 50);
             }},
             false,
-            null,
-            new HashMap<Item, Integer>() {{
-                put(STONE, 100);
-            }}
+            new UpdateEvent().setChangeMaxEvent(STONE, 100).setDiscoveredEvent(BASIC_SMELTERY)
     );
 
 
@@ -115,8 +130,7 @@ public class Data {
                 put(LEAVES, 9);
             }},
             false,
-            new ArrayList<>(Arrays.asList((Object) WOODPILE, STONEPILE)),
-            null
+            new UpdateEvent().setDiscoveredEvent(WOODPILE).setDiscoveredEvent(STONEPILE)
     );
 
     public static Building WORKSHOP = new Building(
@@ -127,12 +141,11 @@ public class Data {
                 put(STONE, 10);
             }},
             true, //IsDiscovered
-            new ArrayList<>(Arrays.asList((Object) TOOLBENCH)), //SetDiscovered
-            null //Update Max
+            new UpdateEvent().setDiscoveredEvent(TOOLBENCH)
     );
 
 
-    public static ArrayList<Building> ALL_BUILDINGS = new ArrayList<>(Arrays.asList(WORKSHOP, TOOLBENCH, WOODPILE, STONEPILE));
+    public static ArrayList<Building> ALL_BUILDINGS = new ArrayList<>(Arrays.asList(WORKSHOP, TOOLBENCH, WOODPILE, STONEPILE, BASIC_SMELTERY));
 
 
     //CRAFTED_ITEMS
@@ -144,10 +157,7 @@ public class Data {
                 put(STONE, 35);
             }},
             true,
-            null,
-            new HashMap<Item, Integer>() {{
-                put(STONE, 2);
-            }}
+            new UpdateEvent().setAddIncrementEvent(STONE, 2)
     );
 
     public static CraftedItem STONEAXE = new CraftedItem(
@@ -158,10 +168,7 @@ public class Data {
                 put(STONE, 20);
             }},
             true,
-            null,
-            new HashMap<Item, Integer>() {{
-                put(WOOD, 2);
-            }}
+            new UpdateEvent().setAddIncrementEvent(WOOD, 2)
     );
 
     public static CraftedItem STONESWORD = new CraftedItem(
@@ -172,7 +179,6 @@ public class Data {
                 put(STONE, 35);
             }},
             true,
-            null,
             null
     );
 

@@ -43,6 +43,7 @@ public class BuildingFragment extends Fragment {
         mLinearLayout.removeAllViews();
         for (final Building building : Data.ALL_BUILDINGS) {
             if (building.isDiscovered() && !building.isBuilt()) {
+
                 final Button bt = new Button(getActivity());
                 bt.setText(building.getName());
                 bt.setBackground(getResources().getDrawable(R.drawable.button_shape));
@@ -50,6 +51,7 @@ public class BuildingFragment extends Fragment {
                        375, LinearLayout.LayoutParams.WRAP_CONTENT);
                 params.setMargins(15, 0, 0, 15);
                 bt.setLayoutParams(params);
+
                 bt.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

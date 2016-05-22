@@ -15,6 +15,9 @@ import com.afollestad.materialdialogs.AlertDialogWrapper;
 
 import org.greenrobot.eventbus.EventBus;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import me.ryanmiles.aqn.MainActivity;
 import me.ryanmiles.aqn.R;
 import me.ryanmiles.aqn.data.Data;
@@ -27,15 +30,25 @@ import me.ryanmiles.aqn.events.LogUpdateEvent;
 public class CraftingFragment extends Fragment {
 
     LinearLayout mLinearLayout;
+    @BindView(R.id.tin_button)
+    Button mTinButton;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.crafting_fragment_layout, container, false);
+        ButterKnife.bind(this, rootView);
         mLinearLayout = (LinearLayout) rootView.findViewById(R.id.crafting_fragment_linear_layout);
         updateCraftingButtons();
+        updateMaterialButtons();
         ((MainActivity) getActivity()).setActionBarTitle("Crafting");
         return rootView;
+    }
+
+    private void updateMaterialButtons() {
+        if (!Data.BASIC_SMELTERY.isBuilt()) {
+            mTinButton.setVisibility(View.GONE);
+        }
     }
 
     private void updateCraftingButtons() {
@@ -82,5 +95,32 @@ public class CraftingFragment extends Fragment {
         }
     }
 
-
+    @OnClick(R.id.tin_button)
+    public void tinButtonOnClick() {
+        Dialog dialog = new AlertDialogWrapper.Builder(getActivity())
+                .setTitle("Item: " + Data.TIN_BULLION.getName())
+                .setMessage("Needed Resources: \nTin: 1 \nWood:10")
+                .setPositiveButton("Construct a " + Data.TIN_BULLION.getName(), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (Data.TIN.getAmount() >= 1 && Data.WOOD.getAmount() >= 10) {
+                            EventBus.getDefault().post(new LogUpdateEvent("You smelted a Tin Bullion"));
+                            Data.TIN.setDiscovered(true);
+                            Data.TIN_BULLION.addIncrement();
+                            Data.WOOD.remove(10);
+                            Data.TIN.remove(1);
+                            dialog.dismiss();
+                        } else {
+                            Toast.makeText(getActivity(), "You need more supplies!", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .show();
+    }
 }

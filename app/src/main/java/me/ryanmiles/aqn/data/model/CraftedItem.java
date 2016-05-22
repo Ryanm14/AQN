@@ -1,40 +1,31 @@
 package me.ryanmiles.aqn.data.model;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import me.ryanmiles.aqn.events.UpdateEvent;
 
 /**
  * Created by ryanm on 5/7/2016.
  */
 public class CraftedItem extends Object {
     private HashMap<Item, Integer> required;
-    private HashMap<Item, Integer> addIncrement;
-    private ArrayList<Object> activateList;
+    private UpdateEvent event;
     private boolean crafted = false;
 
 
-    public CraftedItem(String name, String saved_name, HashMap<Item, Integer> required, boolean discovered, ArrayList<Object> activateList, HashMap<Item, Integer> addIncrement) {
+    public CraftedItem(String name, String saved_name, HashMap<Item, Integer> required, boolean discovered, UpdateEvent event) {
         super(name, saved_name, discovered);
         this.required = required;
-        this.activateList = activateList;
-        this.addIncrement = addIncrement;
+        this.event = event;
     }
 
-    public HashMap<Item, Integer> getAddIncrement() {
-        return addIncrement;
+    public UpdateEvent getEvent() {
+        return event;
     }
 
-    public void setAddIncrement(HashMap<Item, Integer> addIncrement) {
-        this.addIncrement = addIncrement;
-    }
-
-    public ArrayList<Object> getActivateList() {
-        return activateList;
-    }
-
-    public void setActivateList(ArrayList<Object> activateList) {
-        this.activateList = activateList;
+    public void setEvent(UpdateEvent event) {
+        this.event = event;
     }
 
     public HashMap<Item, Integer> getRequired() {
@@ -71,19 +62,7 @@ public class CraftedItem extends Object {
             key.setAmount(key.getAmount() - value);
         }
 
-        if (activateList != null) {
-            for (Object object : activateList) {
-                object.setDiscovered(true);
-            }
-        }
-
-        if (addIncrement != null) {
-            for (Map.Entry<Item, Integer> entry : addIncrement.entrySet()) {
-                Item key = entry.getKey();
-                int value = entry.getValue();
-                key.setIncrement(value);
-            }
-        }
+        event.post();
         setDiscovered(false);
         crafted = true;
         return true;

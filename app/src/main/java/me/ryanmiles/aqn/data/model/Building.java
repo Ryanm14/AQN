@@ -1,40 +1,22 @@
 package me.ryanmiles.aqn.data.model;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import me.ryanmiles.aqn.events.UpdateEvent;
 
 /**
  * Created by ryanm on 5/7/2016.
  */
 public class Building extends Object {
     private HashMap<Item,Integer> required;
-    private HashMap<Item, Integer> updateMax;
-    private ArrayList<Object> activateList;
     private boolean built = false;
+    private UpdateEvent event;
 
-
-    public Building(String name, String saved_name, HashMap<Item, Integer> required, boolean discovered, ArrayList<Object> activateList, HashMap<Item, Integer> updateMax) {
+    public Building(String name, String saved_name, HashMap<Item, Integer> required, boolean discovered, UpdateEvent event) {
         super(name, saved_name, discovered);
         this.required = required;
-        this.activateList = activateList;
-        this.updateMax = updateMax;
-    }
-
-    public HashMap<Item, Integer> getUpdateMax() {
-        return updateMax;
-    }
-
-    public void setUpdateMax(HashMap<Item, Integer> updateMax) {
-        this.updateMax = updateMax;
-    }
-
-    public ArrayList<Object> getActivateList() {
-        return activateList;
-    }
-
-    public void setActivateList(ArrayList<Object> activateList) {
-        this.activateList = activateList;
+        this.event = event;
     }
 
     public HashMap<Item, Integer> getRequired() {
@@ -43,6 +25,14 @@ public class Building extends Object {
 
     public void setRequired(HashMap<Item, Integer> required) {
         this.required = required;
+    }
+
+    public UpdateEvent getEvent() {
+        return event;
+    }
+
+    public void setEvent(UpdateEvent event) {
+        this.event = event;
     }
 
 
@@ -69,19 +59,8 @@ public class Building extends Object {
             int value = entry.getValue();
             key.setAmount(key.getAmount() - value);
         }
-
-        if (activateList != null) {
-            for (Object object : activateList) {
-                object.setDiscovered(true);
-            }
-        }
-
-        if (updateMax != null) {
-            for (Map.Entry<Item, Integer> entry : updateMax.entrySet()) {
-                Item key = entry.getKey();
-                int value = entry.getValue();
-                key.setMax(value);
-            }
+        if (event != null) {
+            event.post();
         }
         setDiscovered(false);
         built = true;

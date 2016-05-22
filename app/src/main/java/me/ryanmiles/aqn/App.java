@@ -63,11 +63,13 @@ public class App extends Application {
         Paper.init(this);
         SharedPreferences prefs = getSharedPreferences("me.ryanmiles.aqn", MODE_PRIVATE);
         if (prefs.getBoolean("firstrun", true)) {
-            prefs.edit().putBoolean("firstrun", false).apply();
+            Log.d(TAG, "First Run");
+            prefs.edit().putBoolean("firstrun", false).commit();
         } else {
             getData();
         }
     }
+
 
 }
 

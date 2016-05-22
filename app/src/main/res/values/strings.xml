@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">AQN</string>
+    <string name="reset_data">Reset Data</string>
 </resources>

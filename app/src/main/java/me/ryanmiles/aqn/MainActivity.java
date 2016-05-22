@@ -1,9 +1,13 @@
 package me.ryanmiles.aqn;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -32,9 +36,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        EventBus.getDefault().register(this);
         mViewPagerFragment = new ViewPagerFragment();
-
+        EventBus.getDefault().register(this);
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.frame_layout, mViewPagerFragment, "mViewPager")
                 .commit();
@@ -96,9 +99,7 @@ public class MainActivity extends AppCompatActivity {
         App.saveData(mLogTextView.getText().toString());
     }
 
-    public void setActionBarTitle(String title) {
-        getSupportActionBar().setTitle(title);
-    }
+
 
     public void setLogText(java.lang.Object logText) {
         if (logText != null) {
@@ -115,5 +116,34 @@ public class MainActivity extends AppCompatActivity {
             super.onBackPressed();
         }
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.rest_data) {
+            Reset();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_activity, menu);
+        return true;
+    }
+
+    public void setActionBarTitle(String title) {
+        getSupportActionBar().setTitle(title);
+    }
+
+    public void Reset() {
+        Paper.book().destroy();
+        SharedPreferences prefs = getSharedPreferences("me.ryanmiles.aqn", MODE_PRIVATE);
+        prefs.edit().clear().commit();
+        System.exit(0);
     }
 }
