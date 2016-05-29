@@ -62,7 +62,11 @@ public class Item extends Object {
     }
 
     public void remove(int remove) {
-        amount -= remove;
+        if (amount - remove > 0) {
+            amount -= remove;
+        } else {
+            amount = 0;
+        }
         updateData("");
     }
 

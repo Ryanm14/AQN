@@ -48,7 +48,7 @@ public class ForestFragment extends Fragment {
     public void stoneOnClick(){
         Data.STONE.addIncrement();
         if (Data.STONEPICK.isCrafted()) {
-            Data.TIN.random();
+            // Data.TIN.random();
         }
     }
 

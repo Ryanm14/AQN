@@ -3,6 +3,7 @@ package me.ryanmiles.aqn.fragments;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +11,6 @@ import android.view.ViewGroup;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.ryanmiles.aqn.R;
-import me.ryanmiles.aqn.adapters.CustomViewPager;
 import me.ryanmiles.aqn.adapters.PagerAdapter;
 
 /**
@@ -20,7 +20,7 @@ public class ViewPagerFragment extends Fragment {
     @BindView(R.id.tab_layout)
     TabLayout mTabLayout;
     @BindView(R.id.viewPager)
-    CustomViewPager mViewPager;
+    ViewPager mViewPager;
 
     public ViewPagerFragment() {}
 
@@ -36,7 +36,6 @@ public class ViewPagerFragment extends Fragment {
         PagerAdapter adapter = new PagerAdapter
                 (getChildFragmentManager(), 2);
         mViewPager.setAdapter(adapter);
-        mViewPager.setPagingEnabled(false);
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
         mTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override

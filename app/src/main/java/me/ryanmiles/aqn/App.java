@@ -60,6 +60,7 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        //Fabric.with(this, new Crashlytics());
         Paper.init(this);
         SharedPreferences prefs = getSharedPreferences("me.ryanmiles.aqn", MODE_PRIVATE);
         if (prefs.getBoolean("firstrun", true)) {

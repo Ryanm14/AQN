@@ -1,5 +1,7 @@
 package me.ryanmiles.aqn;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -10,6 +12,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.AlertDialogWrapper;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -19,8 +23,10 @@ import io.paperdb.Paper;
 import me.ryanmiles.aqn.data.Data;
 import me.ryanmiles.aqn.data.model.Item;
 import me.ryanmiles.aqn.events.ChangeFragmentEvent;
+import me.ryanmiles.aqn.events.ChangeWorldEvent;
 import me.ryanmiles.aqn.events.DataUpdateEvent;
 import me.ryanmiles.aqn.events.LogUpdateEvent;
+import me.ryanmiles.aqn.events.updates.MainActivityDialog;
 import me.ryanmiles.aqn.fragments.ViewPagerFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -44,15 +50,33 @@ public class MainActivity extends AppCompatActivity {
 
         setLogText(Paper.book().read("LOG"));
         updateStorage();
+        if (Data.PLAYER_CURRENT_HEALTH <= 0) {
+            displayDeathDialog();
+        }
+    }
+
+    private void displayDeathDialog() {
+        Data.WOOD.remove(25);
+        Data.STONE.remove(50);
+        new AlertDialogWrapper.Builder(this)
+                .setTitle("You Died!")
+                .setCancelable(false)
+                .setMessage("You took too many hits in there. \n\nYou lost: \nWood:25 \nStone:50")
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                }).show();
     }
 
 
     @Subscribe
     public void onEvent(DataUpdateEvent event) {
-        if(event.UpdateStorage()){
+        if (event.UpdateStorage()) {
             updateStorage();
         }
-        if(!event.getLogText().equals("")){
+        if (!event.getLogText().equals("")) {
             updateLog(event.getLogText());
         }
     }
@@ -72,13 +96,24 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
+    @Subscribe
+    public void onEvent(ChangeWorldEvent event) {
+        startActivity(new Intent(this, WorldActivity.class));
+    }
+
+    @Subscribe
+    public void onEvent(MainActivityDialog event) {
+        event.getDialog(this);
+    }
+
+
     public void updateStorage() {
         mStorageTextView.setText(" Storage:");
         for (Item item : Data.ALL_ITEMS) {
             if (!item.isDiscovered() && item.getAmount() > 0) {
                 item.setDiscovered(true);
             }
-            if (item.isDiscovered()){
+            if (item.isDiscovered()) {
                 appendStorageTextView(" " + item.getName() + ": " + item.getAmount() + " / " + item.getMax());
             }
         }
@@ -88,8 +123,8 @@ public class MainActivity extends AppCompatActivity {
         mStorageTextView.append("\n" + string);
     }
 
-    public void updateLog(String text){
-        mLogTextView.setText(text +"\n" + mLogTextView.getText().toString());
+    public void updateLog(String text) {
+        mLogTextView.setText(text + "\n" + mLogTextView.getText().toString());
     }
 
 
@@ -98,7 +133,6 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
         App.saveData(mLogTextView.getText().toString());
     }
-
 
 
     public void setLogText(java.lang.Object logText) {
@@ -119,14 +153,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.rest_data) {
-            Reset();
-            return true;
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            case R.id.rest_data:
+                Reset();
+                return true;
         }
-
-        return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(menuItem);
     }
 
     @Override

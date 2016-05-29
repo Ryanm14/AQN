@@ -62,7 +62,9 @@ public class CraftedItem extends Object {
             key.setAmount(key.getAmount() - value);
         }
 
-        event.post();
+        if (event != null) {
+            event.post();
+        }
         setDiscovered(false);
         crafted = true;
         return true;

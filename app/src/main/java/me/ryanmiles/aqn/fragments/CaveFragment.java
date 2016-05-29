@@ -13,10 +13,12 @@ import org.greenrobot.eventbus.EventBus;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import me.ryanmiles.aqn.App;
 import me.ryanmiles.aqn.MainActivity;
 import me.ryanmiles.aqn.R;
 import me.ryanmiles.aqn.data.Data;
 import me.ryanmiles.aqn.events.ChangeFragmentEvent;
+import me.ryanmiles.aqn.events.ChangeWorldEvent;
 
 /**
  * Created by ryanm on 5/5/2016.
@@ -51,6 +53,9 @@ public class CaveFragment extends Fragment {
         if (Data.TOOLBENCH.isBuilt()) {
             mCraftingButton.setVisibility(View.VISIBLE);
         }
+        if (Data.STONESWORD.isCrafted()) {
+            mQuestsButton.setVisibility(View.VISIBLE);
+        }
     }
 
     @OnClick(R.id.buildings)
@@ -64,5 +69,14 @@ public class CaveFragment extends Fragment {
         EventBus.getDefault().post(new ChangeFragmentEvent(new CraftingFragment(), "craftingFragment"));
     }
 
+    @OnClick(R.id.quests)
+    public void openWorld() {
+        EventBus.getDefault().post(new ChangeWorldEvent());
+    }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        App.saveData("");
+    }
 }

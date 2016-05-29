@@ -6,7 +6,9 @@ import java.util.HashMap;
 
 import me.ryanmiles.aqn.data.model.Building;
 import me.ryanmiles.aqn.data.model.CraftedItem;
+import me.ryanmiles.aqn.data.model.Creature;
 import me.ryanmiles.aqn.data.model.Item;
+import me.ryanmiles.aqn.data.model.Place;
 import me.ryanmiles.aqn.events.UpdateEvent;
 
 /**
@@ -183,6 +185,17 @@ public class Data {
     );
 
     public static ArrayList<CraftedItem> ALL_CRAFTED_ITEMS = new ArrayList<>(Arrays.asList(STONEPICK, STONEAXE, STONESWORD));
+
+
+    //
+    public static Creature AV_RAT = new Creature("Dust Rat", 5, 1);
+    public static Creature AV_WILD_BAT = new Creature("Wild Bat", 10, 2);
+
+    public static Place AV = new Place("An Abandoned Mine", "What a dusty place.", (ArrayList<Creature>) Arrays.asList(AV_RAT, AV_WILD_BAT, AV_WILD_BAT, AV_RAT), null);
+    public static int PLAYER_MAX_HEALTH = 20;
+    public static int PLAYER_CURRENT_HEALTH = 0;
+    public static int PLAYER_STAB_DAMAGE = 2;
+    public static int PLAYER_SWING_DAMAGE = 1;
 }
 
 
