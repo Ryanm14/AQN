@@ -35,11 +35,12 @@ public class CraftingFragment extends Fragment {
     LinearLayout mLinearLayout;
     @BindView(R.id.tin_button)
     Button mTinButton;
+    ActionBar actionBar;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        ActionBar actionBar = ((AppCompatActivity) context).getSupportActionBar();
+        actionBar = ((AppCompatActivity) context).getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
@@ -133,5 +134,11 @@ public class CraftingFragment extends Fragment {
                     }
                 })
                 .show();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        actionBar.setDisplayHomeAsUpEnabled(false);
     }
 }

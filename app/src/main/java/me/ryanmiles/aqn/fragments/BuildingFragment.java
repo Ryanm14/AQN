@@ -30,11 +30,12 @@ import me.ryanmiles.aqn.events.DataUpdateEvent;
 public class BuildingFragment extends Fragment {
 
     LinearLayout mLinearLayout;
+    ActionBar actionBar;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        ActionBar actionBar = ((AppCompatActivity) context).getSupportActionBar();
+        actionBar = ((AppCompatActivity) context).getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
@@ -95,5 +96,9 @@ public class BuildingFragment extends Fragment {
         }
     }
 
-
+    @Override
+    public void onStop() {
+        super.onStop();
+        actionBar.setDisplayHomeAsUpEnabled(false);
+    }
 }

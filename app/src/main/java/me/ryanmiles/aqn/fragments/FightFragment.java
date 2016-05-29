@@ -138,6 +138,7 @@ public class FightFragment extends Fragment {
 
         updateQuestStorage();
         enemyAttackNormal(2);
+        setLogText("You found a " + mCreatureName);
     }
 
     private void updateQuestStorage() {

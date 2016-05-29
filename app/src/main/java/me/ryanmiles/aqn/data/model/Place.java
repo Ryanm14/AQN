@@ -1,6 +1,7 @@
 package me.ryanmiles.aqn.data.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Ryan Miles on 5/28/2016.
@@ -11,10 +12,10 @@ public class Place {
     private ArrayList<Creature> mCreatureList;
     private ArrayList<Loot> mLootList;
 
-    public Place(String name, String description, ArrayList<Creature> mCreatureList, ArrayList<Loot> mLootList) {
+    public Place(String name, String description, List<Creature> mCreatureList, ArrayList<Loot> mLootList) {
         this.name = name;
         this.description = description;
-        this.mCreatureList = mCreatureList;
+        this.mCreatureList = new ArrayList<>(mCreatureList);
         this.mLootList = mLootList;
     }
 
