@@ -4,4 +4,6 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="com.gameanalytics.apiSecret" translatable="false">4ce82dfa91a308e6bd8094ea78f144bab49e8653</string>
+    <string name="com.gameanalytics.apiKey" translatable="false">4ba0f6ee0c259fe6018a5b812a9945fb</string>
 </resources>

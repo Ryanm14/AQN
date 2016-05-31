@@ -12,6 +12,7 @@ apply plugin: 'io.fabric'
 
 repositories {
     maven { url 'https://maven.fabric.io/public' }
+    maven { url 'http://maven.gameanalytics.com/release' }
 }
 
 apply plugin: 'com.neenbedankt.android-apt'
@@ -51,6 +52,9 @@ dependencies {
     compile 'com.android.support:support-v4:23.4.0'
     compile 'com.github.2359media:EasyAndroidAnimations:0.8'
     compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
+        transitive = true;
+    }
+    compile('com.gameanalytics.sdk:gameanalytics-android:3.2.3@aar') {
         transitive = true;
     }
 }

@@ -33,8 +33,8 @@ import me.ryanmiles.aqn.events.LogUpdateEvent;
 public class CraftingFragment extends Fragment {
 
     LinearLayout mLinearLayout;
-    @BindView(R.id.tin_button)
-    Button mTinButton;
+    @BindView(R.id.copper_button)
+    Button mCopperButton;
     ActionBar actionBar;
 
     @Override
@@ -59,7 +59,7 @@ public class CraftingFragment extends Fragment {
 
     private void updateMaterialButtons() {
         if (!Data.BASIC_SMELTERY.isBuilt()) {
-            mTinButton.setVisibility(View.GONE);
+            mCopperButton.setVisibility(View.GONE);
         }
     }
 
@@ -107,20 +107,20 @@ public class CraftingFragment extends Fragment {
         }
     }
 
-    @OnClick(R.id.tin_button)
-    public void tinButtonOnClick() {
+    @OnClick(R.id.copper_button)
+    public void copperButtonOnClick() {
         Dialog dialog = new AlertDialogWrapper.Builder(getActivity())
-                .setTitle("Item: " + Data.TIN_BULLION.getName())
-                .setMessage("Needed Resources: \nTin: 1 \nWood:10")
-                .setPositiveButton("Construct a " + Data.TIN_BULLION.getName(), new DialogInterface.OnClickListener() {
+                .setTitle("Item: " + Data.REFINED_COPPER.getName())
+                .setMessage("Needed Resources: \nCopper: 1 \nWood:10")
+                .setPositiveButton("Construct a " + Data.REFINED_COPPER.getName(), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if (Data.TIN.getAmount() >= 1 && Data.WOOD.getAmount() >= 10) {
-                            EventBus.getDefault().post(new LogUpdateEvent("You smelted a Tin Bullion"));
-                            Data.TIN.setDiscovered(true);
-                            Data.TIN_BULLION.addIncrement();
+                        if (Data.COPPER.getAmount() >= 1 && Data.WOOD.getAmount() >= 10) {
+                            EventBus.getDefault().post(new LogUpdateEvent("You refined a piece of copper"));
+                            Data.REFINED_COPPER.setDiscovered(true);
+                            Data.REFINED_COPPER.addAmount(1);
                             Data.WOOD.remove(10);
-                            Data.TIN.remove(1);
+                            Data.COPPER.remove(1);
                             dialog.dismiss();
                         } else {
                             Toast.makeText(getActivity(), "You need more supplies!", Toast.LENGTH_LONG).show();

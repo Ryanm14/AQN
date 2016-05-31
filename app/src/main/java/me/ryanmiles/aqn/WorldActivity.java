@@ -77,11 +77,11 @@ public class WorldActivity extends AppCompatActivity {
             new AlertDialogWrapper.Builder(this)
                     .setTitle("Abandoned Mine")
                     .setCancelable(false)
-                    .setMessage("You finished going through the Cave. \n\nYou found: \n\nTin: 9\nWood: 45\nStone: 27")
+                    .setMessage("You finished going through the Cave. \n\nYou found: \n\nCopper: 9\nWood: 45\nStone: 27")
                     .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Data.TIN.addAmount(9);
+                            Data.COPPER.addAmount(9);
                             Data.WOOD.addAmount(45);
                             Data.STONE.addAmount(27);
                             //  Thanks();

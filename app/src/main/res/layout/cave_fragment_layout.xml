@@ -5,18 +5,18 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:padding="20dp"
-    app:useDefaultMargins="true"
     app:columnCount='2'
-    app:rowCount='2'>
+    app:rowCount='2'
+    app:useDefaultMargins="true">
 
 
     <Button
         android:id="@+id/buildings"
         style="@drawable/button_shape"
         android:layout_width="0dp"
-        android:clickable="true"
         android:layout_height="0dp"
         android:background="@drawable/button_shape"
+        android:clickable="true"
         android:text="Buildings"
         app:layout_columnWeight="1"
         app:layout_rowWeight="1"/>
@@ -32,11 +32,11 @@
         app:layout_rowWeight="1"/>
 
     <Button
-        android:id="@+id/village"
+        android:id="@+id/stats"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/button_shape"
-        android:text="Village"
+        android:text="Stats"
         app:layout_columnWeight="1"
         app:layout_rowWeight="1"/>
 

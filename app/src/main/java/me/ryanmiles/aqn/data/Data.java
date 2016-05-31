@@ -5,9 +5,11 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 import me.ryanmiles.aqn.data.model.Building;
+import me.ryanmiles.aqn.data.model.Coordinate;
 import me.ryanmiles.aqn.data.model.CraftedItem;
 import me.ryanmiles.aqn.data.model.Creature;
 import me.ryanmiles.aqn.data.model.Item;
+import me.ryanmiles.aqn.data.model.Loot;
 import me.ryanmiles.aqn.data.model.Place;
 import me.ryanmiles.aqn.events.UpdateEvent;
 
@@ -48,15 +50,6 @@ public class Data {
             25
     );
 
-    public static Item TIN = new Item(
-            false,
-            0,
-            15,
-            "Tin",
-            "tin",
-            2,
-            10
-    );
 
     public static Item HIDE = new Item(
             false,
@@ -78,17 +71,8 @@ public class Data {
             0
     );
 
-    public static Item TIN_BULLION = new Item(
-            false,
-            0,
-            15,
-            "Tin Bullion",
-            "tin_bullion",
-            1,
-            0
-    );
 
-    public static ArrayList<Item> ALL_ITEMS = new ArrayList<>(Arrays.asList(WOOD, STONE, LEAVES, TIN, HIDE, MEAT, TIN_BULLION));
+    public static ArrayList<Item> ALL_ITEMS = new ArrayList<>(Arrays.asList(WOOD, STONE, LEAVES, HIDE, MEAT));
 
     //BUILDINGS
 
@@ -186,8 +170,30 @@ public class Data {
 
     public static ArrayList<CraftedItem> ALL_CRAFTED_ITEMS = new ArrayList<>(Arrays.asList(STONEPICK, STONEAXE, STONESWORD));
 
+    //Loot
+    public static Loot REFINED_COPPER = new Loot(
+            "Refined Copper",
+            "refined_copper",
+            false,
+            100,
+            true,
+            0,
+            15
+    );
 
-    //
+    public static Loot COPPER = new Loot(
+            "Copper",
+            "copper",
+            false,
+            100,
+            true,
+            0,
+            15
+    );
+
+    public static ArrayList<Loot> ALL_LOOT = new ArrayList<>(Arrays.asList(COPPER, REFINED_COPPER));
+
+    //World Data
     public static Creature AV_RAT = new Creature("Dust Rat", 5, 1);
     public static Creature AV_WILD_BAT = new Creature("Wild Bat", 10, 2);
 
@@ -196,6 +202,7 @@ public class Data {
     public static int PLAYER_CURRENT_HEALTH = 1;
     public static int PLAYER_STAB_DAMAGE = 2;
     public static int PLAYER_SWING_DAMAGE = 1;
+    public static ArrayList<Coordinate> WORLD_MAP;
 }
 
 

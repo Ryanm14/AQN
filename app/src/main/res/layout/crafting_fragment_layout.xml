@@ -32,12 +32,12 @@
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/tin_button"
+            android:id="@+id/copper_button"
             style="@drawable/button_shape"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:background="@drawable/buttonselector"
-            android:text="Tin Bullion"/>
+            android:text="Refined Cooper" />
     </LinearLayout>
 
 

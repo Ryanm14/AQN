@@ -27,8 +27,8 @@ public class CaveFragment extends Fragment {
 
     @BindView(R.id.crafting)
     Button mCraftingButton;
-    @BindView(R.id.village)
-    Button mVillageButton;
+    @BindView(R.id.stats)
+    Button mStatsButton;
     @BindView(R.id.quests)
     Button mQuestsButton;
 
@@ -37,7 +37,7 @@ public class CaveFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.cave_fragment_layout, container, false);
         ButterKnife.bind(this, rootView);
         mCraftingButton.setVisibility(View.INVISIBLE);
-        mVillageButton.setVisibility(View.INVISIBLE);
+        mStatsButton.setVisibility(View.INVISIBLE);
         mQuestsButton.setVisibility(View.INVISIBLE);
         ((MainActivity) getActivity()).setActionBarTitle("A Quiet Night");
         return rootView;
@@ -55,6 +55,9 @@ public class CaveFragment extends Fragment {
         }
         if (Data.STONESWORD.isCrafted()) {
             mQuestsButton.setVisibility(View.VISIBLE);
+        }
+        if (Data.COPPER.isDiscovered()) {
+            mStatsButton.setVisibility(View.VISIBLE);
         }
     }
 

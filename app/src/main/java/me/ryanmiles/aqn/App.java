@@ -4,13 +4,17 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.crashlytics.android.Crashlytics;
+
 import java.util.ArrayList;
 
+import io.fabric.sdk.android.Fabric;
 import io.paperdb.Paper;
 import me.ryanmiles.aqn.data.Data;
 import me.ryanmiles.aqn.data.model.Building;
 import me.ryanmiles.aqn.data.model.CraftedItem;
 import me.ryanmiles.aqn.data.model.Item;
+import me.ryanmiles.aqn.data.model.Loot;
 
 /**
  * Created by ryanm on 5/8/2016.
@@ -20,12 +24,19 @@ public class App extends Application {
 
     private static final String TAG = "App";
 
-    public static void saveData(String log) {
-        Paper.book().write("ITEMS", Data.ALL_ITEMS);
-        Paper.book().write("BUILDINGS", Data.ALL_BUILDINGS);
-        Paper.book().write("CRAFTED_ITEMS", Data.ALL_CRAFTED_ITEMS);
-        Paper.book().write("LOG", log);
-        Log.d(TAG, "saveData: Saving");
+    public static void saveData(final String log) {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Paper.book().write("ITEMS", Data.ALL_ITEMS);
+                Paper.book().write("BUILDINGS", Data.ALL_BUILDINGS);
+                Paper.book().write("CRAFTED_ITEMS", Data.ALL_CRAFTED_ITEMS);
+                Paper.book().write("LOOT", Data.ALL_LOOT);
+                Paper.book().write("LOG", log);
+                Log.d(TAG, "saveData: Saving");
+            }
+        });
+        thread.start();
     }
 
     public static void getData() {
@@ -55,17 +66,30 @@ public class App extends Application {
                 }
             }
         }
+
+        ArrayList<Loot> savedLoot = Paper.book().read("LOOT", new ArrayList<Loot>());
+        for (Loot loot : Data.ALL_LOOT) {
+            for (Loot mSavedLoot : savedLoot) {
+                if (loot.getName().equals(mSavedLoot.getName())) {
+                    loot.setInfo(mSavedLoot);
+                }
+            }
+        }
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        //Fabric.with(this, new Crashlytics());
+        Fabric.with(this);
+        if (!BuildConfig.DEBUG) {
+            Fabric.with(this, new Crashlytics());
+        }
         Paper.init(this);
         SharedPreferences prefs = getSharedPreferences("me.ryanmiles.aqn", MODE_PRIVATE);
         if (prefs.getBoolean("firstrun", true)) {
             Log.d(TAG, "First Run");
             prefs.edit().putBoolean("firstrun", false).commit();
+            //TODO CHANGE PREF TO UPDATE SO IT DOESNT CRASH
         } else {
             getData();
         }

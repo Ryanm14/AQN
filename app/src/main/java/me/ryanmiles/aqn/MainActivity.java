@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
+import com.gameanalytics.sdk.GameAnalytics;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -22,6 +23,7 @@ import butterknife.ButterKnife;
 import io.paperdb.Paper;
 import me.ryanmiles.aqn.data.Data;
 import me.ryanmiles.aqn.data.model.Item;
+import me.ryanmiles.aqn.data.model.Loot;
 import me.ryanmiles.aqn.events.ChangeFragmentEvent;
 import me.ryanmiles.aqn.events.ChangeWorldEvent;
 import me.ryanmiles.aqn.events.DataUpdateEvent;
@@ -53,6 +55,19 @@ public class MainActivity extends AppCompatActivity {
         if (Data.PLAYER_CURRENT_HEALTH <= 0) {
             displayDeathDialog();
         }
+        if (!BuildConfig.DEBUG) {
+            //setupGameAnalytics();
+        }
+
+    }
+
+    private void setupGameAnalytics() {
+        GameAnalytics.setEnabledInfoLog(true);
+        GameAnalytics.setEnabledVerboseLog(true);
+
+        GameAnalytics.configureBuild("0.1.0");
+        GameAnalytics.initializeWithGameKey(this, getString(R.string.com_gameanalytics_apiKey), getString(R.string.com_gameanalytics_apiSecret));
+
     }
 
     private void displayDeathDialog() {
@@ -115,6 +130,15 @@ public class MainActivity extends AppCompatActivity {
             }
             if (item.isDiscovered()) {
                 appendStorageTextView(" " + item.getName() + ": " + item.getAmount() + " / " + item.getMax());
+            }
+        }
+
+        for (Loot loot : Data.ALL_LOOT) {
+            if (!loot.isDiscovered() && loot.getAmount() > 0) {
+                loot.setDiscovered(true);
+            }
+            if (loot.isDiscovered()) {
+                appendStorageTextView(" " + loot.getName() + ": " + loot.getAmount() + " / " + loot.getMax());
             }
         }
     }

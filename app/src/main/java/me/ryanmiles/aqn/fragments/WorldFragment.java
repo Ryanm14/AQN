@@ -58,7 +58,12 @@ public class WorldFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootview = inflater.inflate(R.layout.fragment_world, container, false);
         ButterKnife.bind(this, rootview);
-        populate();
+        if (Data.WORLD_MAP == null) {
+            populate();
+        } else {
+            mCoords = Data.WORLD_MAP;
+            update();
+        }
         return rootview;
     }
 
@@ -150,13 +155,26 @@ public class WorldFragment extends Fragment {
         mCurrentCord.changeValue("O");
         findCord(rng.nextInt(6) + 2, rng.nextInt(4) + 1).changeValue("P");
 
-        for (int i = 0; i < 1; i++) {
-            findCord(rng.nextInt(WORLD_RADIUS - 2) + 2, rng.nextInt(WORLD_RADIUS / 2 - 2) + 2).changeValue("V");
-            findCord(rng.nextInt(WORLD_RADIUS - 2) + 2, rng.nextInt(WORLD_RADIUS / 2 - 2) + 2).changeValue("C");
-            findCord(rng.nextInt(WORLD_RADIUS - 2) + 2, rng.nextInt(WORLD_RADIUS / 2 - 2) + 2).changeValue("A");
+        findCord(rng.nextInt(WORLD_RADIUS / 2) + 1, rng.nextInt(WORLD_RADIUS / 4) + WORLD_RADIUS / 4 - 1).changeValue("V");
+        findCord(rng.nextInt(WORLD_RADIUS / 2) + WORLD_RADIUS / 2, rng.nextInt(WORLD_RADIUS / 4) + WORLD_RADIUS / 4 - 1).changeValue("C");
+        findCord(rng.nextInt(WORLD_RADIUS / 2) + WORLD_RADIUS / 2, rng.nextInt(WORLD_RADIUS / 4) + 1).changeValue("A");
+
+
+        if (testMap("V") && testMap("P") && testMap("C") && testMap("A")) {
+            update();
+        } else {
+            populate();
         }
 
-        update();
+    }
+
+    private boolean testMap(String v) {
+        for (Coordinate mCoord : mCoords) {
+            if (mCoord.getValue() == v) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void update() {

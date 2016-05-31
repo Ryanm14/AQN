@@ -15,7 +15,6 @@ public class Item extends Object {
     private int increment;
     private int max;
     private int randomChance;
-    private Item mInfo;
 
 
     public Item(boolean discovered, int amount, int max, String name, String saved_name, int increment, int randomChance) {

@@ -25,7 +25,7 @@ public class MainActivityDialog {
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Data.TIN.addAmount(9);
+                        Data.COPPER.addAmount(9);
                         Data.WOOD.addAmount(45);
                         Data.STONE.addAmount(27);
                     }
