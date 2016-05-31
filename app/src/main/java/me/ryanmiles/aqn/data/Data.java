@@ -172,23 +172,25 @@ public class Data {
 
     //Loot
     public static Loot REFINED_COPPER = new Loot(
+            false,
+            0,
+            15,
             "Refined Copper",
             "refined_copper",
-            false,
-            100,
-            true,
-            0,
-            15
+            3,
+            5,
+            true
     );
 
     public static Loot COPPER = new Loot(
-            "Copper",
-            "copper",
             false,
-            100,
-            true,
             0,
-            15
+            15,
+            "Raw Copper",
+            "raw_copper",
+            3,
+            5,
+            true
     );
 
     public static ArrayList<Loot> ALL_LOOT = new ArrayList<>(Arrays.asList(COPPER, REFINED_COPPER));

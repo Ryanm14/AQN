@@ -26,6 +26,17 @@ public class Item extends Object {
         rng = new Random();
     }
 
+    public Item(boolean discovered, int amount, int max, String name, String saved_name) { //Loot items like copper
+        super(name, saved_name, discovered);
+        this.amount = amount;
+        this.max = max;
+    }
+
+    public Item(boolean discovered, String name, String saved_name, int randomChance) { //Loot items like jacket
+        super(name, saved_name, discovered);
+        this.randomChance = randomChance;
+    }
+
     public int getRandomChance() {
         return randomChance;
     }
