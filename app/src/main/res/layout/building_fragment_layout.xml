@@ -12,15 +12,21 @@
         android:layout_height="25dp"
         android:layout_marginTop="10dp"
         android:text="Build:"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
-    <LinearLayout
-        android:id="@+id/buildings_fragment_linear_layout"
+    <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:fillViewport="true"
+        android:scrollbars="vertical">
 
-    </LinearLayout>
+        <LinearLayout
+            android:id="@+id/buildings_fragment_linear_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -16,21 +15,21 @@
             android:id="@+id/frame_layout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight=".70"/>
+            android:layout_weight=".70" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_margin="15dp"
-            android:orientation="horizontal"
-            android:layout_weight=".25">
+            android:layout_weight=".25"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/main_activity_log_text_view"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/main_activity_storage_text_view"
@@ -39,7 +38,9 @@
                 android:layout_marginBottom="5dp"
                 android:layout_weight="1"
                 android:background="@drawable/button_shape"
-                android:textStyle="bold"/>
+                android:maxLines="999"
+                android:scrollbars="vertical"
+                android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
 

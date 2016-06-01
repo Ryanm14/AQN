@@ -25,6 +25,22 @@ public class Loot extends Item {
         rng = new Random();
     }
 
+    public int getLowRoll() {
+        return lowRoll;
+    }
+
+    public void setLowRoll(int lowRoll) {
+        this.lowRoll = lowRoll;
+    }
+
+    public int getHighRoll() {
+        return highRoll;
+    }
+
+    public void setHighRoll(int highRoll) {
+        this.highRoll = highRoll;
+    }
+
 
     public boolean isStorageDisplay() {
         return storageDisplay;
@@ -47,13 +63,17 @@ public class Loot extends Item {
         return "You collected " + add + " " + getName();
     }
 
-    public void roll() {
+    public String roll() {
         if (lowRoll != -1 && highRoll != -1) {
-            setAmount(rng.nextInt(lowRoll) + highRoll - lowRoll + 1);
+            setAmount((rng.nextInt((highRoll - lowRoll)) + lowRoll));
+            return (getName() + ": " + getAmount() + "\n");
         } else {
             if (rng.nextInt(100) + 1 <= getRandomChance()) {
                 setDiscovered(true);
+                return ("A " + getName() + "\n");
             }
         }
+        return "";
     }
+
 }

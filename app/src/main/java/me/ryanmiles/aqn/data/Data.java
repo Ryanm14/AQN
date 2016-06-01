@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 import me.ryanmiles.aqn.data.model.Building;
+import me.ryanmiles.aqn.data.model.Coin;
 import me.ryanmiles.aqn.data.model.Coordinate;
 import me.ryanmiles.aqn.data.model.CraftedItem;
 import me.ryanmiles.aqn.data.model.Creature;
@@ -133,6 +134,16 @@ public class Data {
 
     public static ArrayList<Building> ALL_BUILDINGS = new ArrayList<>(Arrays.asList(WORKSHOP, TOOLBENCH, WOODPILE, STONEPILE, BASIC_SMELTERY));
 
+    public static Loot REFINED_COPPER = new Loot(
+            false,
+            0,
+            15,
+            "Refined Copper",
+            "refined_copper",
+            3,
+            5,
+            true
+    );
 
     //CRAFTED_ITEMS
     public static CraftedItem STONEPICK = new CraftedItem(
@@ -168,19 +179,43 @@ public class Data {
             null
     );
 
-    public static ArrayList<CraftedItem> ALL_CRAFTED_ITEMS = new ArrayList<>(Arrays.asList(STONEPICK, STONEAXE, STONESWORD));
+    public static CraftedItem COPPERPICK = new CraftedItem(
+            "Copper Pickaxe",
+            "Copper_pickaxe",
+            new HashMap<Item, Integer>() {{
+                put(WOOD, 25);
+                put(REFINED_COPPER, 7);
+            }},
+            true,
+            new UpdateEvent().setAddIncrementEvent(STONE, 5)
+    );
+
+    public static CraftedItem COPPERAXE = new CraftedItem(
+            "Copper Axe",
+            "Copper_axe",
+            new HashMap<Item, Integer>() {{
+                put(WOOD, 30);
+                put(REFINED_COPPER, 5);
+            }},
+            true,
+            new UpdateEvent().setAddIncrementEvent(WOOD, 5)
+    );
+
+    public static CraftedItem COPPERSWORD = new CraftedItem(
+            "Copper Sword",
+            "copper_sword",
+            new HashMap<Item, Integer>() {{
+                put(WOOD, 20);
+                put(REFINED_COPPER, 10);
+            }},
+            true,
+            null
+    );
+
+    public static ArrayList<CraftedItem> ALL_CRAFTED_ITEMS = new ArrayList<>(Arrays.asList(STONEPICK, STONEAXE, STONESWORD, COPPERAXE, COPPERPICK, COPPERSWORD));
 
     //Loot
-    public static Loot REFINED_COPPER = new Loot(
-            false,
-            0,
-            15,
-            "Refined Copper",
-            "refined_copper",
-            3,
-            5,
-            true
-    );
+
 
     public static Loot COPPER = new Loot(
             false,
@@ -193,13 +228,29 @@ public class Data {
             true
     );
 
+    public static Loot LINEN_JACKET = new Loot(
+            false,
+            "Rugged Linen Jacket",
+            "linen_jacket",
+            80,
+            false
+    );
+
+    public static Loot RUSTED_BRACELET = new Loot(
+            false,
+            "Rusted Bracelet",
+            "rusted_bracelet",
+            25,
+            false
+    );
+
     public static ArrayList<Loot> ALL_LOOT = new ArrayList<>(Arrays.asList(COPPER, REFINED_COPPER));
 
     //World Data
     public static Creature AV_RAT = new Creature("Dust Rat", 5, 1);
     public static Creature AV_WILD_BAT = new Creature("Wild Bat", 10, 2);
 
-    public static Place AV = new Place("An Abandoned Mine", "What a dusty place.", Arrays.asList(AV_RAT, AV_WILD_BAT, AV_WILD_BAT, AV_RAT), null);
+    public static Place AV = new Place("An Abandoned Mine", "What a dusty place.", "You managed to avoid the spiderwebs.", Arrays.asList(AV_RAT, AV_WILD_BAT, AV_WILD_BAT, AV_RAT), Arrays.asList(COPPER, LINEN_JACKET, RUSTED_BRACELET), new Coin(2, 5), new UpdateEvent().setDiscoveredEvent(COPPERAXE).setDiscoveredEvent(COPPERPICK).setDiscoveredEvent(COPPERSWORD));
     public static int PLAYER_MAX_HEALTH = 20;
     public static int PLAYER_CURRENT_HEALTH = 1;
     public static int PLAYER_STAB_DAMAGE = 2;

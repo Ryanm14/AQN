@@ -37,6 +37,7 @@ public class Item extends Object {
         this.randomChance = randomChance;
     }
 
+
     public int getRandomChance() {
         return randomChance;
     }
@@ -68,7 +69,7 @@ public class Item extends Object {
 
     public void setAmount(int amount) {
         this.amount = amount;
-        updateData();
+        updateData(amount);
     }
 
     public void remove(int remove) {
@@ -87,7 +88,7 @@ public class Item extends Object {
             updateData("You can't carry anymore " + getName());
         } else {
             amount += add;
-            updateData();
+            updateData(add);
         }
     }
 
@@ -96,12 +97,20 @@ public class Item extends Object {
         EventBus.getDefault().post(new DataUpdateEvent(true, getLogText()));
     }
 
+    private void updateData(int n) {
+        EventBus.getDefault().post(new DataUpdateEvent(true, getLogText(n)));
+    }
+
     private void updateData(String log) {
         EventBus.getDefault().post(new DataUpdateEvent(true, log));
     }
 
     public String getLogText() {
         return "You collected " + increment + " " + getName();
+    }
+
+    public String getLogText(int n) {
+        return "You collected " + n + " " + getName();
     }
 
     public void addIncrement() {

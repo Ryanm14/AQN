@@ -199,7 +199,7 @@ public class WorldFragment extends Fragment {
             case "#":
                 break;
             case "P":
-                openDialogue(Data.AV.getName(), Data.AV.getDescription(), new ChangeWorldFragmentEvent(Data.AV.getmCreatureList()));
+                openDialogue(Data.AV.getName(), Data.AV.getDescription(), new ChangeWorldFragmentEvent(Data.AV));
                 break;
             default:
                 Toast.makeText(getActivity(), "That area is in development", Toast.LENGTH_LONG).show();

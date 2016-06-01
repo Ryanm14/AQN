@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -58,6 +59,9 @@ public class MainActivity extends AppCompatActivity {
         if (!BuildConfig.DEBUG) {
             //setupGameAnalytics();
         }
+
+        mStorageTextView.setMovementMethod(new ScrollingMovementMethod());
+
 
     }
 

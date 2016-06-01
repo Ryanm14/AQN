@@ -15,20 +15,26 @@
         android:text="Craft:"
         android:textStyle="bold"/>
 
+    <ScrollView
+        android:id="@+id/crafting_fragment_scroll_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/craft_text"
+        android:fillViewport="true"
+        android:scrollbars="vertical">
     <LinearLayout
         android:id="@+id/crafting_fragment_linear_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/craft_text"
         android:orientation="vertical">
     </LinearLayout>
-
+    </ScrollView>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/craft_text"
         android:layout_marginLeft="35dp"
-        android:layout_toRightOf="@id/crafting_fragment_linear_layout"
+        android:layout_toRightOf="@id/crafting_fragment_scroll_view"
         android:orientation="vertical">
 
         <Button
@@ -37,7 +43,7 @@
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:background="@drawable/buttonselector"
-            android:text="Refined Cooper" />
+            android:text="Refined Copper" />
     </LinearLayout>
 
 

@@ -1,24 +1,22 @@
 package me.ryanmiles.aqn.events;
 
-import java.util.ArrayList;
-
-import me.ryanmiles.aqn.data.model.Creature;
+import me.ryanmiles.aqn.data.model.Place;
 
 /**
  * Created by ryanm on 5/23/2016.
  */
 public class ChangeWorldFragmentEvent {
-    ArrayList<Creature> mCreatureArrayList;
+    private Place mPlace;
 
-    public ChangeWorldFragmentEvent(ArrayList<Creature> av) {
-        mCreatureArrayList = av;
+    public ChangeWorldFragmentEvent(Place place) {
+        mPlace = place;
     }
 
-    public ArrayList<Creature> getCreatureArrayList() {
-        return mCreatureArrayList;
+    public Place getPlace() {
+        return mPlace;
     }
 
-    public void setCreatureArrayList(ArrayList<Creature> creatureArrayList) {
-        mCreatureArrayList = creatureArrayList;
+    public void setPlace(Place mPlace) {
+        this.mPlace = mPlace;
     }
 }
