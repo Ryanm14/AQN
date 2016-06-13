@@ -55,6 +55,5 @@ public class ForestFragment extends Fragment {
     @OnClick(R.id.hunt)
     public void huntOnClick() {
         Data.MEAT.addIncrement();
-        Data.HIDE.random();
     }
 }

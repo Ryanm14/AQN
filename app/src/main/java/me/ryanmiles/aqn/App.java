@@ -86,9 +86,9 @@ public class App extends Application {
         }
         Paper.init(this);
         SharedPreferences prefs = getSharedPreferences("me.ryanmiles.aqn", MODE_PRIVATE);
-        if (prefs.getBoolean("firstrun", true)) {
+        if (prefs.getBoolean("firstrunv2", true)) {
             Log.d(TAG, "First Run");
-            prefs.edit().putBoolean("firstrun", false).commit();
+            prefs.edit().putBoolean("firstrunv2", false).commit();
             //TODO CHANGE PREF TO UPDATE SO IT DOESNT CRASH
         } else {
             getData();

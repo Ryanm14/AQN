@@ -84,7 +84,7 @@ public class Place {
     }
 
     public String getMessage() {
-        String message = description + "\n\nYou found: \n";
+        String message = finished_desc + "\n\nYou found: \n";
         for (Loot loot : mLootList) {
             message += (loot.roll());
         }
@@ -97,5 +97,6 @@ public class Place {
         if (mEvent != null) {
             mEvent.post();
         }
+
     }
 }

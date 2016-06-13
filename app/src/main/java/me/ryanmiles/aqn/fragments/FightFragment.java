@@ -291,7 +291,9 @@ public class FightFragment extends Fragment {
         if (Data.PLAYER_CURRENT_HEALTH <= 0) {
             mCreatureCountDownTimer.cancel();
             EventBus.getDefault().post(new PlayerDead());
+            getActivity().finish();
         }
     }
+
 
 }

@@ -3,6 +3,7 @@ package me.ryanmiles.aqn;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -14,6 +15,8 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.ContentViewEvent;
 import com.gameanalytics.sdk.GameAnalytics;
 
 import org.greenrobot.eventbus.EventBus;
@@ -38,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     TextView mStorageTextView;
     @BindView(R.id.main_activity_log_text_view)
     TextView mLogTextView;
+    boolean temp = false;
     private ViewPagerFragment mViewPagerFragment;
 
     @Override
@@ -55,14 +59,41 @@ public class MainActivity extends AppCompatActivity {
         updateStorage();
         if (Data.PLAYER_CURRENT_HEALTH <= 0) {
             displayDeathDialog();
+            Data.PLAYER_CURRENT_HEALTH = 1;
         }
         if (!BuildConfig.DEBUG) {
             //setupGameAnalytics();
         }
 
         mStorageTextView.setMovementMethod(new ScrollingMovementMethod());
+        if (!temp && Data.MAP_SHARD.isDiscovered()) {
+            survey();
+        }
 
+    }
 
+    private void survey() {
+        temp = true;
+        final String url = "http://bit.ly/1U3aKad";
+        new AlertDialogWrapper.Builder(this)
+                .setTitle("Thank you for Testing!")
+                .setCancelable(false)
+                .setMessage("Thank you for helping test the app! Your playthrough will help me see any issues or design flaws! \n\nIf you have time I would appreciate your feedback through the survey listed below. Thank you for everythng!")
+                .setPositiveButton("Take me to the quick survey!", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Answers.getInstance().logContentView(new ContentViewEvent()
+                                .putContentName("Opened Survey"));
+                        Intent i = new Intent(Intent.ACTION_VIEW);
+                        i.setData(Uri.parse(url));
+                        startActivity(i);
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                }).show();
     }
 
     private void setupGameAnalytics() {
@@ -141,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
             if (!loot.isDiscovered() && loot.getAmount() > 0) {
                 loot.setDiscovered(true);
             }
-            if (loot.isDiscovered()) {
+            if (loot.isDiscovered() && loot.isStorageDisplay()) {
                 appendStorageTextView(" " + loot.getName() + ": " + loot.getAmount() + " / " + loot.getMax());
             }
         }

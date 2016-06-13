@@ -81,9 +81,7 @@ public class WorldActivity extends AppCompatActivity {
                     .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Data.COPPER.addAmount(9);
-                            Data.WOOD.addAmount(45);
-                            Data.STONE.addAmount(27);
+                            mCurrentCreaturePos = 0;
                             //  Thanks();
                         }
                     }).show();
@@ -91,27 +89,7 @@ public class WorldActivity extends AppCompatActivity {
         }
     }
 
-   /* private void Thanks() {
-        final String url = "http://goo.gl/forms/LWLNdnC0WLUG599E2";
-        new AlertDialogWrapper.Builder(this)
-                .setTitle("Thank you for Testing!")
-                .setCancelable(false)
-                .setMessage("Thank you for helping test the app! Your playthrough will help me see any issues or design flaws! \n\nIf you have time I would appreciate your feedback through the survey listed below. Thank you for everythng!")
-                .setPositiveButton("Take me to the quick survey!", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Answers.getInstance().logContentView(new ContentViewEvent()
-                                .putContentName("Opened Survey"));
-                        Intent i = new Intent(Intent.ACTION_VIEW);
-                        i.setData(Uri.parse(url));
-                        startActivity(i);
-                    }
-                })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                }).show();
+   /*
     } */
 
     @Override
@@ -122,5 +100,11 @@ public class WorldActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(menuItem);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(WorldActivity.this, MainActivity.class));
     }
 }

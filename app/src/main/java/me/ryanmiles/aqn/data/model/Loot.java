@@ -25,6 +25,12 @@ public class Loot extends Item {
         rng = new Random();
     }
 
+    public Loot(boolean discovered, String name, String saved_name, int randomChance) {
+        super(discovered, name, saved_name, randomChance);
+        storageDisplay = false;
+        rng = new Random();
+    }
+
     public int getLowRoll() {
         return lowRoll;
     }
@@ -74,6 +80,10 @@ public class Loot extends Item {
             }
         }
         return "";
+    }
+
+    public Loot getLoot() {
+        return this;
     }
 
 }

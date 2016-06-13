@@ -20,6 +20,12 @@ public class CraftedItem extends Object {
         this.event = event;
     }
 
+    public CraftedItem(String name, String saved_name, HashMap<Item, Integer> required, UpdateEvent event) { //Default False
+        super(name, saved_name, false);
+        this.required = required;
+        this.event = event;
+    }
+
     public UpdateEvent getEvent() {
         return event;
     }

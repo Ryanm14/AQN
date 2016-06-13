@@ -186,7 +186,6 @@ public class Data {
                 put(WOOD, 25);
                 put(REFINED_COPPER, 7);
             }},
-            true,
             new UpdateEvent().setAddIncrementEvent(STONE, 5)
     );
 
@@ -197,7 +196,6 @@ public class Data {
                 put(WOOD, 30);
                 put(REFINED_COPPER, 5);
             }},
-            true,
             new UpdateEvent().setAddIncrementEvent(WOOD, 5)
     );
 
@@ -208,7 +206,6 @@ public class Data {
                 put(WOOD, 20);
                 put(REFINED_COPPER, 10);
             }},
-            true,
             null
     );
 
@@ -232,25 +229,82 @@ public class Data {
             false,
             "Rugged Linen Jacket",
             "linen_jacket",
-            80,
-            false
+            80
     );
 
     public static Loot RUSTED_BRACELET = new Loot(
             false,
             "Rusted Bracelet",
             "rusted_bracelet",
-            25,
-            false
+            25
     );
 
-    public static ArrayList<Loot> ALL_LOOT = new ArrayList<>(Arrays.asList(COPPER, REFINED_COPPER));
+    public static Loot LINEN_HELMET = new Loot(
+            false,
+            "Rugged Linen Helmet",
+            "linen_helmet",
+            80
+    );
+
+    public static Loot WORNOUT_SANDALS = new Loot(
+            false,
+            "Worn out Sandals",
+            "wornout_sandals",
+            50
+    );
+
+    public static Loot SMALL_LUCK_CHARM = new Loot(
+            false,
+            "Small Luck Charm",
+            "small_luck_charm",
+            25
+    );
+
+    public static Loot MAP_SHARD = new Loot(
+            false,
+            "Map Shard",
+            "map_shard",
+            40
+    );
+
+    public static Loot ENGINE_GEAR = new Loot(
+            false,
+            "Engine Gear",
+            "engine_gear",
+            45
+    );
+
+    public static Loot DRIED_HIDE = new Loot(
+            false,
+            0,
+            15,
+            "Dried Hide",
+            "dried_hide",
+            3,
+            5,
+            true
+    );
+
+    public static ArrayList<Loot> ALL_LOOT = new ArrayList<>(Arrays.asList(COPPER, REFINED_COPPER, LINEN_JACKET, RUSTED_BRACELET, LINEN_HELMET, WORNOUT_SANDALS, SMALL_LUCK_CHARM, MAP_SHARD, ENGINE_GEAR, DRIED_HIDE));
 
     //World Data
-    public static Creature AV_RAT = new Creature("Dust Rat", 5, 1);
+    public static Creature AV_RAT = new Creature("Coal Rat", 5, 1);
     public static Creature AV_WILD_BAT = new Creature("Wild Bat", 10, 2);
-
     public static Place AV = new Place("An Abandoned Mine", "What a dusty place.", "You managed to avoid the spiderwebs.", Arrays.asList(AV_RAT, AV_WILD_BAT, AV_WILD_BAT, AV_RAT), Arrays.asList(COPPER, LINEN_JACKET, RUSTED_BRACELET), new Coin(2, 5), new UpdateEvent().setDiscoveredEvent(COPPERAXE).setDiscoveredEvent(COPPERPICK).setDiscoveredEvent(COPPERSWORD));
+
+    public static Creature DV_Scorpion = new Creature("Dusty Scorpion", 5, 2);
+    public static Creature DV_Wild_Hog = new Creature("Wild Hog", 10, 3);
+    public static Place DV = new Place("A Dusty Village", "Is anyone here?", "Luckily the village was abandoned.", Arrays.asList(DV_Scorpion, DV_Scorpion, DV_Wild_Hog), Arrays.asList(LINEN_HELMET, WORNOUT_SANDALS, DRIED_HIDE), new Coin(5, 8), null);
+
+    public static Creature C_WORM = new Creature("Worm", 5, 1);
+    public static Creature C_BEAR = new Creature("Wild Bear", 10, 3);
+    public static Creature HUGE_WORM = new Creature("Wild Hog", 25, 4);
+    public static Place CAVE = new Place("An Unwelcoming Cave", "Looks empty.", "You quickly ran back to the entrance.", Arrays.asList(C_WORM, C_BEAR, HUGE_WORM), Arrays.asList(MAP_SHARD, SMALL_LUCK_CHARM, DRIED_HIDE), new Coin(5, 15), null);
+
+    public static Creature A_HOBO = new Creature("Ravaging Hobo", 8, 3);
+    public static Place OLD_AVENUE = new Place("An Old Avenue", "Half the road is eroded.", "You got away safely.", Arrays.asList(A_HOBO, A_HOBO), Arrays.asList(MAP_SHARD, WORNOUT_SANDALS, ENGINE_GEAR), new Coin(5, 8), null);
+
+
     public static int PLAYER_MAX_HEALTH = 20;
     public static int PLAYER_CURRENT_HEALTH = 1;
     public static int PLAYER_STAB_DAMAGE = 2;

@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 
@@ -62,9 +61,20 @@ public class WorldFragment extends Fragment {
             populate();
         } else {
             mCoords = Data.WORLD_MAP;
+            fixBug();
+            mCurrentCord = findCord(WORLD_RADIUS / 2, WORLD_RADIUS / 4);
             update();
+            mCurrentCord.changeValue("O");
         }
         return rootview;
+    }
+
+    private void fixBug() {
+        for (Coordinate mCoord : mCoords) {
+            if (mCoord.getValue().equals("O")) {
+                mCoord.revertOldValue();
+            }
+        }
     }
 
     @Override
@@ -162,6 +172,7 @@ public class WorldFragment extends Fragment {
 
         if (testMap("V") && testMap("P") && testMap("C") && testMap("A")) {
             update();
+            Data.WORLD_MAP = mCoords;
         } else {
             populate();
         }
@@ -201,8 +212,14 @@ public class WorldFragment extends Fragment {
             case "P":
                 openDialogue(Data.AV.getName(), Data.AV.getDescription(), new ChangeWorldFragmentEvent(Data.AV));
                 break;
-            default:
-                Toast.makeText(getActivity(), "That area is in development", Toast.LENGTH_LONG).show();
+            case "V":
+                openDialogue(Data.DV.getName(), Data.DV.getDescription(), new ChangeWorldFragmentEvent(Data.DV));
+                break;
+            case "C":
+                openDialogue(Data.CAVE.getName(), Data.CAVE.getDescription(), new ChangeWorldFragmentEvent(Data.CAVE));
+                break;
+            case "A":
+                openDialogue(Data.OLD_AVENUE.getName(), Data.OLD_AVENUE.getDescription(), new ChangeWorldFragmentEvent(Data.OLD_AVENUE));
         }
     }
 
@@ -210,6 +227,7 @@ public class WorldFragment extends Fragment {
         new AlertDialogWrapper.Builder(getActivity())
                 .setTitle(title)
                 .setMessage(desc)
+                .setCancelable(false)
                 .setPositiveButton("Travel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -224,4 +242,12 @@ public class WorldFragment extends Fragment {
                 })
                 .show();
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mCurrentCord.revertOldValue();
+    }
+
+
 }

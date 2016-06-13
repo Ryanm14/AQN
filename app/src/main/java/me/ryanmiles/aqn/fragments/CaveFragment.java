@@ -72,6 +72,11 @@ public class CaveFragment extends Fragment {
         EventBus.getDefault().post(new ChangeFragmentEvent(new CraftingFragment(), "craftingFragment"));
     }
 
+    @OnClick(R.id.stats)
+    public void openStats() {
+        EventBus.getDefault().post(new ChangeFragmentEvent(new PlayerFragment(), "playerFragment"));
+    }
+
     @OnClick(R.id.quests)
     public void openWorld() {
         EventBus.getDefault().post(new ChangeWorldEvent());
