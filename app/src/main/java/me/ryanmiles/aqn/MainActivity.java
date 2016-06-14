@@ -15,8 +15,6 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
-import com.crashlytics.android.answers.Answers;
-import com.crashlytics.android.answers.ContentViewEvent;
 import com.gameanalytics.sdk.GameAnalytics;
 
 import org.greenrobot.eventbus.EventBus;
@@ -69,7 +67,6 @@ public class MainActivity extends AppCompatActivity {
         if (!temp && Data.MAP_SHARD.isDiscovered()) {
             survey();
         }
-
     }
 
     private void survey() {
@@ -82,8 +79,6 @@ public class MainActivity extends AppCompatActivity {
                 .setPositiveButton("Take me to the quick survey!", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Answers.getInstance().logContentView(new ContentViewEvent()
-                                .putContentName("Opened Survey"));
                         Intent i = new Intent(Intent.ACTION_VIEW);
                         i.setData(Uri.parse(url));
                         startActivity(i);
