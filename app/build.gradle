@@ -54,7 +54,7 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
         transitive = true;
     }
-    compile('com.gameanalytics.sdk:gameanalytics-android:3.2.3@aar') {
-        transitive = true;
-    }
+    compile "com.andkulikov:transitionseverywhere:1.6.5"
+    compile 'com.github.2359media:EasyAndroidAnimations:0.8'
+    compile 'com.github.jakob-grabner:Circle-Progress-View:v1.2.9'
 }

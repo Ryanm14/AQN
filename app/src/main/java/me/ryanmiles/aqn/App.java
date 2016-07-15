@@ -2,6 +2,7 @@ package me.ryanmiles.aqn;
 
 import android.app.Application;
 import android.content.SharedPreferences;
+import android.support.v4.BuildConfig;
 import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
@@ -86,9 +87,10 @@ public class App extends Application {
         }
         Paper.init(this);
         SharedPreferences prefs = getSharedPreferences("me.ryanmiles.aqn", MODE_PRIVATE);
-        if (prefs.getBoolean("firstrunv2", true)) {
+        if (prefs.getBoolean("fre", true)) {
             Log.d(TAG, "First Run");
-            prefs.edit().putBoolean("firstrunv2", false).commit();
+            Data.FIRSTRUN = true;
+            prefs.edit().putBoolean("fre", false).commit();
             //TODO CHANGE PREF TO UPDATE SO IT DOESNT CRASH
         } else {
             getData();

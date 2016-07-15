@@ -1,5 +1,10 @@
 package me.ryanmiles.aqn.data;
 
+import android.content.Context;
+import android.widget.Toast;
+
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -12,6 +17,7 @@ import me.ryanmiles.aqn.data.model.Creature;
 import me.ryanmiles.aqn.data.model.Item;
 import me.ryanmiles.aqn.data.model.Loot;
 import me.ryanmiles.aqn.data.model.Place;
+import me.ryanmiles.aqn.events.LogUpdateEvent;
 import me.ryanmiles.aqn.events.UpdateEvent;
 
 /**
@@ -20,9 +26,12 @@ import me.ryanmiles.aqn.events.UpdateEvent;
 public class Data {
 
 
+    public static boolean OPENFOREST = false;
+    public static boolean FIRSTRUN = false;
+    public static boolean OPENBUILDINGS = false;
     //ITEMS
     public static Item WOOD = new Item(
-            true,
+            false,
             0,
             50,
             "Wood",
@@ -32,7 +41,7 @@ public class Data {
     );
 
     public static Item STONE = new Item(
-            true,
+            false,
             0,
             50,
             "Stone",
@@ -310,6 +319,13 @@ public class Data {
     public static int PLAYER_STAB_DAMAGE = 2;
     public static int PLAYER_SWING_DAMAGE = 1;
     public static ArrayList<Coordinate> WORLD_MAP;
+
+    public static void postLogText(String str){
+        EventBus.getDefault().post(new LogUpdateEvent(str));
+    }
+    public static void toastMessage(Context context, String str){
+        Toast.makeText(context, str, Toast.LENGTH_SHORT).show();
+    }
 }
 
 

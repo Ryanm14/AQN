@@ -3,7 +3,6 @@ package me.ryanmiles.aqn;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -12,10 +11,11 @@ import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
-import com.gameanalytics.sdk.GameAnalytics;
+import com.easyandroidanimations.library.FadeInAnimation;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -39,7 +39,8 @@ public class MainActivity extends AppCompatActivity {
     TextView mStorageTextView;
     @BindView(R.id.main_activity_log_text_view)
     TextView mLogTextView;
-    boolean temp = false;
+    @BindView(R.id.trans_con_main_activity)
+    ViewGroup mTransitionsContainer;
     private ViewPagerFragment mViewPagerFragment;
 
     @Override
@@ -59,17 +60,16 @@ public class MainActivity extends AppCompatActivity {
             displayDeathDialog();
             Data.PLAYER_CURRENT_HEALTH = 1;
         }
-        if (!BuildConfig.DEBUG) {
-            //setupGameAnalytics();
-        }
 
         mStorageTextView.setMovementMethod(new ScrollingMovementMethod());
-        if (!temp && Data.MAP_SHARD.isDiscovered()) {
-            survey();
+        mLogTextView.setMovementMethod(new ScrollingMovementMethod());
+
+        if(Data.FIRSTRUN){
+            new FadeInAnimation(mTransitionsContainer).setDuration(5000).animate();
         }
     }
 
-    private void survey() {
+   /* private void survey() {
         temp = true;
         final String url = "http://bit.ly/1U3aKad";
         new AlertDialogWrapper.Builder(this)
@@ -89,18 +89,10 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                     }
                 }).show();
-    }
-
-    private void setupGameAnalytics() {
-        GameAnalytics.setEnabledInfoLog(true);
-        GameAnalytics.setEnabledVerboseLog(true);
-
-        GameAnalytics.configureBuild("0.1.0");
-        GameAnalytics.initializeWithGameKey(this, getString(R.string.com_gameanalytics_apiKey), getString(R.string.com_gameanalytics_apiSecret));
-
-    }
+    } */
 
     private void displayDeathDialog() {
+        //TODO Customise death
         Data.WOOD.remove(25);
         Data.STONE.remove(50);
         new AlertDialogWrapper.Builder(this)

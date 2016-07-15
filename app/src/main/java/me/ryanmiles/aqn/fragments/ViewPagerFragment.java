@@ -8,10 +8,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.ryanmiles.aqn.R;
 import me.ryanmiles.aqn.adapters.PagerAdapter;
+import me.ryanmiles.aqn.data.Data;
+import me.ryanmiles.aqn.events.updates.UpdateTabHost;
 
 /**
  * Created by ryanm on 5/7/2016.
@@ -30,8 +35,12 @@ public class ViewPagerFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.view_pager_fragment, container, false);
         ButterKnife.bind(this,root);
-        mTabLayout.addTab(mTabLayout.newTab().setText("Cave"));
-        mTabLayout.addTab(mTabLayout.newTab().setText("Forest"));
+        if(!Data.FIRSTRUN) {
+            mTabLayout.addTab(mTabLayout.newTab().setText("Cave"));
+            mTabLayout.addTab(mTabLayout.newTab().setText("Forest"));
+        }else{
+            EventBus.getDefault().register(this);
+        }
         mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         PagerAdapter adapter = new PagerAdapter
                 (getChildFragmentManager(), 2);
@@ -61,5 +70,10 @@ public class ViewPagerFragment extends Fragment {
         if (mViewPager.getCurrentItem() == 1) {
             mViewPager.setCurrentItem(0);
         }
+    }
+
+    @Subscribe
+    public void onEvent(UpdateTabHost event) {
+        mTabLayout.addTab(mTabLayout.newTab().setText(event.getName()));
     }
 }
