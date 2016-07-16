@@ -26,6 +26,8 @@ import me.ryanmiles.aqn.events.UpdateEvent;
 public class Data {
 
 
+    public static boolean BUILDING_NEW_DATA = false;
+
     public static boolean OPENFOREST = false;
     public static boolean FIRSTRUN = false;
     public static boolean OPENBUILDINGS = false;
@@ -85,7 +87,7 @@ public class Data {
     public static ArrayList<Item> ALL_ITEMS = new ArrayList<>(Arrays.asList(WOOD, STONE, LEAVES, HIDE, MEAT));
 
     //BUILDINGS
-
+/*
     public static Building BASIC_SMELTERY = new Building(
             "Basic Smeltery",
             "basic_smeltery",
@@ -116,7 +118,7 @@ public class Data {
             false,
             new UpdateEvent().setChangeMaxEvent(STONE, 100).setDiscoveredEvent(BASIC_SMELTERY)
     );
-
+*/
 
     public static Building TOOLBENCH = new Building(
             "Toolbench",
@@ -125,8 +127,9 @@ public class Data {
                 put(WOOD, 25);
                 put(LEAVES, 9);
             }},
-            false,
-            new UpdateEvent().setDiscoveredEvent(WOODPILE).setDiscoveredEvent(STONEPILE)
+            50,
+            //new UpdateEvent().setDiscoveredEvent(WOODPILE).setDiscoveredEvent(STONEPILE)
+            null
     );
 
     public static Building WORKSHOP = new Building(
@@ -137,11 +140,12 @@ public class Data {
                 put(STONE, 10);
             }},
             true, //IsDiscovered
+            25,
             new UpdateEvent().setDiscoveredEvent(TOOLBENCH)
     );
 
 
-    public static ArrayList<Building> ALL_BUILDINGS = new ArrayList<>(Arrays.asList(WORKSHOP, TOOLBENCH, WOODPILE, STONEPILE, BASIC_SMELTERY));
+    public static ArrayList<Building> ALL_BUILDINGS = new ArrayList<>(Arrays.asList(WORKSHOP, TOOLBENCH));
 
     public static Loot REFINED_COPPER = new Loot(
             false,

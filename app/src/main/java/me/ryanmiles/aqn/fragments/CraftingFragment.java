@@ -58,9 +58,9 @@ public class CraftingFragment extends Fragment {
     }
 
     private void updateMaterialButtons() {
-        if (!Data.BASIC_SMELTERY.isBuilt()) {
+        // if (!Data.BASIC_SMELTERY.isBuilt()) {
             mCopperButton.setVisibility(View.GONE);
-        }
+        //  }
     }
 
     private void updateCraftingButtons() {
