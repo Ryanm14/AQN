@@ -54,4 +54,13 @@ public class UpdateEvent {
             }
         }
     }
+
+    @Override
+    public String toString() {
+        return "UpdateEvent{" +
+                "mSetDiscoveredEvent=" + mSetDiscoveredEvent +
+                ", mChangeMaxEvent=" + mChangeMaxEvent +
+                ", mAddIncrementEvents=" + mAddIncrementEvents +
+                '}';
+    }
 }

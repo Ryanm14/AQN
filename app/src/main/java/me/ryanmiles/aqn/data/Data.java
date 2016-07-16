@@ -26,11 +26,14 @@ import me.ryanmiles.aqn.events.UpdateEvent;
 public class Data {
 
 
+    public static boolean CRAFTING_NEW_DATA = false;
     public static boolean BUILDING_NEW_DATA = false;
 
+    //Save
     public static boolean OPENFOREST = false;
     public static boolean FIRSTRUN = false;
     public static boolean OPENBUILDINGS = false;
+    public static boolean OPENCRAFTING = false;
     //ITEMS
     public static Item WOOD = new Item(
             false,
@@ -108,17 +111,18 @@ public class Data {
             false,
             new UpdateEvent().setChangeMaxEvent(WOOD, 100)
     );
-
+*/
     public static Building STONEPILE = new Building(
             "Stone Pile",
             "stone_pile",
             new HashMap<Item, Integer>() {{
-                put(STONE, 50);
+                put(STONE, 10);
             }},
-            false,
-            new UpdateEvent().setChangeMaxEvent(STONE, 100).setDiscoveredEvent(BASIC_SMELTERY)
+            true,
+            90,
+            null
     );
-*/
+
 
     public static Building TOOLBENCH = new Building(
             "Toolbench",
@@ -127,9 +131,8 @@ public class Data {
                 put(WOOD, 25);
                 put(LEAVES, 9);
             }},
-            50,
-            //new UpdateEvent().setDiscoveredEvent(WOODPILE).setDiscoveredEvent(STONEPILE)
-            null
+            20,
+            new UpdateEvent().setDiscoveredEvent(STONEPILE)
     );
 
     public static Building WORKSHOP = new Building(
@@ -145,7 +148,7 @@ public class Data {
     );
 
 
-    public static ArrayList<Building> ALL_BUILDINGS = new ArrayList<>(Arrays.asList(WORKSHOP, TOOLBENCH));
+    public static ArrayList<Building> ALL_BUILDINGS = new ArrayList<>(Arrays.asList(WORKSHOP, TOOLBENCH, STONEPILE));
 
     public static Loot REFINED_COPPER = new Loot(
             false,
@@ -167,7 +170,8 @@ public class Data {
                 put(STONE, 35);
             }},
             true,
-            new UpdateEvent().setAddIncrementEvent(STONE, 2)
+            new UpdateEvent().setAddIncrementEvent(STONE, 2),
+            45
     );
 
     public static CraftedItem STONEAXE = new CraftedItem(
@@ -178,7 +182,8 @@ public class Data {
                 put(STONE, 20);
             }},
             true,
-            new UpdateEvent().setAddIncrementEvent(WOOD, 2)
+            new UpdateEvent().setAddIncrementEvent(WOOD, 2),
+            45
     );
 
     public static CraftedItem STONESWORD = new CraftedItem(
@@ -189,7 +194,8 @@ public class Data {
                 put(STONE, 35);
             }},
             true,
-            null
+            null,
+            60
     );
 
     public static CraftedItem COPPERPICK = new CraftedItem(
@@ -199,7 +205,8 @@ public class Data {
                 put(WOOD, 25);
                 put(REFINED_COPPER, 7);
             }},
-            new UpdateEvent().setAddIncrementEvent(STONE, 5)
+            new UpdateEvent().setAddIncrementEvent(STONE, 5),
+            125
     );
 
     public static CraftedItem COPPERAXE = new CraftedItem(
@@ -209,7 +216,8 @@ public class Data {
                 put(WOOD, 30);
                 put(REFINED_COPPER, 5);
             }},
-            new UpdateEvent().setAddIncrementEvent(WOOD, 5)
+            new UpdateEvent().setAddIncrementEvent(WOOD, 5),
+            125
     );
 
     public static CraftedItem COPPERSWORD = new CraftedItem(
@@ -219,7 +227,8 @@ public class Data {
                 put(WOOD, 20);
                 put(REFINED_COPPER, 10);
             }},
-            null
+            null,
+            135
     );
 
     public static ArrayList<CraftedItem> ALL_CRAFTED_ITEMS = new ArrayList<>(Arrays.asList(STONEPICK, STONEAXE, STONESWORD, COPPERAXE, COPPERPICK, COPPERSWORD));
@@ -330,6 +339,8 @@ public class Data {
     public static void toastMessage(Context context, String str){
         Toast.makeText(context, str, Toast.LENGTH_SHORT).show();
     }
+
+
 }
 
 

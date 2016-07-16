@@ -17,6 +17,7 @@ public class Building extends Object {
     private long startTime = 0;
     private int currentProgress = 0;
     private boolean readyForCompletion = false;
+    private boolean repeatable;
 
     public Building(String name, String saved_name, HashMap<Item, Integer> required, boolean discovered, int timeToComplete, UpdateEvent event) {
         super(name, saved_name, discovered);
@@ -152,5 +153,21 @@ public class Building extends Object {
 
     public void setReadyForCompletion(boolean readyForCompletion) {
         this.readyForCompletion = readyForCompletion;
+    }
+
+    @Override
+    public String toString() {
+        return "Building{" +
+                super.toString() +
+                "required=" + required +
+                ", built=" + built +
+                ", event=" + event +
+                ", timeToComplete=" + timeToComplete +
+                ", beingBuilt=" + beingBuilt +
+                ", startTime=" + startTime +
+                ", currentProgress=" + currentProgress +
+                ", readyForCompletion=" + readyForCompletion +
+                ", repeatable=" + repeatable +
+                '}';
     }
 }

@@ -25,4 +25,12 @@ public class ChangeFragmentEvent {
     public String getTag() {
         return mTag;
     }
+
+    @Override
+    public String toString() {
+        return "ChangeFragmentEvent{" +
+                "mFragment=" + mFragment +
+                ", mTag='" + mTag + '\'' +
+                '}';
+    }
 }

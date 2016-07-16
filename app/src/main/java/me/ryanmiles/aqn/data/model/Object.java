@@ -37,4 +37,13 @@ public class Object {
     public void setSaved_name(String saved_name) {
         this.saved_name = saved_name;
     }
+
+    @Override
+    public String toString() {
+        return "Object{" +
+                "name='" + name + '\'' +
+                ", saved_name='" + saved_name + '\'' +
+                ", discovered=" + discovered +
+                '}';
+    }
 }

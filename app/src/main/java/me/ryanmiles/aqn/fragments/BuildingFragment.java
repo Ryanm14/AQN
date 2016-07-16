@@ -38,7 +38,7 @@ import me.ryanmiles.aqn.events.DataUpdateEvent;
  */
 public class BuildingFragment extends Fragment {
 
-    private static final String TAG = "BuildingFragment";
+    private static final String TAG = BuildingFragment.class.getCanonicalName();
     static Button mCompleteButton;
     static CircleProgressView circle;
     @BindView(R.id.current_building_text_view)
@@ -47,10 +47,10 @@ public class BuildingFragment extends Fragment {
     LinearLayout mLinearLayout;
     ActionBar actionBar;
     Building mCurrentBuilding;
-    BuildingsBackground background;
 
     @Override
     public void onAttach(Context context) {
+        Log.v(TAG, "onAttach()");
         super.onAttach(context);
         actionBar = ((AppCompatActivity) context).getSupportActionBar();
         if (actionBar != null) {
@@ -60,12 +60,12 @@ public class BuildingFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Log.v(TAG, "onCreateView()");
 
         //Declarations
         View rootView = inflater.inflate(R.layout.building_fragment_layout, container, false);
         circle = (CircleProgressView) rootView.findViewById(R.id.circleView);
         mCompleteButton = (Button) rootView.findViewById(R.id.complete_button);
-        background = new BuildingsBackground();
         ((MainActivity) getActivity()).setActionBarTitle("Buildings");
         ButterKnife.bind(this, rootView);
         setCurrentBuilding();
@@ -73,12 +73,14 @@ public class BuildingFragment extends Fragment {
 
         //First Run
         if (Data.OPENBUILDINGS) {
+            Log.d(TAG, "onCreateView: First Run");
             Data.OPENBUILDINGS = false;
             new FadeInAnimation(mLinearLayout).setDuration(5000).animate();
         }
 
         //Set Current Building Values
         if (mCurrentBuilding != null) {
+            Log.d(TAG, "onCreateView: Current Building != null");
             mCurrentBuildingTextView.setText("Building: " + mCurrentBuilding.getName());
             circle.setValue(mCurrentBuilding.getCurrentProgress());
 
@@ -94,6 +96,7 @@ public class BuildingFragment extends Fragment {
             }
 
         } else {
+            Log.d(TAG, "onCreateView: Current Building = null");
             mCurrentBuildingTextView.setText("Building: ");
             circle.setValue(0);
             mCompleteButton.setEnabled(false);
@@ -108,10 +111,11 @@ public class BuildingFragment extends Fragment {
 
 
     private void setCurrentBuilding() {
-
+        Log.v(TAG, "setCurrentBuilding() called");
         for (Building building : Data.ALL_BUILDINGS) {
             if (building.isBeingBuilt()) {
                 mCurrentBuilding = building;
+                Log.d(TAG, "setCurrentBuilding: " + building.getName());
                 break;
             }
         }
@@ -119,6 +123,7 @@ public class BuildingFragment extends Fragment {
 
 
     private void updateBuildingButtons() {
+        Log.d(TAG, "updateBuildingButtons() called");
         mLinearLayout.removeAllViews();
         for (final Building building : Data.ALL_BUILDINGS) {
             if (building.isDiscovered() && !building.isBuilt()) {
@@ -171,11 +176,13 @@ public class BuildingFragment extends Fragment {
 
     @Override
     public void onStop() {
+        Log.v(TAG, "onStop() called");
         super.onStop();
         actionBar.setDisplayHomeAsUpEnabled(false);
     }
 
     public void startBuilding(Building building) {
+        Log.d(TAG, "startBuilding() called with: " + "building = [" + building + "]");
         //Save to Building Class
         building.setStartTime(System.currentTimeMillis());
         mCurrentBuilding = building;
@@ -186,29 +193,31 @@ public class BuildingFragment extends Fragment {
         circle.setValue(0);
 
         //Start Background
-
-        background.execute(new int[]{0, building.getTimeToComplete()});
+        new BuildingsBackground().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, new int[]{0, building.getTimeToComplete()});
     }
 
     private void resumeBuilding() {
+        Log.d(TAG, "resumeBuilding() called");
         //Set Views
         mCurrentBuildingTextView.setText("Building: " + mCurrentBuilding.getName());
         circle.setValue(mCurrentBuilding.getCurrentProgress());
 
         //get time left
         int timeLeft = (int) ((System.currentTimeMillis() - mCurrentBuilding.getStartTime()) / 1000);
+        Log.d(TAG, "resumeBuilding: " + timeLeft);
         if (timeLeft >= mCurrentBuilding.getTimeToComplete()) {
             mCurrentBuilding.setReadyForCompletion(true);
             mCompleteButton.setEnabled(true);
             circle.setValue(100);
         } else {
             //Start Background
-            background.execute(new int[]{timeLeft, mCurrentBuilding.getTimeToComplete()});
+            new BuildingsBackground().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, new int[]{timeLeft, mCurrentBuilding.getTimeToComplete()});
         }
     }
 
     @OnClick(R.id.complete_button)
     public void onClickComplete() {
+        Log.d(TAG, "onClickComplete() called");
         //Set UI
         mCompleteButton.setEnabled(false);
         circle.setValue(0);
@@ -223,6 +232,7 @@ public class BuildingFragment extends Fragment {
     public class BuildingsBackground extends AsyncTask<int[], Integer, Integer> {
         @Override
         protected Integer doInBackground(int[]... params) {
+            Log.d(TAG, "Started work on: " + mCurrentBuilding.getName());
             //Get numbers
             int[] data = params[0];
             int wait = data[1] * 1000 / 100;
@@ -240,6 +250,7 @@ public class BuildingFragment extends Fragment {
         @Override
         protected void onProgressUpdate(Integer... value) {
             super.onProgressUpdate(value);
+            Log.v(TAG, "ProgressUpdate: " + value[0]);
             mCurrentBuilding.setCurrentProgress(value[0]);
             circle.setValue(value[0]);
         }
@@ -250,7 +261,7 @@ public class BuildingFragment extends Fragment {
             super.onPostExecute(integer);
             mCurrentBuilding.setReadyForCompletion(true);
             mCompleteButton.setEnabled(true);
-            Log.i(TAG, "onPostExecute: 100");
+            Log.v(TAG, "onPostExecute - Finished: " + mCurrentBuilding.getName());
         }
     }
 }

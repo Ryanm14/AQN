@@ -33,4 +33,12 @@ public class AddIncrementEvent {
     public void post() {
         mItem.setIncrement(increment);
     }
+
+    @Override
+    public String toString() {
+        return "AddIncrementEvent{" +
+                "mItem=" + mItem +
+                ", increment=" + increment +
+                '}';
+    }
 }

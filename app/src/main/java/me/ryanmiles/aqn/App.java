@@ -34,7 +34,7 @@ public class App extends Application {
                 Paper.book().write("CRAFTED_ITEMS", Data.ALL_CRAFTED_ITEMS);
                 Paper.book().write("LOOT", Data.ALL_LOOT);
                 Paper.book().write("LOG", log);
-                Log.d(TAG, "saveData: Saving");
+                Log.i(TAG, "saveData: Saving");
             }
         });
         thread.start();
@@ -96,6 +96,7 @@ public class App extends Application {
             getData();
         }
         Data.BUILDING_NEW_DATA = true;
+        Data.CRAFTING_NEW_DATA = true;
     }
 
 

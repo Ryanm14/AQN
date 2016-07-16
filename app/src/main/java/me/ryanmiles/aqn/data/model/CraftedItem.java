@@ -12,18 +12,74 @@ public class CraftedItem extends Object {
     private HashMap<Item, Integer> required;
     private UpdateEvent event;
     private boolean crafted = false;
+    private int timeToComplete = 0;
+    private boolean beingCrafted = false;
+    private long startTime = 0;
+    private int currentProgress = 0;
+    private boolean readyForCompletion = false;
+    private boolean repeatable;
 
 
-    public CraftedItem(String name, String saved_name, HashMap<Item, Integer> required, boolean discovered, UpdateEvent event) {
+    public CraftedItem(String name, String saved_name, HashMap<Item, Integer> required, boolean discovered, UpdateEvent event, int timeToComplete) {
         super(name, saved_name, discovered);
         this.required = required;
         this.event = event;
+        this.timeToComplete = timeToComplete;
     }
 
-    public CraftedItem(String name, String saved_name, HashMap<Item, Integer> required, UpdateEvent event) { //Default False
+    public CraftedItem(String name, String saved_name, HashMap<Item, Integer> required, UpdateEvent event, int timeToComplete) { //Default False
         super(name, saved_name, false);
         this.required = required;
         this.event = event;
+        this.timeToComplete = timeToComplete;
+    }
+
+    public int getTimeToComplete() {
+        return timeToComplete;
+    }
+
+    public void setTimeToComplete(int timeToComplete) {
+        this.timeToComplete = timeToComplete;
+    }
+
+    public boolean isBeingCrafted() {
+        return beingCrafted;
+    }
+
+    public void setBeingCrafted(boolean beingCrafted) {
+        this.beingCrafted = beingCrafted;
+    }
+
+    public long getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(long startTime) {
+        this.startTime = startTime;
+    }
+
+    public int getCurrentProgress() {
+        return currentProgress;
+    }
+
+    public void setCurrentProgress(int currentProgress) {
+        this.currentProgress = currentProgress;
+    }
+
+    public boolean isReadyForCompletion() {
+        return readyForCompletion;
+    }
+
+    public void setReadyForCompletion(boolean readyForCompletion) {
+        this.readyForCompletion = readyForCompletion;
+    }
+
+    public boolean isRepeatable() {
+        return repeatable;
+    }
+
+    public void setRepeatable(boolean repeatable) {
+        this.repeatable = repeatable;
     }
 
     public UpdateEvent getEvent() {
@@ -53,7 +109,7 @@ public class CraftedItem extends Object {
         return content;
     }
 
-    public boolean craft() {
+    public boolean checkRequiredItems() {
         for (Map.Entry<Item, Integer> entry : required.entrySet()) {
             Item key = entry.getKey();
             int value = entry.getValue();
@@ -61,20 +117,26 @@ public class CraftedItem extends Object {
                 return false;
             }
         }
+        return true;
+    }
 
+    public void removeRequiredItems() {
         for (Map.Entry<Item, Integer> entry : required.entrySet()) {
             Item key = entry.getKey();
             int value = entry.getValue();
             key.setAmount(key.getAmount() - value);
         }
+    }
 
+    public void build() {
         if (event != null) {
             event.post();
         }
         setDiscovered(false);
+        beingCrafted = false;
         crafted = true;
-        return true;
     }
+
 
     public boolean isCrafted() {
         return crafted;
@@ -88,8 +150,34 @@ public class CraftedItem extends Object {
         return "You crafted a " + getName();
     }
 
+    public String startingLogText() {
+        return "You started working on a " + getName();
+    }
+
     public void setInfo(CraftedItem info) {
         setDiscovered(info.isDiscovered());
         setCrafted(info.isCrafted());
+        timeToComplete = info.getTimeToComplete();
+        currentProgress = info.getCurrentProgress();
+        beingCrafted = info.isBeingCrafted();
+        startTime = info.getStartTime();
+        readyForCompletion = info.isReadyForCompletion();
     }
+
+    @Override
+    public String toString() {
+        return "CraftedItem{" +
+                super.toString() +
+                "required=" + required +
+                ", event=" + event +
+                ", crafted=" + crafted +
+                ", timeToComplete=" + timeToComplete +
+                ", beingCrafted=" + beingCrafted +
+                ", startTime=" + startTime +
+                ", currentProgress=" + currentProgress +
+                ", readyForCompletion=" + readyForCompletion +
+                ", repeatable=" + repeatable +
+                '}';
+    }
+
 }

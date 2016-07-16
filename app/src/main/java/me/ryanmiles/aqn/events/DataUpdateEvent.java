@@ -27,4 +27,12 @@ public class DataUpdateEvent {
     public void setLogText(String logText) {
         this.logText = logText;
     }
+
+    @Override
+    public String toString() {
+        return "DataUpdateEvent{" +
+                "updateStorage=" + updateStorage +
+                ", logText='" + logText + '\'' +
+                '}';
+    }
 }

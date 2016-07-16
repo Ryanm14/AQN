@@ -33,4 +33,12 @@ public class ChangeMaxEvent {
     public void post() {
         mItem.setMax(max);
     }
+
+    @Override
+    public String toString() {
+        return "ChangeMaxEvent{" +
+                "mItem=" + mItem +
+                ", max=" + max +
+                '}';
+    }
 }

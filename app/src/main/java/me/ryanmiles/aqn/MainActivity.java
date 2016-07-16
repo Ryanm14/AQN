@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -67,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
         if(Data.FIRSTRUN){
             new FadeInAnimation(mTransitionsContainer).setDuration(5000).animate();
         }
+        Log.v(TAG, "onCreate");
     }
 
    /* private void survey() {
@@ -110,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Subscribe
     public void onEvent(DataUpdateEvent event) {
+        Log.v(TAG, "onEvent() called with: " + "event = [" + event + "]");
         if (event.UpdateStorage()) {
             updateStorage();
         }
@@ -120,11 +123,13 @@ public class MainActivity extends AppCompatActivity {
 
     @Subscribe
     public void onEvent(LogUpdateEvent event) {
+        Log.v(TAG, "onEvent() called with: " + "event = [" + event + "]");
         updateLog(event.getLogString());
     }
 
     @Subscribe
     public void onEvent(ChangeFragmentEvent event) {
+        Log.v(TAG, "onEvent() called with: " + "event = [" + event + "]");
         FragmentManager trans = getSupportFragmentManager();
         trans.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
@@ -145,6 +150,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void updateStorage() {
+        Log.v(TAG, "updateStorage() called");
         mStorageTextView.setText(" Storage:");
         for (Item item : Data.ALL_ITEMS) {
             if (!item.isDiscovered() && item.getAmount() > 0) {
@@ -166,10 +172,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void appendStorageTextView(String string) {
+        Log.v(TAG, "appendStorageTextView() called with: " + "string = [" + string + "]");
         mStorageTextView.append("\n" + string);
     }
 
     public void updateLog(String text) {
+        Log.v(TAG, "updateLog() called with: " + "text = [" + text + "]");
         mLogTextView.setText(text + "\n" + mLogTextView.getText().toString());
     }
 
@@ -177,11 +185,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        Log.v(TAG, "onPause() called");
         App.saveData(mLogTextView.getText().toString());
     }
 
 
     public void setLogText(java.lang.Object logText) {
+        Log.v(TAG, "setLogText() called with: " + "logText = [" + logText + "]");
         if (logText != null) {
             mLogTextView.setText(logText.toString());
         }
@@ -189,6 +199,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        Log.v(TAG, "onBackPressed() called");
         ViewPagerFragment myFragment = (ViewPagerFragment) getSupportFragmentManager().findFragmentByTag("mViewPager");
         if (myFragment != null && myFragment.isVisible()) {
             mViewPagerFragment.switchTab();
@@ -223,6 +234,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void Reset() {
+        Log.d(TAG, "Reset() called");
         Paper.book().destroy();
         SharedPreferences prefs = getSharedPreferences("me.ryanmiles.aqn", MODE_PRIVATE);
         prefs.edit().clear().commit();

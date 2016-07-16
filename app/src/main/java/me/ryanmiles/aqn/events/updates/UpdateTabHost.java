@@ -17,4 +17,11 @@ public class UpdateTabHost {
     public void setName(String name) {
         this.name = name;
     }
+
+    @Override
+    public String toString() {
+        return "UpdateTabHost{" +
+                "name='" + name + '\'' +
+                '}';
+    }
 }

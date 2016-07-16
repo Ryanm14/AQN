@@ -2,6 +2,7 @@ package me.ryanmiles.aqn.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import me.ryanmiles.aqn.data.Data;
  * Created by ryanm on 5/5/2016.
  */
 public class ForestFragment extends Fragment {
+    private static final String TAG = ForestFragment.class.getCanonicalName();
     @BindView(R.id.wood)
     Button mWoodButton;
     @BindView(R.id.stone)
@@ -32,6 +34,7 @@ public class ForestFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Log.v(TAG, "onCreateView()");
         View rootView =  inflater.inflate(R.layout.forest_fragment_layout, container, false);
         ButterKnife.bind(this,rootView);
         mDirtyWaterButton.setVisibility(View.GONE);
@@ -40,12 +43,15 @@ public class ForestFragment extends Fragment {
 
     @Override
     public void onResume() {
+        Log.v(TAG, "onResume() called");
         super.onResume();
         updateButtons();
     }
 
     private void updateButtons() {
+        Log.d(TAG, "updateButtons() called");
         if (!Data.STONESWORD.isCrafted()) {
+            Log.d(TAG, "updateButtons: StoneSword != crafted");
             mHuntButton.setVisibility(View.GONE);
         }
     }
@@ -53,6 +59,7 @@ public class ForestFragment extends Fragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
+        Log.v(TAG, "setUserVisibleHint() called with: " + "isVisibleToUser = [" + isVisibleToUser + "]");
         if (isVisibleToUser && Data.OPENFOREST) {
             Data.OPENFOREST = false;
             new FadeInAnimation(mLayout).setDuration(5000).animate();
@@ -61,12 +68,14 @@ public class ForestFragment extends Fragment {
 
     @OnClick(R.id.wood)
     public void woodOnClick(){
+        Log.v(TAG, "woodOnClick() called");
         Data.WOOD.addIncrement();
         Data.LEAVES.random();
     }
 
     @OnClick(R.id.stone)
     public void stoneOnClick(){
+        Log.v(TAG, "stoneOnClick() called");
         Data.STONE.addIncrement();
         if (Data.STONEPICK.isCrafted()) {
             // Data.TIN.random();

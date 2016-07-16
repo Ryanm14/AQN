@@ -19,4 +19,11 @@ public class ChangeWorldFragmentEvent {
     public void setPlace(Place mPlace) {
         this.mPlace = mPlace;
     }
+
+    @Override
+    public String toString() {
+        return "ChangeWorldFragmentEvent{" +
+                "mPlace=" + mPlace +
+                '}';
+    }
 }

@@ -17,4 +17,11 @@ public class LogUpdateEvent {
     public void setLogString(String logString) {
         this.logString = logString;
     }
+
+    @Override
+    public String toString() {
+        return "LogUpdateEvent{" +
+                "logString='" + logString + '\'' +
+                '}';
+    }
 }

@@ -3,6 +3,7 @@ package me.ryanmiles.aqn.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,7 @@ import me.ryanmiles.aqn.events.updates.UpdateTabHost;
  */
 public class CaveFragment extends Fragment {
 
+    private static final String TAG = CaveFragment.class.getCanonicalName();
     @BindView(R.id.crafting)
     Button mCraftingButton;
     @BindView(R.id.stats)
@@ -47,6 +49,7 @@ public class CaveFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Log.v(TAG, "onCreateView()");
         View rootView = inflater.inflate(R.layout.cave_fragment_layout, container, false);
         ButterKnife.bind(this, rootView);
         ((MainActivity) getActivity()).setActionBarTitle("A Quiet Night");
@@ -56,14 +59,19 @@ public class CaveFragment extends Fragment {
 
     @Override
     public void onResume() {
+        Log.v(TAG, "onResume() called");
         super.onResume();
         updateButtons();
     }
 
     private void updateButtons() {
+        Log.d(TAG, "updateButtons() called");
         mExploreForestButton.setVisibility(View.GONE);
         if (!Data.TOOLBENCH.isBuilt()) {
             mCraftingButton.setVisibility(View.INVISIBLE);
+        } else if (Data.OPENCRAFTING) {
+            Data.OPENCRAFTING = false;
+            new FadeInAnimation(mCraftingButton).setDuration(5000).animate();
         }
         if (!Data.STONESWORD.isCrafted()) {
             mQuestsButton.setVisibility(View.INVISIBLE);
@@ -82,7 +90,8 @@ public class CaveFragment extends Fragment {
 
     @OnClick(R.id.hideInCaveButton)
     public void caveButton(){
-        TransitionManager.beginDelayedTransition(mTransitionsContainer, new AutoTransition().setDuration(8000));
+        Log.d(TAG, "caveButton() called");
+        TransitionManager.beginDelayedTransition(mTransitionsContainer, new AutoTransition().setDuration(6000));
         mHideInCaveButton.setClickable(false);
         mHideInCaveButton.setVisibility(View.GONE);
         mExploreForestButton.setVisibility(View.VISIBLE);
@@ -92,7 +101,8 @@ public class CaveFragment extends Fragment {
 
     @OnClick(R.id.exploreForest)
     public void exploreForestButton(){
-        TransitionManager.beginDelayedTransition(mTransitionsContainer, new AutoTransition().setDuration(7000));
+        Log.d(TAG, "exploreForestButton() called");
+        TransitionManager.beginDelayedTransition(mTransitionsContainer, new AutoTransition().setDuration(6000));
         mExploreForestButton.setClickable(false);
         mExploreForestButton.setVisibility(View.GONE);
         mBuildingsButton.setVisibility(View.VISIBLE);
@@ -101,16 +111,19 @@ public class CaveFragment extends Fragment {
         Data.toastMessage(getActivity(),"New Area Discovered");
         Data.OPENFOREST = true;
         Data.OPENBUILDINGS = true;
+        Data.OPENCRAFTING = true;
     }
 
     @OnClick(R.id.buildings)
     public void openBuildings() {
+        Log.d(TAG, "openBuildings() called");
         EventBus.getDefault().post(new ChangeFragmentEvent(new BuildingFragment(), "buildingFragment"));
 
     }
 
     @OnClick(R.id.crafting)
     public void openCrafting() {
+        Log.d(TAG, "openCrafting() called");
         EventBus.getDefault().post(new ChangeFragmentEvent(new CraftingFragment(), "craftingFragment"));
     }
 
@@ -126,6 +139,7 @@ public class CaveFragment extends Fragment {
 
     @Override
     public void onPause() {
+        Log.v(TAG, "onPause() called");
         super.onPause();
         App.saveData("");
     }
