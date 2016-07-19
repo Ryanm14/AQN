@@ -26,7 +26,6 @@ import butterknife.ButterKnife;
 import io.paperdb.Paper;
 import me.ryanmiles.aqn.data.Data;
 import me.ryanmiles.aqn.data.model.Item;
-import me.ryanmiles.aqn.data.model.Loot;
 import me.ryanmiles.aqn.events.ChangeFragmentEvent;
 import me.ryanmiles.aqn.events.ChangeWorldEvent;
 import me.ryanmiles.aqn.events.DataUpdateEvent;
@@ -161,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        for (Loot loot : Data.ALL_LOOT) {
+      /*  for (Loot loot : Data.ALL_LOOT) {
             if (!loot.isDiscovered() && loot.getAmount() > 0) {
                 loot.setDiscovered(true);
             }
@@ -169,6 +168,7 @@ public class MainActivity extends AppCompatActivity {
                 appendStorageTextView(" " + loot.getName() + ": " + loot.getAmount() + " / " + loot.getMax());
             }
         }
+        */
     }
 
     private void appendStorageTextView(String string) {

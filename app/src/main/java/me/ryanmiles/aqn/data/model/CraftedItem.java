@@ -106,6 +106,8 @@ public class CraftedItem extends Object {
             int value = entry.getValue();
             content += (key + ": " + value + "\n");
         }
+        content += "Time needed to complete: " + timeToComplete + " Seconds.";
+        content += "Time needed to complete: " + timeToComplete + " Seconds.";
         return content;
     }
 

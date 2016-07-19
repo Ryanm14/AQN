@@ -186,7 +186,7 @@ public class BuildingFragment extends Fragment {
         //Save to Building Class
         building.setStartTime(System.currentTimeMillis());
         mCurrentBuilding = building;
-
+        Data.BUILDING_NEW_DATA = false;
 
         //Set Views
         mCurrentBuildingTextView.setText("Building: " + building.getName());

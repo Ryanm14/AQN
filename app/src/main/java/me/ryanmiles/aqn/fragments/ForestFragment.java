@@ -50,10 +50,10 @@ public class ForestFragment extends Fragment {
 
     private void updateButtons() {
         Log.d(TAG, "updateButtons() called");
-        if (!Data.STONESWORD.isCrafted()) {
+        //  if (!Data.STONESWORD.isCrafted()) {
             Log.d(TAG, "updateButtons: StoneSword != crafted");
             mHuntButton.setVisibility(View.GONE);
-        }
+        //  }
     }
 
     @Override
@@ -70,20 +70,17 @@ public class ForestFragment extends Fragment {
     public void woodOnClick(){
         Log.v(TAG, "woodOnClick() called");
         Data.WOOD.addIncrement();
-        Data.LEAVES.random();
     }
 
     @OnClick(R.id.stone)
     public void stoneOnClick(){
         Log.v(TAG, "stoneOnClick() called");
         Data.STONE.addIncrement();
-        if (Data.STONEPICK.isCrafted()) {
-            // Data.TIN.random();
-        }
+
     }
 
     @OnClick(R.id.hunt)
     public void huntOnClick() {
-        Data.MEAT.addIncrement();
+        // Data.MEAT.addIncrement();
     }
 }

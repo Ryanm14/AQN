@@ -142,7 +142,7 @@ public class FightFragment extends Fragment {
     }
 
     private void updateQuestStorage() {
-        mQuestStorage.setText("Meat: " + Data.MEAT.getAmount() + "/" + Data.MEAT.getMax());
+        mQuestStorage.setText("Meat: " + Data.FOOD.getAmount() + "/" + Data.FOOD.getMax());
     }
 
     @OnClick(R.id.stab)
@@ -216,8 +216,8 @@ public class FightFragment extends Fragment {
 
     @OnClick(R.id.eat)
     public void onClickEat() {
-        if (Data.MEAT.getAmount() > 0) {
-            Data.MEAT.remove(1);
+        if (Data.FOOD.getAmount() > 0) {
+            Data.FOOD.remove(1);
             if (Data.PLAYER_CURRENT_HEALTH + 3 < Data.PLAYER_MAX_HEALTH) {
                 Data.PLAYER_CURRENT_HEALTH += 3;
             } else {

@@ -5,13 +5,13 @@ import java.util.Random;
 /**
  * Created by Ryan Miles on 5/28/2016.
  */
-public class Loot extends Item {
+public class Loot {
     private int lowRoll = -1;
     private int highRoll = -1;
     private boolean storageDisplay;
     private Random rng;
 
-    public Loot(boolean discovered, int amount, int max, String name, String saved_name, int low, int high, boolean storageDisplay) { //Loot items like copper
+  /*  public Loot(boolean discovered, int amount, int max, String name, String saved_name, int low, int high, boolean storageDisplay) { //Loot items like copper
         super(discovered, amount, max, name, saved_name);
         lowRoll = low;
         highRoll = high;
@@ -85,5 +85,6 @@ public class Loot extends Item {
     public Loot getLoot() {
         return this;
     }
+    */
 
 }

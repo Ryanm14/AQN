@@ -190,7 +190,7 @@ public class CraftingFragment extends Fragment {
         //Save to Building Class
         item.setStartTime(System.currentTimeMillis());
         mCurrentCrafting = item;
-
+        Data.CRAFTING_NEW_DATA = false;
 
         //Set Views
         mCurrentCraftingTextView.setText("Crafting: " + item.getName());

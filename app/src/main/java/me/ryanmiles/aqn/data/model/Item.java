@@ -2,49 +2,33 @@ package me.ryanmiles.aqn.data.model;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.Random;
-
 import me.ryanmiles.aqn.events.DataUpdateEvent;
 
 /**
  * Created by ryanm on 5/7/2016.
  */
 public class Item extends Object {
-    Random rng;
     private int amount;
-    private int increment;
+    private int increment = 0;
     private int max;
-    private int randomChance;
 
-
-    public Item(boolean discovered, int amount, int max, String name, String saved_name, int increment, int randomChance) {
-        super(name, saved_name, discovered);
+    //Wood and Stone and stuff
+    public Item(int amount, int max, String name, String saved_name, int increment) {
+        super(name, saved_name, false);
         this.amount = amount;
         this.increment = increment;
         this.max = max;
-        this.randomChance = randomChance;
-        rng = new Random();
     }
 
-    public Item(boolean discovered, int amount, int max, String name, String saved_name) { //Loot items like copper
-        super(name, saved_name, discovered);
+    //Normal Items
+    public Item(int amount, int max, String name, String saved_name) {
+        super(name, saved_name, false);
         this.amount = amount;
         this.max = max;
     }
 
-    public Item(boolean discovered, String name, String saved_name, int randomChance) { //Loot items like jacket
-        super(name, saved_name, discovered);
-        this.randomChance = randomChance;
-    }
 
 
-    public int getRandomChance() {
-        return randomChance;
-    }
-
-    public void setRandomChance(int randomChance) {
-        this.randomChance = randomChance;
-    }
 
     public int getMax() {
         return max;
@@ -119,13 +103,7 @@ public class Item extends Object {
             updateData("");
         } else {
             amount += increment;
-            updateData();
-        }
-    }
-
-    public void random() {
-        if (rng.nextInt(100) + 1 <= randomChance) {
-            addIncrement();
+            updateData("");
         }
     }
 
@@ -135,6 +113,5 @@ public class Item extends Object {
         setDiscovered(info.isDiscovered());
         increment = info.getIncrement();
         max = info.getMax();
-        randomChance = info.getRandomChance();
     }
 }

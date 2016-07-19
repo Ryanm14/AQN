@@ -86,7 +86,7 @@ public class Place {
     public String getMessage() {
         String message = finished_desc + "\n\nYou found: \n";
         for (Loot loot : mLootList) {
-            message += (loot.roll());
+            // message += (loot.roll());
         }
         message += mCoin.roll();
         postEvent();

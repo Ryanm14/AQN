@@ -34,8 +34,8 @@ public class CaveFragment extends Fragment {
     private static final String TAG = CaveFragment.class.getCanonicalName();
     @BindView(R.id.crafting)
     Button mCraftingButton;
-    @BindView(R.id.stats)
-    Button mStatsButton;
+    @BindView(R.id.village)
+    Button mVillageButton;
     @BindView(R.id.quests)
     Button mQuestsButton;
     @BindView(R.id.buildings)
@@ -73,12 +73,7 @@ public class CaveFragment extends Fragment {
             Data.OPENCRAFTING = false;
             new FadeInAnimation(mCraftingButton).setDuration(5000).animate();
         }
-        if (!Data.STONESWORD.isCrafted()) {
             mQuestsButton.setVisibility(View.INVISIBLE);
-        }
-        if (!Data.COPPER.isDiscovered()) {
-            mStatsButton.setVisibility(View.INVISIBLE);
-        }
         if(Data.FIRSTRUN){
             new FadeInAnimation(mHideInCaveButton).setDuration(5000).animate();
             mBuildingsButton.setVisibility(View.INVISIBLE);
@@ -127,9 +122,9 @@ public class CaveFragment extends Fragment {
         EventBus.getDefault().post(new ChangeFragmentEvent(new CraftingFragment(), "craftingFragment"));
     }
 
-    @OnClick(R.id.stats)
-    public void openStats() {
-        EventBus.getDefault().post(new ChangeFragmentEvent(new PlayerFragment(), "playerFragment"));
+    @OnClick(R.id.village)
+    public void openVillage() {
+        EventBus.getDefault().post(new ChangeFragmentEvent(new VillageFragment(), "villageFragment"));
     }
 
     @OnClick(R.id.quests)

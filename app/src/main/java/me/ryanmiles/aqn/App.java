@@ -15,7 +15,6 @@ import me.ryanmiles.aqn.data.Data;
 import me.ryanmiles.aqn.data.model.Building;
 import me.ryanmiles.aqn.data.model.CraftedItem;
 import me.ryanmiles.aqn.data.model.Item;
-import me.ryanmiles.aqn.data.model.Loot;
 
 /**
  * Created by ryanm on 5/8/2016.
@@ -32,7 +31,7 @@ public class App extends Application {
                 Paper.book().write("ITEMS", Data.ALL_ITEMS);
                 Paper.book().write("BUILDINGS", Data.ALL_BUILDINGS);
                 Paper.book().write("CRAFTED_ITEMS", Data.ALL_CRAFTED_ITEMS);
-                Paper.book().write("LOOT", Data.ALL_LOOT);
+                //  Paper.book().write("LOOT", Data.ALL_LOOT);
                 Paper.book().write("LOG", log);
                 Log.i(TAG, "saveData: Saving");
             }
@@ -68,7 +67,7 @@ public class App extends Application {
             }
         }
 
-        ArrayList<Loot> savedLoot = Paper.book().read("LOOT", new ArrayList<Loot>());
+      /*  ArrayList<Loot> savedLoot = Paper.book().read("LOOT", new ArrayList<Loot>());
         for (Loot loot : Data.ALL_LOOT) {
             for (Loot mSavedLoot : savedLoot) {
                 if (loot.getName().equals(mSavedLoot.getName())) {
@@ -76,6 +75,7 @@ public class App extends Application {
                 }
             }
         }
+        */
     }
 
     @Override

@@ -206,10 +206,10 @@ public class WorldFragment extends Fragment {
     }
 
     private void checkBelow(String value) {
-        switch (value) {
+       /*  switch (value) {
             case "#":
                 break;
-            case "P":
+           case "P":
                 openDialogue(Data.AV.getName(), Data.AV.getDescription(), new ChangeWorldFragmentEvent(Data.AV));
                 break;
             case "V":
@@ -221,6 +221,7 @@ public class WorldFragment extends Fragment {
             case "A":
                 openDialogue(Data.OLD_AVENUE.getName(), Data.OLD_AVENUE.getDescription(), new ChangeWorldFragmentEvent(Data.OLD_AVENUE));
         }
+        */
     }
 
     public void openDialogue(String title, String desc, final ChangeWorldFragmentEvent event) {

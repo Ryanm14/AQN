@@ -14,8 +14,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.ryanmiles.aqn.MainActivity;
 import me.ryanmiles.aqn.R;
-import me.ryanmiles.aqn.data.Data;
-import me.ryanmiles.aqn.data.model.Loot;
 
 /**
  * Created by Ryan Miles on 6/12/2016.
@@ -46,11 +44,12 @@ public class PlayerFragment extends Fragment {
 
     private void setupTextView() {
         textView.setText("Loot:");
-        for (Loot loot : Data.ALL_LOOT) {
+    /*    for (Loot loot : Data.ALL_LOOT) {
             if (loot.isDiscovered() && !loot.isStorageDisplay()) {
                 textView.append("\n" + loot.getName());
             }
         }
+        */
     }
 
     @Override

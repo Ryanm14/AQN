@@ -1,0 +1,23 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    tools:context="me.ryanmiles.aqn.fragments.VillageFragment">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/village_recyclerview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_weight="45">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <TextView
+        android:id="@+id/villageInfoTextView"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp" />
+
+</LinearLayout>

@@ -43,6 +43,10 @@ dependencies {
     compile('com.github.afollestad.material-dialogs:core:0.8.5.8@aar') {
         transitive = true
     }
+    compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
+        transitive = true;
+    }
+    compile 'com.github.2359media:EasyAndroidAnimations:0.8'
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'com.android.support:design:23.4.0'
     compile 'com.android.support:gridlayout-v7:23.4.0'
@@ -51,10 +55,6 @@ dependencies {
     compile 'io.paperdb:paperdb:1.5'
     compile 'com.android.support:support-v4:23.4.0'
     compile 'com.github.2359media:EasyAndroidAnimations:0.8'
-    compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
-        transitive = true;
-    }
-    compile "com.andkulikov:transitionseverywhere:1.6.5"
-    compile 'com.github.2359media:EasyAndroidAnimations:0.8'
+    compile 'com.andkulikov:transitionseverywhere:1.6.5'
     compile 'com.github.jakob-grabner:Circle-Progress-View:v1.2.9'
 }
