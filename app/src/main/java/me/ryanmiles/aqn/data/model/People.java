@@ -1,15 +1,20 @@
 package me.ryanmiles.aqn.data.model;
 
+import android.util.Log;
+
 import org.greenrobot.eventbus.EventBus;
 
+import me.ryanmiles.aqn.data.Data;
+import me.ryanmiles.aqn.events.DataUpdateEvent;
 import me.ryanmiles.aqn.events.updates.UpdateVillageInfo;
 
 /**
  * Created by Ryan Miles on 7/17/2016.
  */
 public class People extends Object {
-    public static int VILLAGE_CURRENT_POPULATION = 0;
-    public static int VILLAGE_MAX_POPULATION = 5;
+    private static final String TAG = People.class.getCanonicalName();
+    public static int VILLAGE_CURRENT_POPULATION;
+    public static int VILLAGE_MAX_POPULATION;
     public static int FOOD_NEEDED = 1;
     private int amount = 0;
     private Item increaseType;
@@ -23,6 +28,23 @@ public class People extends Object {
     public People(String name, String saved_name, Item increaseType) {
         super(name, saved_name, false);
         this.increaseType = increaseType;
+    }
+
+    public static boolean checkFood(double v) {
+        int foodNeeded = FOOD_NEEDED * VILLAGE_CURRENT_POPULATION;
+        Log.v(TAG, "checkFood() called with: " + "v = [" + v + "]" + " foodNeeded = " + foodNeeded + " Current Food = " + Data.FOOD.getAmount() + " RESULT = " + (foodNeeded - Data.FOOD.getAmount() + v));
+        if (Data.FOOD.getAmount() - foodNeeded + v > 0) {
+            Data.FOOD.removeVillage(foodNeeded);
+            return true;
+        } else {
+            Data.FOOD.setAmountVillage(0);
+            return false;
+        }
+    }
+
+    public static void updateAll() {
+        Log.v(TAG, "updateAll()");
+        EventBus.getDefault().post(new DataUpdateEvent(true, ""));
     }
 
     public int getAmount() {
@@ -71,5 +93,15 @@ public class People extends Object {
         People.VILLAGE_CURRENT_POPULATION--;
         amount--;
         updateVillageInfo();
+    }
+
+    public void post() {
+        Log.v(TAG, "post() called with: " + increaseType.getName() + " +" + (int) (increaseAmount * amount));
+        increaseType.addAmountVillage((int) (increaseAmount * amount));
+    }
+
+    public void setInfo(People info) {
+        this.amount = info.getAmount();
+        VILLAGE_CURRENT_POPULATION += amount;
     }
 }

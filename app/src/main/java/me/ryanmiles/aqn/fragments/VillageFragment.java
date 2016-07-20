@@ -2,7 +2,9 @@ package me.ryanmiles.aqn.fragments;
 
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -65,6 +67,8 @@ public class VillageFragment extends Fragment {
         mRecyclerView.setAdapter(new VillageAdapter(getActivity(), Data.PEOPLE_LIST));
         updateVillageInfo();
         EventBus.getDefault().register(this);
+        VillageBackground background = new VillageBackground();
+        background.execute();
         return rootView;
     }
 
@@ -84,4 +88,24 @@ public class VillageFragment extends Fragment {
         actionBar.setDisplayHomeAsUpEnabled(false);
     }
 
+    public class VillageBackground extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... params) {
+            while (true) {
+                SystemClock.sleep(5000);
+                publishProgress();
+            }
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            super.onProgressUpdate(values);
+            if (People.checkFood(Data.FARMER.getIncrease())) {
+                for (People people : Data.PEOPLE_LIST) {
+                    people.post();
+                }
+            }
+            People.updateAll();
+        }
+    }
 }

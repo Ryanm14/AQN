@@ -1,5 +1,7 @@
 package me.ryanmiles.aqn.data.model;
 
+import android.util.Log;
+
 import org.greenrobot.eventbus.EventBus;
 
 import me.ryanmiles.aqn.events.DataUpdateEvent;
@@ -8,6 +10,7 @@ import me.ryanmiles.aqn.events.DataUpdateEvent;
  * Created by ryanm on 5/7/2016.
  */
 public class Item extends Object {
+    private static final String TAG = Item.class.getCanonicalName();
     private int amount;
     private int increment = 0;
     private int max;
@@ -56,6 +59,10 @@ public class Item extends Object {
         updateData(amount);
     }
 
+    public void setAmountVillage(int amount) {
+        this.amount = amount;
+    }
+
     public void remove(int remove) {
         if (amount - remove > 0) {
             amount -= remove;
@@ -63,6 +70,15 @@ public class Item extends Object {
             amount = 0;
         }
         updateData("");
+    }
+
+    public void removeVillage(int remove) {
+        Log.v(TAG, "removeVillage() called with: " + "remove = [" + remove + "]");
+        if (amount - remove > 0) {
+            amount -= remove;
+        } else {
+            amount = 0;
+        }
     }
 
 
@@ -73,6 +89,14 @@ public class Item extends Object {
         } else {
             amount += add;
             updateData(add);
+        }
+    }
+
+    public void addAmountVillage(int add) {
+        if ((add + amount) >= max) {
+            amount = max;
+        } else {
+            amount += add;
         }
     }
 

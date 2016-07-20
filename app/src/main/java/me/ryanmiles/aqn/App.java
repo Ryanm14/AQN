@@ -15,6 +15,7 @@ import me.ryanmiles.aqn.data.Data;
 import me.ryanmiles.aqn.data.model.Building;
 import me.ryanmiles.aqn.data.model.CraftedItem;
 import me.ryanmiles.aqn.data.model.Item;
+import me.ryanmiles.aqn.data.model.People;
 
 /**
  * Created by ryanm on 5/8/2016.
@@ -31,7 +32,8 @@ public class App extends Application {
                 Paper.book().write("ITEMS", Data.ALL_ITEMS);
                 Paper.book().write("BUILDINGS", Data.ALL_BUILDINGS);
                 Paper.book().write("CRAFTED_ITEMS", Data.ALL_CRAFTED_ITEMS);
-                //  Paper.book().write("LOOT", Data.ALL_LOOT);
+                Paper.book().write("VILLAGE", Data.PEOPLE_LIST);
+                Paper.book().write("VILLAGE_MAX", People.VILLAGE_MAX_POPULATION);
                 Paper.book().write("LOG", log);
                 Log.i(TAG, "saveData: Saving");
             }
@@ -67,15 +69,16 @@ public class App extends Application {
             }
         }
 
-      /*  ArrayList<Loot> savedLoot = Paper.book().read("LOOT", new ArrayList<Loot>());
-        for (Loot loot : Data.ALL_LOOT) {
-            for (Loot mSavedLoot : savedLoot) {
-                if (loot.getName().equals(mSavedLoot.getName())) {
-                    loot.setInfo(mSavedLoot);
+        ArrayList<People> savedPeople = Paper.book().read("VILLAGE", new ArrayList<People>());
+        for (People people : Data.PEOPLE_LIST) {
+            for (People mSavedPeople : savedPeople) {
+                if (people.getName().equals(mSavedPeople.getName())) {
+                    people.setInfo(mSavedPeople);
                 }
             }
+
         }
-        */
+        People.VILLAGE_MAX_POPULATION = Paper.book().read("VILLAGE_MAX");
     }
 
     @Override

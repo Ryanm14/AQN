@@ -220,8 +220,10 @@ public class Data {
     //People
 
     public static People FARMER = new People("Farmer", "farmer", true, FOOD);
-    public static ArrayList<People> PEOPLE_LIST = new ArrayList<>(Arrays.asList(FARMER));
-    //Loot
+    public static People LUMBERJACK = new People("Lumberjack", "lumberjack", true, WOOD);
+    public static People MINER = new People("Miner", "miner", true, STONE);
+    public static ArrayList<People> PEOPLE_LIST = new ArrayList<>(Arrays.asList(FARMER, LUMBERJACK, MINER));
+    //Loot6
 
 
     /*   public static Loot COPPER = new Loot(
