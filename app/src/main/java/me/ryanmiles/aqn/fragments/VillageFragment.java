@@ -16,6 +16,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.easyandroidanimations.library.FadeInAnimation;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -39,6 +41,8 @@ public class VillageFragment extends Fragment {
     RecyclerView mRecyclerView;
     @BindView(R.id.villageInfoTextView)
     TextView mVillageInfoTextView;
+    @BindView(R.id.trans_fragment_village)
+    ViewGroup mLayout;
     ActionBar actionBar;
 
     public VillageFragment() {
@@ -72,6 +76,15 @@ public class VillageFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        Log.v(TAG, "setUserVisibleHint() called with: " + "isVisibleToUser = [" + isVisibleToUser + "]");
+        if (isVisibleToUser && Data.OPENVILLAGE) {
+            Data.OPENVILLAGE = false;
+            new FadeInAnimation(mLayout).setDuration(5000).animate();
+        }
+    }
     private void updateVillageInfo() {
         mVillageInfoTextView.setText("Village Info:\nMax Population: " + People.VILLAGE_MAX_POPULATION + "\nCurrent Population: " + People.VILLAGE_CURRENT_POPULATION + "\n\nFood per 5 Secs: " + People.FOOD_NEEDED * People.VILLAGE_CURRENT_POPULATION);
     }

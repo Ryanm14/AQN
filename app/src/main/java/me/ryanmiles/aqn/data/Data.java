@@ -23,7 +23,6 @@ import me.ryanmiles.aqn.events.UpdateEvent;
 public class Data {
 
 
-
     public static boolean CRAFTING_NEW_DATA = false;
     public static boolean BUILDING_NEW_DATA = false;
 
@@ -32,6 +31,7 @@ public class Data {
     public static boolean FIRSTRUN = false;
     public static boolean OPENBUILDINGS = false;
     public static boolean OPENCRAFTING = false;
+    public static boolean OPENVILLAGE = false;
 
     //ITEMS
     public static Item WOOD = new Item(
@@ -94,8 +94,8 @@ public class Data {
      );
      */
     public static Building FOUNDATION = new Building(
-            "Depository",
-            "depository",
+            "Foundation",
+            "foundation",
             new HashMap<Item, Integer>() {{
                 put(STONE, 70);
             }},
@@ -127,7 +127,7 @@ public class Data {
     );
 
 
-    public static ArrayList<Building> ALL_BUILDINGS = new ArrayList<>(Arrays.asList(WORKSHOP, TOOLBENCH, DEPOSITORY));
+    public static ArrayList<Building> ALL_BUILDINGS = new ArrayList<>(Arrays.asList(WORKSHOP, TOOLBENCH, DEPOSITORY, FOUNDATION));
 
 
 

@@ -107,7 +107,6 @@ public class CraftedItem extends Object {
             content += (key + ": " + value + "\n");
         }
         content += "Time needed to complete: " + timeToComplete + " Seconds.";
-        content += "Time needed to complete: " + timeToComplete + " Seconds.";
         return content;
     }
 

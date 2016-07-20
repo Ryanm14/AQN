@@ -73,6 +73,13 @@ public class CaveFragment extends Fragment {
             Data.OPENCRAFTING = false;
             new FadeInAnimation(mCraftingButton).setDuration(5000).animate();
         }
+
+        if (!Data.FOUNDATION.isBuilt()) {
+            mVillageButton.setVisibility(View.INVISIBLE);
+        } else if (Data.OPENVILLAGE) {
+            Data.OPENVILLAGE = false;
+            new FadeInAnimation(mVillageButton).setDuration(5000).animate();
+        }
             mQuestsButton.setVisibility(View.INVISIBLE);
         if(Data.FIRSTRUN){
             new FadeInAnimation(mHideInCaveButton).setDuration(5000).animate();
@@ -107,6 +114,7 @@ public class CaveFragment extends Fragment {
         Data.OPENFOREST = true;
         Data.OPENBUILDINGS = true;
         Data.OPENCRAFTING = true;
+        Data.OPENVILLAGE = true;
     }
 
     @OnClick(R.id.buildings)
