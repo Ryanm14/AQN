@@ -23,7 +23,6 @@ import me.ryanmiles.aqn.MainActivity;
 import me.ryanmiles.aqn.R;
 import me.ryanmiles.aqn.data.Data;
 import me.ryanmiles.aqn.events.ChangeFragmentEvent;
-import me.ryanmiles.aqn.events.ChangeWorldEvent;
 import me.ryanmiles.aqn.events.updates.UpdateTabHost;
 
 /**
@@ -36,8 +35,8 @@ public class CaveFragment extends Fragment {
     Button mCraftingButton;
     @BindView(R.id.village)
     Button mVillageButton;
-    @BindView(R.id.quests)
-    Button mQuestsButton;
+    @BindView(R.id.research)
+    Button mResearchButton;
     @BindView(R.id.buildings)
     Button mBuildingsButton;
     @BindView(R.id.hideInCaveButton)
@@ -67,6 +66,7 @@ public class CaveFragment extends Fragment {
     private void updateButtons() {
         Log.d(TAG, "updateButtons() called");
         mExploreForestButton.setVisibility(View.GONE);
+
         if (!Data.TOOLBENCH.isBuilt()) {
             mCraftingButton.setVisibility(View.INVISIBLE);
         } else if (Data.OPENCRAFTING) {
@@ -74,19 +74,27 @@ public class CaveFragment extends Fragment {
             new FadeInAnimation(mCraftingButton).setDuration(5000).animate();
         }
 
+
         if (!Data.FOUNDATION.isBuilt()) {
             mVillageButton.setVisibility(View.INVISIBLE);
         } else if (Data.OPENVILLAGE) {
             Data.OPENVILLAGE = false;
             new FadeInAnimation(mVillageButton).setDuration(5000).animate();
         }
-            mQuestsButton.setVisibility(View.INVISIBLE);
+
         if(Data.FIRSTRUN){
             new FadeInAnimation(mHideInCaveButton).setDuration(5000).animate();
-            mBuildingsButton.setVisibility(View.INVISIBLE);
+            mResearchButton.setVisibility(View.INVISIBLE);
             Data.FIRSTRUN = false;
         }else{
             mHideInCaveButton.setVisibility(View.GONE);
+        }
+
+        if (!Data.BUILDING.isResearched()) {
+            mBuildingsButton.setVisibility(View.INVISIBLE);
+        } else if (Data.OPENBUILDINGS) {
+            Data.OPENBUILDINGS = false;
+            new FadeInAnimation(mBuildingsButton).setDuration(5000).animate();
         }
     }
 
@@ -107,7 +115,7 @@ public class CaveFragment extends Fragment {
         TransitionManager.beginDelayedTransition(mTransitionsContainer, new AutoTransition().setDuration(6000));
         mExploreForestButton.setClickable(false);
         mExploreForestButton.setVisibility(View.GONE);
-        mBuildingsButton.setVisibility(View.VISIBLE);
+        mResearchButton.setVisibility(View.VISIBLE);
         EventBus.getDefault().post(new UpdateTabHost("Forest"));
         Data.postLogText("The early sun blinds your eyes as you walk out... There are plentiful sticks and stones around.\n");
         Data.toastMessage(getActivity(),"New Area Discovered");
@@ -115,6 +123,7 @@ public class CaveFragment extends Fragment {
         Data.OPENBUILDINGS = true;
         Data.OPENCRAFTING = true;
         Data.OPENVILLAGE = true;
+        Data.OPENRESEARCH = true;
     }
 
     @OnClick(R.id.buildings)
@@ -135,9 +144,9 @@ public class CaveFragment extends Fragment {
         EventBus.getDefault().post(new ChangeFragmentEvent(new VillageFragment(), "villageFragment"));
     }
 
-    @OnClick(R.id.quests)
-    public void openWorld() {
-        EventBus.getDefault().post(new ChangeWorldEvent());
+    @OnClick(R.id.research)
+    public void openResearch() {
+        EventBus.getDefault().post(new ChangeFragmentEvent(new ResearchFragment(), "researchFragment"));
     }
 
     @Override

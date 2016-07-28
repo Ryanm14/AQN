@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:CircleProgressView="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="20dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/craft_text"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:layout_marginTop="10dp"
+        android:text="Research:"
+        android:textStyle="bold" />
+
+    <ScrollView
+        android:id="@+id/research_fragment_scroll_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/craft_text"
+        android:fillViewport="true"
+        android:scrollbars="vertical">
+
+        <LinearLayout
+            android:id="@+id/research_fragment_linear_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"></LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_margin="15dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/current_research_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            tools:text="Current Building: Tent" />
+
+        <at.grabner.circleprogress.CircleProgressView
+            android:id="@+id/circleView_research"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            CircleProgressView:cpv_autoTextSize="true"
+            CircleProgressView:cpv_barWidth="35dp"
+            CircleProgressView:cpv_contourSize="0dp"
+            CircleProgressView:cpv_rimWidth="35dp"
+            CircleProgressView:cpv_showUnit="true"
+            CircleProgressView:cpv_textScale="1"
+            CircleProgressView:cpv_unit="%"
+            CircleProgressView:cpv_unitPosition="right_top"
+            CircleProgressView:cpv_unitScale="1" />
+
+        <Button
+            android:id="@+id/complete_button_research"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_shape"
+            android:text="Complete" />
+    </LinearLayout>
+</RelativeLayout>

@@ -14,6 +14,7 @@ import me.ryanmiles.aqn.data.model.Coordinate;
 import me.ryanmiles.aqn.data.model.CraftedItem;
 import me.ryanmiles.aqn.data.model.Item;
 import me.ryanmiles.aqn.data.model.People;
+import me.ryanmiles.aqn.data.model.Research;
 import me.ryanmiles.aqn.events.LogUpdateEvent;
 import me.ryanmiles.aqn.events.UpdateEvent;
 
@@ -23,8 +24,10 @@ import me.ryanmiles.aqn.events.UpdateEvent;
 public class Data {
 
 
+
     public static boolean CRAFTING_NEW_DATA = false;
     public static boolean BUILDING_NEW_DATA = false;
+    public static boolean RESEARCH_NEW_DATA = false;
 
     //Save
     public static boolean OPENFOREST = false;
@@ -32,6 +35,7 @@ public class Data {
     public static boolean OPENBUILDINGS = false;
     public static boolean OPENCRAFTING = false;
     public static boolean OPENVILLAGE = false;
+    public static boolean OPENRESEARCH = false;
 
     //ITEMS
     public static Item WOOD = new Item(
@@ -216,7 +220,10 @@ public class Data {
     );
     */
 
+    public static Research BUILDING = new Research("Building", "building", true, null, 20);
+
     public static ArrayList<CraftedItem> ALL_CRAFTED_ITEMS = new ArrayList<>(Arrays.asList(BASICHAMMER, BASICHATCHET, FLOORPLANS));
+    public static ArrayList<Research> ALL_RESEARCH = new ArrayList<>(Arrays.asList(BUILDING));
     //People
 
     public static People FARMER = new People("Farmer", "farmer", true, FOOD);

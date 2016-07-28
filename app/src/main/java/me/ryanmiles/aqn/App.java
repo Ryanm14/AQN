@@ -16,6 +16,7 @@ import me.ryanmiles.aqn.data.model.Building;
 import me.ryanmiles.aqn.data.model.CraftedItem;
 import me.ryanmiles.aqn.data.model.Item;
 import me.ryanmiles.aqn.data.model.People;
+import me.ryanmiles.aqn.data.model.Research;
 
 /**
  * Created by ryanm on 5/8/2016.
@@ -35,6 +36,7 @@ public class App extends Application {
                 Paper.book().write("VILLAGE", Data.PEOPLE_LIST);
                 Paper.book().write("VILLAGE_MAX", People.VILLAGE_MAX_POPULATION);
                 Paper.book().write("LOG", log);
+                Paper.book().write("RESEARCH", Data.ALL_RESEARCH);
                 Log.i(TAG, "saveData: Saving");
             }
         });
@@ -78,6 +80,16 @@ public class App extends Application {
             }
 
         }
+
+        ArrayList<Research> savedResearch = Paper.book().read("RESEARCH", new ArrayList<Research>());
+        for (Research research : Data.ALL_RESEARCH) {
+            for (Research mSavedResearch : savedResearch) {
+                if (research.getName().equals(mSavedResearch.getName())) {
+                    research.setInfo(mSavedResearch);
+                }
+            }
+
+        }
         People.VILLAGE_MAX_POPULATION = Paper.book().read("VILLAGE_MAX");
     }
 
@@ -100,6 +112,7 @@ public class App extends Application {
         }
         Data.BUILDING_NEW_DATA = true;
         Data.CRAFTING_NEW_DATA = true;
+        Data.RESEARCH_NEW_DATA = true;
     }
 
 

@@ -54,11 +54,11 @@
 
 
         <Button
-            android:id="@+id/quests"
+            android:id="@+id/research"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@drawable/button_shape"
-            android:text="Quests"
+            android:text="Research"
             app:layout_column="1"
             app:layout_columnWeight="1"
             app:layout_row="1"
