@@ -43,7 +43,7 @@ public class People extends Object {
     }
 
     public static void updateAll() {
-        Log.v(TAG, "updateAll()");
+        Log.v(TAG, "updateAll(): ");
         EventBus.getDefault().post(new DataUpdateEvent(true, ""));
     }
 
@@ -103,5 +103,15 @@ public class People extends Object {
     public void setInfo(People info) {
         this.amount = info.getAmount();
         VILLAGE_CURRENT_POPULATION += amount;
+    }
+
+    @Override
+    public String toString() {
+        return "People{" +
+                "name = " + getName() +
+                ", amount=" + amount +
+                ", increaseType=" + increaseType +
+                ", increaseAmount=" + increaseAmount +
+                '}';
     }
 }

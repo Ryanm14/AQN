@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import me.ryanmiles.aqn.events.updates.UpdateTabHost;
  * Created by ryanm on 5/7/2016.
  */
 public class ViewPagerFragment extends Fragment {
+    private static final String TAG = ViewPagerFragment.class.getCanonicalName();
     @BindView(R.id.tab_layout)
     TabLayout mTabLayout;
     @BindView(R.id.viewPager)
@@ -32,18 +34,23 @@ public class ViewPagerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        Log.d(TAG, "onCreateView: ");
         View root = inflater.inflate(R.layout.view_pager_fragment, container, false);
         ButterKnife.bind(this,root);
         if(!Data.FIRSTRUN) {
             mTabLayout.addTab(mTabLayout.newTab().setText("Cave"));
             mTabLayout.addTab(mTabLayout.newTab().setText("Forest"));
-        }else{
+        }
+        if (Data.FOUNDATION.isBuilt()) {
+            mTabLayout.addTab(mTabLayout.newTab().setText("Village"));
+        }
+        if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
         }
+
         mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         PagerAdapter adapter = new PagerAdapter
-                (getChildFragmentManager(), 2);
+                (getChildFragmentManager(), 3);
         mViewPager.setAdapter(adapter);
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
         mTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

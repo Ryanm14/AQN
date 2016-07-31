@@ -26,6 +26,7 @@ public class Research extends Object {
         super(name, saved_name, false);
         this.event = event;
         this.timeToComplete = timeToComplete;
+
     }
 
     public UpdateEvent getEvent() {
@@ -93,6 +94,7 @@ public class Research extends Object {
             event.post();
         }
         setDiscovered(false);
+        readyForCompletion = false;
         beingResearched = false;
         researched = true;
     }
@@ -108,7 +110,6 @@ public class Research extends Object {
     public void setInfo(Research info) {
         setDiscovered(info.isDiscovered());
         setResearched(info.isResearched());
-        timeToComplete = info.getTimeToComplete();
         currentProgress = info.getCurrentProgress();
         beingResearched = info.isBeingResearched();
         startTime = info.getStartTime();

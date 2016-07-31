@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 
@@ -24,8 +25,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.ryanmiles.aqn.R;
+import me.ryanmiles.aqn.WorldActivity;
 import me.ryanmiles.aqn.data.Data;
+import me.ryanmiles.aqn.data.Places;
 import me.ryanmiles.aqn.data.model.Coordinate;
+import me.ryanmiles.aqn.data.model.Place;
 import me.ryanmiles.aqn.events.ChangeWorldFragmentEvent;
 
 /**
@@ -39,6 +43,8 @@ public class WorldFragment extends Fragment {
 
     @BindView(R.id.world_fragment_area_text_view)
     TextView mAreaTextView;
+    @BindView(R.id.world_fragment_storage_text_view)
+    TextView mStorageTextView;
 
     public WorldFragment() {
     }
@@ -69,6 +75,13 @@ public class WorldFragment extends Fragment {
         return rootview;
     }
 
+    private void updateItems() {
+        mStorageTextView.setText("Water: " + WorldActivity.water_count + "/" + Data.WATER.getMax() + "  Food: " + WorldActivity.food_count + "/" + Data.FOOD.getMax());
+        if (WorldActivity.water_count <= 0) {
+            Toast.makeText(getActivity(), "Out of Water!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     private void fixBug() {
         for (Coordinate mCoord : mCoords) {
             if (mCoord.getValue().equals("O")) {
@@ -86,62 +99,66 @@ public class WorldFragment extends Fragment {
 
     @OnClick(R.id.world_fragment_right_button)
     public void right() {
-        if (mCurrentCord.getX() < WORLD_RADIUS) {
+        if (mCurrentCord.getX() < WORLD_RADIUS && WorldActivity.water_count > 0) {
             Coordinate newCord;
             mCurrentCord.getX();
             newCord = findCord(mCurrentCord.getX() + 1, mCurrentCord.getY());
             mCurrentCord.revertOldValue();
             newCord.changeValue("O");
             mCurrentCord = newCord;
+            WorldActivity.water_count--;
             update();
+        } else {
+            updateItems();
         }
     }
 
     @OnClick(R.id.world_fragment_left_button)
     public void left() {
-        if (mCurrentCord.getX() - 1 > 0) {
+        if (mCurrentCord.getX() - 1 > 0 && WorldActivity.water_count > 0) {
             Coordinate newCord;
             mCurrentCord.getX();
             newCord = findCord(mCurrentCord.getX() - 1, mCurrentCord.getY());
             mCurrentCord.revertOldValue();
             newCord.changeValue("O");
             mCurrentCord = newCord;
+            WorldActivity.water_count--;
             update();
+        } else {
+            updateItems();
         }
     }
 
     @OnClick(R.id.world_fragment_up_button)
     public void up() {
-        if (mCurrentCord.getY() - 1 > 0) {
+        if (mCurrentCord.getY() - 1 > 0 && WorldActivity.water_count > 0) {
             Coordinate newCord;
             mCurrentCord.getX();
             newCord = findCord(mCurrentCord.getX(), mCurrentCord.getY() - 1);
             mCurrentCord.revertOldValue();
             newCord.changeValue("O");
             mCurrentCord = newCord;
+            WorldActivity.water_count--;
             update();
+        } else {
+            updateItems();
         }
     }
 
     @OnClick(R.id.world_fragment_down_button)
     public void down() {
-        if (mCurrentCord.getY() < WORLD_RADIUS / 2) {
+        if (mCurrentCord.getY() < WORLD_RADIUS / 2 && WorldActivity.water_count > 0) {
             Coordinate newCord;
             mCurrentCord.getX();
             newCord = findCord(mCurrentCord.getX(), mCurrentCord.getY() + 1);
             mCurrentCord.revertOldValue();
             newCord.changeValue("O");
             mCurrentCord = newCord;
+            WorldActivity.water_count--;
             update();
-            boolean c = false;
-            for (Coordinate mCoord : mCoords) {
-                if (mCoord.getValue().equals("P")) {
-                    c = true;
-                }
-            }
-            if (!c) {
-                update();
-            }
+
+        } else {
+            updateItems();
         }
     }
 
@@ -189,6 +206,7 @@ public class WorldFragment extends Fragment {
     }
 
     private void update() {
+        updateItems();
         mAreaTextView.setText("");
         String add = "";
         add += mCoords.get(0).getValue();
@@ -206,38 +224,64 @@ public class WorldFragment extends Fragment {
     }
 
     private void checkBelow(String value) {
-       /*  switch (value) {
+        switch (value) {
             case "#":
                 break;
-           case "P":
-                openDialogue(Data.AV.getName(), Data.AV.getDescription(), new ChangeWorldFragmentEvent(Data.AV));
-                break;
-            case "V":
-                openDialogue(Data.DV.getName(), Data.DV.getDescription(), new ChangeWorldFragmentEvent(Data.DV));
-                break;
             case "C":
-                openDialogue(Data.CAVE.getName(), Data.CAVE.getDescription(), new ChangeWorldFragmentEvent(Data.CAVE));
+                openDialogue(Places.COAL_MINE);
                 break;
-            case "A":
-                openDialogue(Data.OLD_AVENUE.getName(), Data.OLD_AVENUE.getDescription(), new ChangeWorldFragmentEvent(Data.OLD_AVENUE));
         }
-        */
+
     }
 
-    public void openDialogue(String title, String desc, final ChangeWorldFragmentEvent event) {
+    public void openDialogue(final Place place) {
+        if (!place.isCompleted()) {
+            new AlertDialogWrapper.Builder(getActivity())
+                    .setTitle("Go to: " + place.getName())
+                    .setMessage(place.getDesc())
+                    .setCancelable(false)
+                    .setPositiveButton("Travel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (place.getCreatureList() != null) {
+                                EventBus.getDefault().post(new ChangeWorldFragmentEvent(place));
+                            } else {
+                                openFinishedDialog(place);
+                            }
+                        }
+                    })
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .show();
+        } else {
+            new AlertDialogWrapper.Builder(getActivity())
+                    .setTitle("Go to: " + place.getName())
+                    .setMessage("Already completed!")
+                    .setCancelable(false)
+                    .setNegativeButton("Dismiss", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .show();
+        }
+    }
+
+    private void openFinishedDialog(final Place place) {
+
         new AlertDialogWrapper.Builder(getActivity())
-                .setTitle(title)
-                .setMessage(desc)
+                .setTitle("Completed: " + place.getName())
+                .setMessage(place.getFinishedDesc())
                 .setCancelable(false)
-                .setPositiveButton("Travel", new DialogInterface.OnClickListener() {
+                .setNegativeButton("Dismiss", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        EventBus.getDefault().post(event);
-                    }
-                })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                        place.postEvent();
                         dialog.dismiss();
                     }
                 })

@@ -32,6 +32,7 @@ public class CraftedItem extends Object {
         this.required = required;
         this.event = event;
         this.timeToComplete = timeToComplete;
+
     }
 
     public int getTimeToComplete() {
@@ -134,6 +135,7 @@ public class CraftedItem extends Object {
             event.post();
         }
         setDiscovered(false);
+        readyForCompletion = false;
         beingCrafted = false;
         crafted = true;
     }

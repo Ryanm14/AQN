@@ -26,6 +26,8 @@ import me.ryanmiles.aqn.fragments.WorldFragment;
  * Created by ryanm on 5/23/2016.
  */
 public class WorldActivity extends AppCompatActivity {
+    public static int water_count = 0;
+    public static int food_count = 0;
     WorldFragment mWorldFragment;
     Place mPlace;
     int mCurrentCreaturePos;
@@ -40,6 +42,8 @@ public class WorldActivity extends AppCompatActivity {
                 .add(R.id.frame_layout, mWorldFragment)
                 .commit();
         mCurrentCreaturePos = 0;
+        water_count = Data.WATER.getAmount();
+        food_count = Data.FOOD.getAmount();
     }
 
     @Subscribe
@@ -52,13 +56,14 @@ public class WorldActivity extends AppCompatActivity {
     @Subscribe
     public void onEvent(PlayerDead event) {
         startActivity(new Intent(WorldActivity.this, MainActivity.class));
+        finish();
     }
 
     private void openFightFragment(Creature creature) {
         FragmentManager trans = getSupportFragmentManager();
         trans.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .replace(R.id.frame_layout, FightFragment.newInstance(creature.getName(), creature.getHealth(), creature.getDamage()))
+                .replace(R.id.frame_layout, FightFragment.newInstance(creature.getName(), creature.getHealth(), creature.getDamage(), creature.getAttackspeed()))
                 .commit();
         trans.popBackStack();
     }
@@ -69,6 +74,7 @@ public class WorldActivity extends AppCompatActivity {
         if (mCurrentCreaturePos < mPlace.getCreatureList().size()) {
             openFightFragment(mPlace.getCreatureList().get(mCurrentCreaturePos));
         } else {
+            mPlace.postEvent();
             FragmentManager trans = getSupportFragmentManager();
             trans.beginTransaction()
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
@@ -77,7 +83,7 @@ public class WorldActivity extends AppCompatActivity {
             new AlertDialogWrapper.Builder(this)
                     .setTitle("Completed: " + mPlace.getName())
                     .setCancelable(false)
-                    .setMessage(mPlace.getMessage())
+                    .setMessage(mPlace.getFinishedDesc())
                     .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {

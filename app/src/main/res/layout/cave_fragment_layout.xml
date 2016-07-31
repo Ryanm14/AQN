@@ -42,11 +42,11 @@
             app:layout_rowWeight="1" />
 
         <Button
-            android:id="@+id/village"
+            android:id="@+id/world"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@drawable/button_shape"
-            android:text="Village"
+            android:text="World"
             app:layout_column="0"
             app:layout_columnWeight="1"
             app:layout_row="1"

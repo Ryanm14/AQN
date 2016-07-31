@@ -10,53 +10,26 @@ import me.ryanmiles.aqn.events.UpdateEvent;
  */
 public class Place {
     private String name;
-    private String description;
-    private String finished_desc;
-    private ArrayList<Creature> mCreatureList;
-    private ArrayList<Loot> mLootList;
-    private Coin mCoin;
+    private String desc;
+    private String finishedDesc;
+    private List<Creature> creatureList;
+    private boolean completed = false;
     private UpdateEvent mEvent;
 
-    public Place(String name, String description, String finished_desc, List<Creature> mCreatureList, List<Loot> mLootList, Coin coin, UpdateEvent mEvent) {
+    public Place(String name, String desc, String finishedDesc, List<Creature> creatureList, UpdateEvent mEvent) {
         this.name = name;
-        this.description = description;
-        this.finished_desc = finished_desc;
-        this.mCreatureList = new ArrayList<>(mCreatureList);
-        this.mLootList = new ArrayList<>(mLootList);
+        this.desc = desc;
+        this.creatureList = creatureList;
+        this.finishedDesc = finishedDesc;
         this.mEvent = mEvent;
-        mCoin = coin;
     }
 
-    public String getFinished_desc() {
-        return finished_desc;
+    public String getFinishedDesc() {
+        return finishedDesc;
     }
 
-    public void setFinished_desc(String finished_desc) {
-        this.finished_desc = finished_desc;
-    }
-
-    public ArrayList<Creature> getCreatureList() {
-        return mCreatureList;
-    }
-
-    public void setCreatureList(ArrayList<Creature> creatureList) {
-        mCreatureList = creatureList;
-    }
-
-    public ArrayList<Loot> getLootList() {
-        return mLootList;
-    }
-
-    public void setLootList(ArrayList<Loot> lootList) {
-        mLootList = lootList;
-    }
-
-    public Coin getCoin() {
-        return mCoin;
-    }
-
-    public void setCoin(Coin coin) {
-        mCoin = coin;
+    public void setFinishedDesc(String finishedDesc) {
+        this.finishedDesc = finishedDesc;
     }
 
     public String getName() {
@@ -67,36 +40,46 @@ public class Place {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDesc() {
+        return desc;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 
-    public UpdateEvent getEvent() {
+    public boolean isCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
+    }
+
+    public UpdateEvent getmEvent() {
         return mEvent;
     }
 
-    public void setEvent(UpdateEvent event) {
-        mEvent = event;
+    public void setmEvent(UpdateEvent mEvent) {
+        this.mEvent = mEvent;
     }
 
-    public String getMessage() {
-        String message = finished_desc + "\n\nYou found: \n";
-        for (Loot loot : mLootList) {
-            // message += (loot.roll());
-        }
-        message += mCoin.roll();
-        postEvent();
-        return message;
-    }
-
-    private void postEvent() {
+    public void postEvent() {
         if (mEvent != null) {
             mEvent.post();
         }
+        completed = true;
+    }
 
+    public void setInfo(Place info) {
+        completed = info.isCompleted();
+    }
+
+    public List<Creature> getCreatureList() {
+        return creatureList;
+    }
+
+    public void setCreatureList(ArrayList<Creature> creatureList) {
+        this.creatureList = creatureList;
     }
 }

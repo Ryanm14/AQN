@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/trans_container_forest_fragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-    android:id="@+id/trans_container_forest_fragment">
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/gather_text"
         android:layout_width="50dp"
         android:layout_height="25dp"
+        android:layout_margin="10dp"
         android:text="Gather:"
-        android:textStyle="bold"
-        android:layout_margin="10dp"/>
+        android:textStyle="bold" />
 
     <LinearLayout
         android:id="@+id/first_two"
@@ -39,22 +39,22 @@
             android:text="Stone"/>
 
         <Button
-            android:id="@+id/dirty_water"
+            android:id="@+id/water"
             style="@drawable/button_shape"
             android:layout_width="125dp"
             android:layout_height="50dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/buttonselector"
-            android:text="Dirty Water"/>
+            android:text="Water" />
 
 
         <Button
-            android:id="@+id/hunt"
+            android:id="@+id/gather_food"
             android:layout_width="125dp"
             android:layout_height="50dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/buttonselector"
-            android:text="Hunt"/>
+            android:text="Food" />
     </LinearLayout>
 
 

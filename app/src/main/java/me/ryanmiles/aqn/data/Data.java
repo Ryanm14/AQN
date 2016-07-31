@@ -23,8 +23,6 @@ import me.ryanmiles.aqn.events.UpdateEvent;
  */
 public class Data {
 
-
-
     public static boolean CRAFTING_NEW_DATA = false;
     public static boolean BUILDING_NEW_DATA = false;
     public static boolean RESEARCH_NEW_DATA = false;
@@ -54,26 +52,50 @@ public class Data {
             1
     );
 
-    public static Item HIDE = new Item(
+    public static Item WATER = new Item(
             0,
-            25,
-            "Hide",
-            "hide",
+            10,
+            "Water",
+            "water",
             1
     );
 
     public static Item FOOD = new Item(
             0,
-            35,
-            "Meat",
-            "meat",
+            5,
+            "Food",
+            "food",
             1
     );
 
 
-    public static ArrayList<Item> ALL_ITEMS = new ArrayList<>(Arrays.asList(WOOD, STONE, HIDE, FOOD));
+    public static ArrayList<Item> ALL_ITEMS = new ArrayList<>(Arrays.asList(WOOD, STONE, WATER, FOOD));
 
     //BUILDINGS
+    public static Research ADVENTURE = new Research("Adventure", "adventure", null, 300);
+    public static Research HOUSING = new Research("Housing", "housing", new UpdateEvent().setDiscoveredEvent(ADVENTURE), 120);
+    public static Building FOUNDATION = new Building(
+            "Foundation",
+            "foundation",
+            new HashMap<Item, Integer>() {{
+                put(STONE, 20);
+                put(WOOD, 20);
+            }},
+            true,
+            2,
+            new UpdateEvent().setDiscoveredEvent(HOUSING).updateTabHost("Village")
+    );
+
+    public static Building GRANARY = new Building(
+            "Granary",
+            "granary",
+            new HashMap<Item, Integer>() {{
+                put(WOOD, 80);
+                put(STONE, 40);
+            }},
+            90,
+            new UpdateEvent().setDiscoveredEvent(FOUNDATION).setChangeMaxEvent(FOOD, 10)
+    );
 
     public static Building DEPOSITORY = new Building(
             "Depository",
@@ -82,8 +104,8 @@ public class Data {
                 put(STONE, 35);
                 put(WOOD, 35);
             }},
-            100,
-            new UpdateEvent().setChangeMaxEvent(WOOD, 100).setChangeMaxEvent(STONE, 100)
+            60,
+            new UpdateEvent().setChangeMaxEvent(WOOD, 100).setChangeMaxEvent(STONE, 100).setDiscoveredEvent(GRANARY)
     );
 
     /* public static Building SHACK = new Building(
@@ -97,42 +119,6 @@ public class Data {
              null
      );
      */
-    public static Building FOUNDATION = new Building(
-            "Foundation",
-            "foundation",
-            new HashMap<Item, Integer>() {{
-                put(STONE, 70);
-            }},
-            145,
-            null
-    );
-
-
-    public static Building TOOLBENCH = new Building(
-            "Toolbench",
-            "toolbench",
-            new HashMap<Item, Integer>() {{
-                put(WOOD, 45);
-            }},
-            35,
-            new UpdateEvent().setDiscoveredEvent(DEPOSITORY)
-    );
-
-    public static Building WORKSHOP = new Building(
-            "Workshop", //Name
-            "workshop", //Saved Name
-            new HashMap<Item, Integer>() {{ //Required Items
-                put(WOOD, 20);
-                put(STONE, 10);
-            }},
-            true, //IsDiscovered
-            35,
-            new UpdateEvent().setDiscoveredEvent(TOOLBENCH)
-    );
-
-
-    public static ArrayList<Building> ALL_BUILDINGS = new ArrayList<>(Arrays.asList(WORKSHOP, TOOLBENCH, DEPOSITORY, FOUNDATION));
-
 
 
     //CRAFTED_ITEMS
@@ -143,20 +129,10 @@ public class Data {
                 put(WOOD, 30);
                 put(STONE, 30);
             }},
-            true,
             new UpdateEvent().setAddIncrementEvent(WOOD, 2),
             60
     );
-    public static CraftedItem FLOORPLANS = new CraftedItem(
-            "Floor Plans",
-            "floor_plans",
-            new HashMap<Item, Integer>() {{
-                put(WOOD, 5);
-            }},
-            true,
-            new UpdateEvent().setDiscoveredEvent(FOUNDATION),
-            200
-    );
+
 
     public static CraftedItem BASICPICK = new CraftedItem(
             "Basic Pick",
@@ -165,150 +141,69 @@ public class Data {
                 put(WOOD, 30);
                 put(STONE, 45);
             }},
-            true,
+            new UpdateEvent().setAddIncrementEvent(STONE, 2),
+            60
+    );
+
+    public static Building TOOLBENCH = new Building(
+            "Toolbench",
+            "toolbench",
+            new HashMap<Item, Integer>() {{
+                put(WOOD, 30);
+            }},
+            60,
+            new UpdateEvent().setDiscoveredEvent(BASICHATCHET).setDiscoveredEvent(BASICPICK)
+    );
+
+    public static Building WORKSHOP = new Building(
+            "Workshop", //Name
+            "workshop", //Saved Name
+            new HashMap<Item, Integer>() {{ //Required Items
+                put(WOOD, 20);
+                put(STONE, 10);
+            }},
+            true, //IsDiscovered
+            30,
+            new UpdateEvent().setDiscoveredEvent(TOOLBENCH)
+    );
+
+    public static CraftedItem FLASK = new CraftedItem(
+            "Flask",
+            "flask",
+            new HashMap<Item, Integer>() {{
+                put(WOOD, 30);
+            }},
             null,
             60
     );
 
-    public static CraftedItem BASICHAMMER = new CraftedItem(
-            "Basic Hammer",
-            "basic_hammer",
-            new HashMap<Item, Integer>() {{
-                put(WOOD, 35);
-                put(STONE, 40);
-            }},
-            true,
-            new UpdateEvent().setDiscoveredEvent(DEPOSITORY).setDiscoveredEvent(FLOORPLANS).setDiscoveredEvent(BASICPICK),
-            45
-    );
-
-
-
-
-
-   /* public static CraftedItem COPPERPICK = new CraftedItem(
-            "Copper Pickaxe",
-            "Copper_pickaxe",
-            new HashMap<Item, Integer>() {{
-                put(WOOD, 25);
-                put(REFINED_COPPER, 7);
-            }},
-            new UpdateEvent().setAddIncrementEvent(STONE, 5),
-            125
-    );
-
-    public static CraftedItem COPPERAXE = new CraftedItem(
-            "Copper Axe",
-            "Copper_axe",
-            new HashMap<Item, Integer>() {{
-                put(WOOD, 30);
-                put(REFINED_COPPER, 5);
-            }},
-            new UpdateEvent().setAddIncrementEvent(WOOD, 5),
-            125
-    );
-
-    public static CraftedItem COPPERSWORD = new CraftedItem(
-            "Copper Sword",
-            "copper_sword",
+    public static CraftedItem SPADE = new CraftedItem(
+            "Spade",
+            "spade",
             new HashMap<Item, Integer>() {{
                 put(WOOD, 20);
-                put(REFINED_COPPER, 10);
+                put(STONE, 20);
             }},
-            null,
-            135
+            new UpdateEvent().setDiscoveredEvent(FLASK),
+            60
     );
-    */
 
-    public static Research BUILDING = new Research("Building", "building", true, null, 20);
+    public static Research FARMING = new Research("Farming", "farming", new UpdateEvent().setDiscoveredEvent(SPADE), 120);
+    public static Research INCREASED_STORAGE = new Research("Increased Storage", "increased_storage", new UpdateEvent().setDiscoveredEvent(DEPOSITORY), 90);
+    public static Research CRAFTING_BUTTON = new Research("Crafting", "crafting", new UpdateEvent().setDiscoveredEvent(INCREASED_STORAGE).setDiscoveredEvent(FARMING), 45);
+    public static Research BUILDING = new Research("Building", "building", true, new UpdateEvent().setDiscoveredEvent(CRAFTING_BUTTON), 30);
 
-    public static ArrayList<CraftedItem> ALL_CRAFTED_ITEMS = new ArrayList<>(Arrays.asList(BASICHAMMER, BASICHATCHET, FLOORPLANS));
-    public static ArrayList<Research> ALL_RESEARCH = new ArrayList<>(Arrays.asList(BUILDING));
+
     //People
 
     public static People FARMER = new People("Farmer", "farmer", true, FOOD);
     public static People LUMBERJACK = new People("Lumberjack", "lumberjack", true, WOOD);
     public static People MINER = new People("Miner", "miner", true, STONE);
     public static ArrayList<People> PEOPLE_LIST = new ArrayList<>(Arrays.asList(FARMER, LUMBERJACK, MINER));
-    //Loot6
 
-
-    /*   public static Loot COPPER = new Loot(
-               false,
-               0,
-               15,
-               "Raw Copper",
-               "raw_copper",
-               3,
-               5,
-               true
-       );
-
-       public static Loot LINEN_JACKET = new Loot(
-               false,
-               "Rugged Linen Jacket",
-               "linen_jacket",
-               80
-       );
-
-       public static Loot RUSTED_BRACELET = new Loot(
-               false,
-               "Rusted Bracelet",
-               "rusted_bracelet",
-               25
-       );
-
-       public static Loot LINEN_HELMET = new Loot(
-               false,
-               "Rugged Linen Helmet",
-               "linen_helmet",
-               80
-       );
-
-       public static Loot WORNOUT_SANDALS = new Loot(
-               false,
-               "Worn out Sandals",
-               "wornout_sandals",
-               50
-       );
-
-       public static Loot SMALL_LUCK_CHARM = new Loot(
-               false,
-               "Small Luck Charm",
-               "small_luck_charm",
-               25
-       );
-
-       public static Loot MAP_SHARD = new Loot(
-               false,
-               "Map Shard",
-               "map_shard",
-               40
-       );
-
-       public static Loot ENGINE_GEAR = new Loot(
-               false,
-               "Engine Gear",
-               "engine_gear",
-               45
-       );
-
-       public static Loot DRIED_HIDE = new Loot(
-               false,
-               0,
-               15,
-               "Dried Hide",
-               "dried_hide",
-               3,
-               5,
-               true
-       );
-
-       public static ArrayList<Loot> ALL_LOOT = new ArrayList<>(Arrays.asList(COPPER, REFINED_COPPER, LINEN_JACKET, RUSTED_BRACELET, LINEN_HELMET, WORNOUT_SANDALS, SMALL_LUCK_CHARM, MAP_SHARD, ENGINE_GEAR, DRIED_HIDE));
-
+    /*
        //World Data
-       public static Creature AV_RAT = new Creature("Coal Rat", 5, 1);
-       public static Creature AV_WILD_BAT = new Creature("Wild Bat", 10, 2);
+
        public static Place AV = new Place("An Abandoned Mine", "What a dusty place.", "You managed to avoid the spiderwebs.", Arrays.asList(AV_RAT, AV_WILD_BAT, AV_WILD_BAT, AV_RAT), Arrays.asList(COPPER, LINEN_JACKET, RUSTED_BRACELET), new Coin(2, 5), new UpdateEvent().setDiscoveredEvent(COPPERAXE).setDiscoveredEvent(COPPERPICK).setDiscoveredEvent(COPPERSWORD));
 
        public static Creature DV_Scorpion = new Creature("Dusty Scorpion", 5, 2);
@@ -322,21 +217,23 @@ public class Data {
 
        public static Creature A_HOBO = new Creature("Ravaging Hobo", 8, 3);
        public static Place OLD_AVENUE = new Place("An Old Avenue", "Half the road is eroded.", "You got away safely.", Arrays.asList(A_HOBO, A_HOBO), Arrays.asList(MAP_SHARD, WORNOUT_SANDALS, ENGINE_GEAR), new Coin(5, 8), null);
-
     */
     public static int PLAYER_MAX_HEALTH = 20;
     public static int PLAYER_CURRENT_HEALTH = 1;
     public static int PLAYER_STAB_DAMAGE = 2;
     public static int PLAYER_SWING_DAMAGE = 1;
     public static ArrayList<Coordinate> WORLD_MAP;
+    public static ArrayList<CraftedItem> ALL_CRAFTED_ITEMS = new ArrayList<>(Arrays.asList(BASICHATCHET, BASICPICK, SPADE, FLASK));
+    public static ArrayList<Research> ALL_RESEARCH = new ArrayList<>(Arrays.asList(BUILDING, CRAFTING_BUTTON, INCREASED_STORAGE, FARMING, HOUSING));
+    public static ArrayList<Building> ALL_BUILDINGS = new ArrayList<>(Arrays.asList(WORKSHOP, TOOLBENCH, DEPOSITORY, FOUNDATION, GRANARY));
 
-    public static void postLogText(String str){
+    public static void postLogText(String str) {
         EventBus.getDefault().post(new LogUpdateEvent(str));
     }
-    public static void toastMessage(Context context, String str){
+
+    public static void toastMessage(Context context, String str) {
         Toast.makeText(context, str, Toast.LENGTH_SHORT).show();
     }
-
 
 }
 

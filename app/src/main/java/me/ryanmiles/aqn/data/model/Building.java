@@ -110,9 +110,11 @@ public class Building extends Object {
             event.post();
         }
         setDiscovered(false);
+        readyForCompletion = false;
         beingBuilt = false;
         built = true;
     }
+
     public boolean isBuilt() {
         return built;
     }

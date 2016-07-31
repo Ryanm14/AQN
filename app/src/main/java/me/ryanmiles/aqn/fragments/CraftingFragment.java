@@ -152,15 +152,20 @@ public class CraftingFragment extends Fragment {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         if (item.checkRequiredItems()) {
-                                            item.setBeingCrafted(true);
-                                            item.removeRequiredItems();
-                                            startCrafting(item);
-                                            EventBus.getDefault().post(new DataUpdateEvent(true, item.startingLogText()));
-                                            bt.setEnabled(false);
-                                            dialog.dismiss();
+                                            if (mCurrentCrafting == null || (!mCurrentCrafting.isBeingCrafted() && !mCurrentCrafting.isReadyForCompletion())) {
+                                                item.setBeingCrafted(true);
+                                                item.removeRequiredItems();
+                                                startCrafting(item);
+                                                EventBus.getDefault().post(new DataUpdateEvent(true, item.startingLogText()));
+                                                bt.setEnabled(false);
+                                            } else {
+                                                Toast.makeText(getActivity(), "Already Crafting!", Toast.LENGTH_LONG).show();
+                                            }
+
                                         } else {
                                             Toast.makeText(getActivity(), "You need more supplies!", Toast.LENGTH_LONG).show();
                                         }
+                                        dialog.dismiss();
                                     }
                                 })
                                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

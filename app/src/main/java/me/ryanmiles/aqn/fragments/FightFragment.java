@@ -14,8 +14,6 @@ import android.widget.TextView;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.Random;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -33,6 +31,7 @@ public class FightFragment extends Fragment {
     private static final String CREATURE_NAME = "creature_name";
     private static final String CREATURE_DAMAGE = "creature_damage";
     private static final String CREATURE_HEALTH = "creature_health";
+    private static final String CREATURE_ATTACKSPEED = "creature_attackspeed";
 
     @BindView(R.id.stab)
     Button mStabButton;
@@ -75,6 +74,8 @@ public class FightFragment extends Fragment {
     private int mCreatureHealth;
     private int mCreatureCurrentHealth;
     private CountDownTimer mCreatureCountDownTimer;
+    private int mCreatureAttackSpeed;
+    private Handler handler;
 
 
     public FightFragment() {
@@ -82,12 +83,13 @@ public class FightFragment extends Fragment {
     }
 
 
-    public static FightFragment newInstance(String name, int health, int damage) {
+    public static FightFragment newInstance(String name, int health, int damage, int attackspeed) {
         FightFragment fragment = new FightFragment();
         Bundle args = new Bundle();
         args.putString(CREATURE_NAME, name);
         args.putInt(CREATURE_HEALTH, health);
         args.putInt(CREATURE_DAMAGE, damage);
+        args.putInt(CREATURE_ATTACKSPEED, attackspeed);
         fragment.setArguments(args);
         return fragment;
     }
@@ -99,6 +101,7 @@ public class FightFragment extends Fragment {
             mCreatureName = getArguments().getString(CREATURE_NAME);
             mCreatureHealth = getArguments().getInt(CREATURE_HEALTH);
             mCreatureDamage = getArguments().getInt(CREATURE_DAMAGE);
+            mCreatureAttackSpeed = getArguments().getInt(CREATURE_ATTACKSPEED);
         }
     }
 
@@ -126,6 +129,8 @@ public class FightFragment extends Fragment {
         mEnemyHealthBar.setProgress(mCreatureCurrentHealth);
         mEnemyHealthText.setText(mCreatureCurrentHealth + "/" + mCreatureHealth);
 
+        mStabButton.setVisibility(View.INVISIBLE);
+        mStrongButton.setVisibility(View.INVISIBLE);
 
         //Bars
         mEatBar.setVisibility(View.INVISIBLE);
@@ -135,9 +140,9 @@ public class FightFragment extends Fragment {
 
         //Temp
         mStrongButton.setEnabled(false);
+        enemyAttackNormal();
 
         updateQuestStorage();
-        enemyAttackNormal(2);
         setLogText("You found a " + mCreatureName);
     }
 
@@ -253,8 +258,9 @@ public class FightFragment extends Fragment {
     }
 
     private void creatureDead() {
-        mCreatureCountDownTimer.cancel();
+        handler.removeCallbacksAndMessages(null);
         EventBus.getDefault().post(new CreatureDeadEvent());
+        onDestroy();
     }
 
 
@@ -262,38 +268,21 @@ public class FightFragment extends Fragment {
         mQuestLog.setText(text + "\n" + mQuestLog.getText());
     }
 
-    public void enemyAttackNormal(int initDelay) {
-        Handler handler = new Handler();
+    public void enemyAttackNormal() {
+        handler = new Handler();
         handler.postDelayed(new Runnable() {
             public void run() {
-                // Actions to do after 10 seconds
+                Data.PLAYER_CURRENT_HEALTH -= mCreatureDamage; //Damage done
+                //  new ShakeAnimation(mPlayer).animate();
+                mPlayerHealthBar.setProgress(Data.PLAYER_CURRENT_HEALTH);
+                mPlayerHealthText.setText(Data.PLAYER_CURRENT_HEALTH + "/" + Data.PLAYER_MAX_HEALTH);
+                setLogText("You took " + mCreatureDamage + " dmg!");
+                enemyAttackNormal();
+                if (Data.PLAYER_CURRENT_HEALTH <= 0) {
+                    EventBus.getDefault().post(new PlayerDead());
+                    handler.removeCallbacksAndMessages(null);
+                }
             }
-        }, initDelay * 1000);
-        Random rng = new Random();
-
-        if (rng.nextInt(100) + 1 >= 70) {//Chance to attack every 1.5 seconds
-            Data.PLAYER_CURRENT_HEALTH -= mCreatureDamage; //Damage done
-            //  new ShakeAnimation(mPlayer).animate();
-            mPlayerHealthBar.setProgress(Data.PLAYER_CURRENT_HEALTH);
-            mPlayerHealthText.setText(Data.PLAYER_CURRENT_HEALTH + "/" + Data.PLAYER_MAX_HEALTH);
-            setLogText("You took " + mCreatureDamage + " dmg!");
-        }
-        mCreatureCountDownTimer = new CountDownTimer(2000, 20) {
-            @Override
-            public void onTick(long millisUntilFinishedl) {
-            }
-
-            @Override
-            public void onFinish() {
-                enemyAttackNormal(0);
-            }
-        }.start();
-        if (Data.PLAYER_CURRENT_HEALTH <= 0) {
-            mCreatureCountDownTimer.cancel();
-            EventBus.getDefault().post(new PlayerDead());
-            getActivity().finish();
-        }
+        }, mCreatureAttackSpeed);
     }
-
-
 }

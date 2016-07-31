@@ -12,10 +12,12 @@ import java.util.ArrayList;
 import io.fabric.sdk.android.Fabric;
 import io.paperdb.Paper;
 import me.ryanmiles.aqn.data.Data;
+import me.ryanmiles.aqn.data.Places;
 import me.ryanmiles.aqn.data.model.Building;
 import me.ryanmiles.aqn.data.model.CraftedItem;
 import me.ryanmiles.aqn.data.model.Item;
 import me.ryanmiles.aqn.data.model.People;
+import me.ryanmiles.aqn.data.model.Place;
 import me.ryanmiles.aqn.data.model.Research;
 
 /**
@@ -37,6 +39,7 @@ public class App extends Application {
                 Paper.book().write("VILLAGE_MAX", People.VILLAGE_MAX_POPULATION);
                 Paper.book().write("LOG", log);
                 Paper.book().write("RESEARCH", Data.ALL_RESEARCH);
+                Paper.book().write("PLACES", Places.ALL_PLACES);
                 Log.i(TAG, "saveData: Saving");
             }
         });
@@ -78,7 +81,6 @@ public class App extends Application {
                     people.setInfo(mSavedPeople);
                 }
             }
-
         }
 
         ArrayList<Research> savedResearch = Paper.book().read("RESEARCH", new ArrayList<Research>());
@@ -88,9 +90,18 @@ public class App extends Application {
                     research.setInfo(mSavedResearch);
                 }
             }
-
         }
         People.VILLAGE_MAX_POPULATION = Paper.book().read("VILLAGE_MAX");
+
+        ArrayList<Place> savedPlaces = Paper.book().read("PLACES", new ArrayList<Place>());
+        for (Place place : Places.ALL_PLACES) {
+            for (Place mSavedPlaces : savedPlaces) {
+                if (place.getName().equals(mSavedPlaces.getName())) {
+                    place.setInfo(mSavedPlaces);
+                }
+            }
+        }
+
     }
 
     @Override
@@ -99,6 +110,7 @@ public class App extends Application {
         Fabric.with(this);
         if (!BuildConfig.DEBUG) {
             Fabric.with(this, new Crashlytics());
+
         }
         Paper.init(this);
         SharedPreferences prefs = getSharedPreferences("me.ryanmiles.aqn", MODE_PRIVATE);

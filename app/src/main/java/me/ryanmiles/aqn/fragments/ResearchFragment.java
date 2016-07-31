@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.easyandroidanimations.library.FadeInAnimation;
@@ -150,10 +151,15 @@ public class ResearchFragment extends Fragment {
                                 .setPositiveButton("Craft a " + item.getName(), new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        item.setBeingResearched(true);
-                                        startResearch(item);
-                                        EventBus.getDefault().post(new DataUpdateEvent(true, item.startingLogText()));
-                                        bt.setEnabled(false);
+                                        if (mCurrentResearch == null || !mCurrentResearch.isDiscovered()) {
+                                            item.setBeingResearched(true);
+                                            startResearch(item);
+                                            EventBus.getDefault().post(new DataUpdateEvent(true, item.startingLogText()));
+                                            bt.setEnabled(false);
+                                            updateItemButtons();
+                                        } else {
+                                            Toast.makeText(getActivity(), "Already Researching!", Toast.LENGTH_LONG).show();
+                                        }
                                         dialog.dismiss();
                                     }
                                 })

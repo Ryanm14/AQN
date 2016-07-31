@@ -1,13 +1,11 @@
 package me.ryanmiles.aqn.fragments;
 
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -23,7 +21,6 @@ import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import me.ryanmiles.aqn.MainActivity;
 import me.ryanmiles.aqn.R;
 import me.ryanmiles.aqn.adapters.VillageAdapter;
 import me.ryanmiles.aqn.data.Data;
@@ -50,29 +47,23 @@ public class VillageFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Context context) {
-        Log.v(TAG, "onAttach()");
-        super.onAttach(context);
-        actionBar = ((AppCompatActivity) context).getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_village, container, false);
-        ((MainActivity) getActivity()).setActionBarTitle("Village");
         ButterKnife.bind(this, rootView);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(new VillageAdapter(getActivity(), Data.PEOPLE_LIST));
         updateVillageInfo();
-        EventBus.getDefault().register(this);
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
         VillageBackground background = new VillageBackground();
-        background.execute();
+        if (background.getStatus().equals(AsyncTask.Status.PENDING)) {
+            background.execute();
+        }
+
         return rootView;
     }
 
@@ -98,7 +89,6 @@ public class VillageFragment extends Fragment {
     public void onStop() {
         Log.v(TAG, "onStop() called");
         super.onStop();
-        actionBar.setDisplayHomeAsUpEnabled(false);
     }
 
     public class VillageBackground extends AsyncTask<Void, Void, Void> {

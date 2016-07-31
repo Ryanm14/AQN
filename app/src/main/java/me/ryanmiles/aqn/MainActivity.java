@@ -94,12 +94,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void displayDeathDialog() {
         //TODO Customise death
-        Data.WOOD.remove(25);
-        Data.STONE.remove(50);
         new AlertDialogWrapper.Builder(this)
                 .setTitle("You Died!")
                 .setCancelable(false)
-                .setMessage("You took too many hits in there. \n\nYou lost: \nWood:25 \nStone:50")
+                .setMessage("You took too many hits in there.")
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

@@ -25,10 +25,10 @@ public class ForestFragment extends Fragment {
     Button mWoodButton;
     @BindView(R.id.stone)
     Button mStoneButton;
-    @BindView(R.id.dirty_water)
-    Button mDirtyWaterButton;
-    @BindView(R.id.hunt)
-    Button mHuntButton;
+    @BindView(R.id.water)
+    Button mWaterButton;
+    @BindView(R.id.gather_food)
+    Button mFoodButton;
     @BindView(R.id.trans_container_forest_fragment)
     ViewGroup mLayout;
 
@@ -37,7 +37,6 @@ public class ForestFragment extends Fragment {
         Log.v(TAG, "onCreateView()");
         View rootView =  inflater.inflate(R.layout.forest_fragment_layout, container, false);
         ButterKnife.bind(this,rootView);
-        mDirtyWaterButton.setVisibility(View.GONE);
         return rootView;
     }
 
@@ -50,10 +49,12 @@ public class ForestFragment extends Fragment {
 
     private void updateButtons() {
         Log.d(TAG, "updateButtons() called");
-        //  if (!Data.STONESWORD.isCrafted()) {
-            Log.d(TAG, "updateButtons: StoneSword != crafted");
-            mHuntButton.setVisibility(View.GONE);
-        //  }
+        if (!Data.FARMING.isResearched()) {
+            mFoodButton.setVisibility(View.INVISIBLE);
+        }
+        if (!Data.FLASK.isCrafted()) {
+            mWaterButton.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
@@ -79,8 +80,13 @@ public class ForestFragment extends Fragment {
 
     }
 
-    @OnClick(R.id.hunt)
+    @OnClick(R.id.gather_food)
     public void huntOnClick() {
-        // Data.MEAT.addIncrement();
+        Data.FOOD.addIncrement();
+    }
+
+    @OnClick(R.id.water)
+    public void waterOnClick() {
+        Data.WATER.addIncrement();
     }
 }

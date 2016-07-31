@@ -148,30 +148,41 @@ public class BuildingFragment extends Fragment {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         if (building.checkRequiredItems()) {
-                                            building.setBeingBuilt(true);
-                                            building.removeRequiredItems();
-                                            startBuilding(building);
-                                            EventBus.getDefault().post(new DataUpdateEvent(true, building.startingLogText()));
-                                            bt.setEnabled(false);
-                                            dialog.dismiss();
+                                            if (mCurrentBuilding == null || (!mCurrentBuilding.isBeingBuilt() && !mCurrentBuilding.isReadyForCompletion())) {
+                                                building.setBeingBuilt(true);
+                                                building.removeRequiredItems();
+                                                startBuilding(building);
+                                                EventBus.getDefault().post(new DataUpdateEvent(true, building.startingLogText()));
+                                                bt.setEnabled(false);
+                                            } else {
+                                                Toast.makeText(getActivity(), "Already Building!", Toast.LENGTH_LONG).show();
+                                            }
+
                                         } else {
                                             Toast.makeText(getActivity(), "You need more supplies!", Toast.LENGTH_LONG).show();
                                         }
+                                            dialog.dismiss();
+                                        }
                                     }
-                                })
+
+                                )
                                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         dialog.dismiss();
                                     }
-                                })
+                                    }
+
+                                )
                                 .show();
                     }
-                });
+                    }
+
+                );
                 mLinearLayout.addView(bt);
             }
+            }
         }
-    }
 
 
     @Override

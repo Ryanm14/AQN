@@ -5,12 +5,13 @@ package me.ryanmiles.aqn.data.model;
  */
 public class Creature {
     private String name;
-    private int health, damage;
+    private int health, damage, attackspeed;
 
-    public Creature(String name, int health, int damage) {
+    public Creature(String name, int health, int damage, int attackspeed) {
         this.name = name;
         this.health = health;
         this.damage = damage;
+        this.attackspeed = attackspeed;
     }
 
     public String getName() {
@@ -37,4 +38,11 @@ public class Creature {
         this.damage = damage;
     }
 
+    public int getAttackspeed() {
+        return attackspeed;
+    }
+
+    public void setAttackspeed(int attackspeed) {
+        this.attackspeed = attackspeed;
+    }
 }

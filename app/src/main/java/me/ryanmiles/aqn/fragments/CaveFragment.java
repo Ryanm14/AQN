@@ -1,6 +1,7 @@
 package me.ryanmiles.aqn.fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -21,6 +22,7 @@ import butterknife.OnClick;
 import me.ryanmiles.aqn.App;
 import me.ryanmiles.aqn.MainActivity;
 import me.ryanmiles.aqn.R;
+import me.ryanmiles.aqn.WorldActivity;
 import me.ryanmiles.aqn.data.Data;
 import me.ryanmiles.aqn.events.ChangeFragmentEvent;
 import me.ryanmiles.aqn.events.updates.UpdateTabHost;
@@ -33,8 +35,8 @@ public class CaveFragment extends Fragment {
     private static final String TAG = CaveFragment.class.getCanonicalName();
     @BindView(R.id.crafting)
     Button mCraftingButton;
-    @BindView(R.id.village)
-    Button mVillageButton;
+    @BindView(R.id.world)
+    Button mWorldButton;
     @BindView(R.id.research)
     Button mResearchButton;
     @BindView(R.id.buildings)
@@ -67,7 +69,7 @@ public class CaveFragment extends Fragment {
         Log.d(TAG, "updateButtons() called");
         mExploreForestButton.setVisibility(View.GONE);
 
-        if (!Data.TOOLBENCH.isBuilt()) {
+        if (!Data.CRAFTING_BUTTON.isResearched()) {
             mCraftingButton.setVisibility(View.INVISIBLE);
         } else if (Data.OPENCRAFTING) {
             Data.OPENCRAFTING = false;
@@ -75,12 +77,13 @@ public class CaveFragment extends Fragment {
         }
 
 
-        if (!Data.FOUNDATION.isBuilt()) {
-            mVillageButton.setVisibility(View.INVISIBLE);
-        } else if (Data.OPENVILLAGE) {
-            Data.OPENVILLAGE = false;
-            new FadeInAnimation(mVillageButton).setDuration(5000).animate();
+        if (!Data.ADVENTURE.isResearched()) {
+            mWorldButton.setVisibility(View.INVISIBLE);
         }
+        //   } else if (Data.OPENVILLAGE) {
+        //       Data.OPENVILLAGE = false;
+        //       new FadeInAnimation(mWorldButton).setDuration(5000).animate();
+
 
         if(Data.FIRSTRUN){
             new FadeInAnimation(mHideInCaveButton).setDuration(5000).animate();
@@ -139,9 +142,9 @@ public class CaveFragment extends Fragment {
         EventBus.getDefault().post(new ChangeFragmentEvent(new CraftingFragment(), "craftingFragment"));
     }
 
-    @OnClick(R.id.village)
-    public void openVillage() {
-        EventBus.getDefault().post(new ChangeFragmentEvent(new VillageFragment(), "villageFragment"));
+    @OnClick(R.id.world)
+    public void openWorld() {
+        startActivity(new Intent(getActivity(), WorldActivity.class));
     }
 
     @OnClick(R.id.research)
