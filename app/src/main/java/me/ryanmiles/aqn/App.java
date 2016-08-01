@@ -110,7 +110,6 @@ public class App extends Application {
         Fabric.with(this);
         if (!BuildConfig.DEBUG) {
             Fabric.with(this, new Crashlytics());
-
         }
         Paper.init(this);
         SharedPreferences prefs = getSharedPreferences("me.ryanmiles.aqn", MODE_PRIVATE);

@@ -8,6 +8,7 @@ import me.ryanmiles.aqn.data.model.Item;
 import me.ryanmiles.aqn.data.model.Object;
 import me.ryanmiles.aqn.events.updates.AddIncrementEvent;
 import me.ryanmiles.aqn.events.updates.ChangeMaxEvent;
+import me.ryanmiles.aqn.events.updates.IncreaseVillageMax;
 import me.ryanmiles.aqn.events.updates.SetDiscoveredEvent;
 import me.ryanmiles.aqn.events.updates.UpdateTabHost;
 
@@ -19,6 +20,7 @@ public class UpdateEvent {
     ArrayList<ChangeMaxEvent> mChangeMaxEvent;
     ArrayList<AddIncrementEvent> mAddIncrementEvents;
     ArrayList<UpdateTabHost> mUpdateTabHostEvent;
+    IncreaseVillageMax mIncreasevillageMaxEvent;
 
     public UpdateEvent() {
         mChangeMaxEvent = new ArrayList<>();
@@ -47,6 +49,11 @@ public class UpdateEvent {
         return this;
     }
 
+    public UpdateEvent increaseVillageMax(int amount) {
+        mIncreasevillageMaxEvent = new IncreaseVillageMax(amount);
+        return this;
+    }
+
     public void post() {
         if (mChangeMaxEvent.size() != 0) {
             for (ChangeMaxEvent event : mChangeMaxEvent) {
@@ -68,6 +75,10 @@ public class UpdateEvent {
                 EventBus.getDefault().post(event);
             }
         }
+        if (mIncreasevillageMaxEvent != null) {
+            mIncreasevillageMaxEvent.post();
+        }
+
     }
 
     @Override
@@ -78,4 +89,5 @@ public class UpdateEvent {
                 ", mAddIncrementEvents=" + mAddIncrementEvents +
                 '}';
     }
+
 }

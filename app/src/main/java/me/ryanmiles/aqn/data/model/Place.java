@@ -2,6 +2,7 @@ package me.ryanmiles.aqn.data.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import me.ryanmiles.aqn.events.UpdateEvent;
 
@@ -10,18 +11,50 @@ import me.ryanmiles.aqn.events.UpdateEvent;
  */
 public class Place {
     private String name;
+    private String letter;
     private String desc;
     private String finishedDesc;
     private List<Creature> creatureList;
     private boolean completed = false;
     private UpdateEvent mEvent;
+    private int x;
+    private int y;
 
-    public Place(String name, String desc, String finishedDesc, List<Creature> creatureList, UpdateEvent mEvent) {
+
+    public Place(String name, String desc, String finishedDesc, List<Creature> creatureList, UpdateEvent mEvent, int minx, int maxx, int miny, int maxy) {
+        Random rng = new Random();
         this.name = name;
         this.desc = desc;
         this.creatureList = creatureList;
         this.finishedDesc = finishedDesc;
         this.mEvent = mEvent;
+        letter = name.substring(0, 1);
+        x = minx + rng.nextInt(maxx - minx);
+        y = miny + rng.nextInt(maxy - miny);
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public String getLetter() {
+        return letter;
+    }
+
+    public void setLetter(String letter) {
+        this.letter = letter;
     }
 
     public String getFinishedDesc() {
@@ -64,13 +97,6 @@ public class Place {
         this.mEvent = mEvent;
     }
 
-    public void postEvent() {
-        if (mEvent != null) {
-            mEvent.post();
-        }
-        completed = true;
-    }
-
     public void setInfo(Place info) {
         completed = info.isCompleted();
     }
@@ -81,5 +107,27 @@ public class Place {
 
     public void setCreatureList(ArrayList<Creature> creatureList) {
         this.creatureList = creatureList;
+    }
+
+    public void postEvent() {
+        if (mEvent != null) {
+            mEvent.post();
+        }
+        completed = true;
+    }
+
+    @Override
+    public String toString() {
+        return "Place{" +
+                "name='" + name + '\'' +
+                ", letter='" + letter + '\'' +
+                ", desc='" + desc + '\'' +
+                ", finishedDesc='" + finishedDesc + '\'' +
+                ", creatureList=" + creatureList +
+                ", completed=" + completed +
+                ", mEvent=" + mEvent +
+                ", x=" + x +
+                ", y=" + y +
+                '}';
     }
 }

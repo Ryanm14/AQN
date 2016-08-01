@@ -36,9 +36,10 @@ import me.ryanmiles.aqn.events.ChangeWorldFragmentEvent;
  * A simple {@link Fragment} subclass.
  */
 public class WorldFragment extends Fragment {
+    public static final int WORLD_RADIUS = 36;
+    private static final String TAG = WorldFragment.class.getCanonicalName();
     ArrayList<Coordinate> mCoords;
     Coordinate mCurrentCord;
-    int WORLD_RADIUS = 36;
     Random rng;
 
     @BindView(R.id.world_fragment_area_text_view)
@@ -178,27 +179,32 @@ public class WorldFragment extends Fragment {
                 mCoords.add(new Coordinate(x, y));
             }
         }
+        findCord(1, 1);
         mCurrentCord = findCord(WORLD_RADIUS / 2, WORLD_RADIUS / 4);
         mCurrentCord.changeValue("O");
-        findCord(rng.nextInt(6) + 2, rng.nextInt(4) + 1).changeValue("P");
-
-        findCord(rng.nextInt(WORLD_RADIUS / 2) + 1, rng.nextInt(WORLD_RADIUS / 4) + WORLD_RADIUS / 4 - 1).changeValue("V");
-        findCord(rng.nextInt(WORLD_RADIUS / 2) + WORLD_RADIUS / 2, rng.nextInt(WORLD_RADIUS / 4) + WORLD_RADIUS / 4 - 1).changeValue("C");
-        findCord(rng.nextInt(WORLD_RADIUS / 2) + WORLD_RADIUS / 2, rng.nextInt(WORLD_RADIUS / 4) + 1).changeValue("A");
-
-
-        if (testMap("V") && testMap("P") && testMap("C") && testMap("A")) {
+        for (Place places : Places.ALL_PLACES) {
+            if (findCord(places.getX(), places.getY()) != null) {
+                findCord(places.getX(), places.getY()).changeValue(places.getLetter());
+            }
+        }
+        boolean allgood = true;
+        for (Place places : Places.ALL_PLACES) {
+            if (!testMap(places.getLetter())) {
+                allgood = false;
+            }
+        }
+        if (allgood) {
             update();
             Data.WORLD_MAP = mCoords;
         } else {
             populate();
         }
-
+        //TODO polish world gen
     }
 
     private boolean testMap(String v) {
         for (Coordinate mCoord : mCoords) {
-            if (mCoord.getValue() == v) {
+            if (mCoord.getValue().equals(v)) {
                 return true;
             }
         }
