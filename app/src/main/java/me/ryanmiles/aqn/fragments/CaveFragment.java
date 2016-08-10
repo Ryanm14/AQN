@@ -78,7 +78,7 @@ public class CaveFragment extends Fragment {
 
 
         if (!Data.ADVENTURE.isResearched()) {
-            //     mWorldButton.setVisibility(View.INVISIBLE);
+            mWorldButton.setVisibility(View.INVISIBLE);
         }
         //   } else if (Data.OPENVILLAGE) {
         //       Data.OPENVILLAGE = false;

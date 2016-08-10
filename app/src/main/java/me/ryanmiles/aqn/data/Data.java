@@ -68,12 +68,77 @@ public class Data {
             1
     );
 
+    public static Item COAL = new Item(
+            0,
+            10,
+            "Coal",
+            "coal",
+            1
+    );
 
-    public static ArrayList<Item> ALL_ITEMS = new ArrayList<>(Arrays.asList(WOOD, STONE, WATER, FOOD));
+    public static Item RAW_ORE = new Item(
+            0,
+            10,
+            "Raw Ore",
+            "raw_ore",
+            1
+    );
+
+    public static Item BRONZE = new Item(
+            0,
+            10,
+            "Bronze",
+            "bronze",
+            1
+    );
+
+
+    public static ArrayList<Item> ALL_ITEMS = new ArrayList<>(Arrays.asList(WOOD, STONE, WATER, FOOD, COAL, RAW_ORE, BRONZE));
 
     //BUILDINGS
-    public static Research ADVENTURE = new Research("Adventure", "adventure", null, 300);
-    public static Research HOUSING = new Research("Housing", "housing", new UpdateEvent().setDiscoveredEvent(ADVENTURE), 120);
+
+    public static People BRONZE_SMELTER = new People("Bronze Smelter", "bronze_smelter", BRONZE);
+    public static Research BRONZE_RESEARCH = new Research("Bronze", "bronze", new UpdateEvent().setDiscoveredEvent(BRONZE_SMELTER), 250);
+    public static Building SMELTERY = new Building(
+            "Smeltery",
+            "smeltery",
+            new HashMap<Item, Integer>() {{
+                put(STONE, 75);
+                put(WOOD, 20);
+            }},
+            100,
+            new UpdateEvent().setDiscoveredEvent(BRONZE_RESEARCH)
+    );
+    public static Building HOUSE = new Building(
+            "House",
+            "house",
+            new HashMap<Item, Integer>() {{
+                put(STONE, 50);
+                put(WOOD, 60);
+            }},
+            500,
+            new UpdateEvent().increaseVillageMax(15)
+    );
+
+    public static Building SHACK = new Building(
+            "House",
+            "house",
+            new HashMap<Item, Integer>() {{
+                put(STONE, 20);
+                put(WOOD, 40);
+            }},
+            150,
+            new UpdateEvent().increaseVillageMax(5)
+    );
+
+    public static People COAL_MINER = new People("Coal Miner", "coal_miner", COAL);
+    public static Research SMELTING = new Research("Stab", "stab", new UpdateEvent().setDiscoveredEvent(SMELTERY), 200);
+    public static Research MINING = new Research("Preserve", "preserve", new UpdateEvent().setDiscoveredEvent(COAL_MINER), 180);
+    public static Research STAB = new Research("Stab", "stab", null, 200);
+    public static Research PRESERVE = new Research("Preserve", "preserve", new UpdateEvent().setChangeMaxEvent(FOOD, 10), 200);
+    public static Research PURIFY = new Research("Purify", "purify", new UpdateEvent().setChangeMaxEvent(WATER, 20), 200);
+    public static Research ADVENTURE = new Research("Adventure", "adventure", new UpdateEvent().setDiscoveredEvent(STAB).setDiscoveredEvent(PRESERVE).setDiscoveredEvent(PURIFY), 300);
+    public static Research HOUSING = new Research("Housing", "housing", new UpdateEvent().setDiscoveredEvent(ADVENTURE).setDiscoveredEvent(SHACK).setDiscoveredEvent(HOUSE), 120);
     public static Building FOUNDATION = new Building(
             "Foundation",
             "foundation",
@@ -81,8 +146,7 @@ public class Data {
                 put(STONE, 20);
                 put(WOOD, 20);
             }},
-            true,
-            2,
+            100,
             new UpdateEvent().setDiscoveredEvent(HOUSING).updateTabHost("Village")
     );
 
@@ -107,18 +171,6 @@ public class Data {
             60,
             new UpdateEvent().setChangeMaxEvent(WOOD, 100).setChangeMaxEvent(STONE, 100).setDiscoveredEvent(GRANARY)
     );
-
-    /* public static Building SHACK = new Building(
-             "Depository",
-             "depository",
-             new HashMap<Item, Integer>() {{
-                 put(STONE, 20);
-                 put(WOOD, 20);
-             }},
-             45,
-             null
-     );
-     */
 
 
     //CRAFTED_ITEMS
@@ -198,8 +250,8 @@ public class Data {
 
     public static People FARMER = new People("Farmer", "farmer", true, FOOD);
     public static People LUMBERJACK = new People("Lumberjack", "lumberjack", true, WOOD);
-    public static People MINER = new People("Miner", "miner", true, STONE);
-    public static ArrayList<People> PEOPLE_LIST = new ArrayList<>(Arrays.asList(FARMER, LUMBERJACK, MINER));
+    public static People STONE_MINER = new People("Stone Miner", "stone_miner", true, STONE);
+    public static ArrayList<People> PEOPLE_LIST = new ArrayList<>(Arrays.asList(FARMER, LUMBERJACK, STONE_MINER, COAL_MINER, BRONZE_SMELTER));
 
     /*
        //World Data
@@ -224,8 +276,8 @@ public class Data {
     public static int PLAYER_SWING_DAMAGE = 1;
     public static ArrayList<Coordinate> WORLD_MAP;
     public static ArrayList<CraftedItem> ALL_CRAFTED_ITEMS = new ArrayList<>(Arrays.asList(BASICHATCHET, BASICPICK, SPADE, FLASK));
-    public static ArrayList<Research> ALL_RESEARCH = new ArrayList<>(Arrays.asList(BUILDING, CRAFTING_BUTTON, INCREASED_STORAGE, FARMING, HOUSING));
-    public static ArrayList<Building> ALL_BUILDINGS = new ArrayList<>(Arrays.asList(WORKSHOP, TOOLBENCH, DEPOSITORY, FOUNDATION, GRANARY));
+    public static ArrayList<Research> ALL_RESEARCH = new ArrayList<>(Arrays.asList(BUILDING, CRAFTING_BUTTON, INCREASED_STORAGE, FARMING, HOUSING, PURIFY, PRESERVE, STAB, MINING, SMELTING, BRONZE_RESEARCH));
+    public static ArrayList<Building> ALL_BUILDINGS = new ArrayList<>(Arrays.asList(WORKSHOP, TOOLBENCH, DEPOSITORY, FOUNDATION, GRANARY, SMELTERY, SHACK, HOUSE));
 
     public static void postLogText(String str) {
         EventBus.getDefault().post(new LogUpdateEvent(str));
