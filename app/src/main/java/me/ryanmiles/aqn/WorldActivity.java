@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -26,6 +27,7 @@ import me.ryanmiles.aqn.fragments.WorldFragment;
  * Created by ryanm on 5/23/2016.
  */
 public class WorldActivity extends AppCompatActivity {
+    private static final String TAG = WorldActivity.class.getCanonicalName();
     public static int water_count = 0;
     public static int food_count = 0;
     WorldFragment mWorldFragment;
@@ -44,6 +46,10 @@ public class WorldActivity extends AppCompatActivity {
         mCurrentCreaturePos = 0;
         water_count = Data.WATER.getAmount();
         food_count = Data.FOOD.getAmount();
+
+        if (Data.LEATHER_ARMOR.isCrafted()) {
+            Data.PLAYER_MAX_HEALTH = 35;
+        }
     }
 
     @Subscribe
@@ -102,7 +108,7 @@ public class WorldActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case android.R.id.home:
-                startActivity(new Intent(WorldActivity.this, MainActivity.class));
+                onBackPressed();
                 return true;
         }
         return super.onOptionsItemSelected(menuItem);
@@ -111,6 +117,9 @@ public class WorldActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        Log.d(TAG, "onBackPressed() called with: " + "");
+        Data.WATER.setAmount(water_count);
+        Data.FOOD.setAmount(food_count);
         startActivity(new Intent(WorldActivity.this, MainActivity.class));
     }
 }

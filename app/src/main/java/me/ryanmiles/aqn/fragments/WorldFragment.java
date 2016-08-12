@@ -79,7 +79,7 @@ public class WorldFragment extends Fragment {
     private void updateItems() {
         mStorageTextView.setText("Water: " + WorldActivity.water_count + "/" + Data.WATER.getMax() + "  Food: " + WorldActivity.food_count + "/" + Data.FOOD.getMax());
         if (WorldActivity.water_count <= 0) {
-            Toast.makeText(getActivity(), "Out of Water!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Head back! You are out of Water!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -230,12 +230,12 @@ public class WorldFragment extends Fragment {
     }
 
     private void checkBelow(String value) {
-        switch (value) {
-            case "#":
-                break;
-            case "C":
-                openDialogue(Places.COAL_MINE);
-                break;
+        if (!value.equals("#")) {
+            for (Place places : Places.ALL_PLACES) {
+                if (places.getLetter().equals(value)) {
+                    openDialogue(places);
+                }
+            }
         }
 
     }

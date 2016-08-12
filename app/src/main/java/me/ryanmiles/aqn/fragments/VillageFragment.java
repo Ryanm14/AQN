@@ -19,6 +19,8 @@ import com.easyandroidanimations.library.FadeInAnimation;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.ryanmiles.aqn.R;
@@ -54,7 +56,13 @@ public class VillageFragment extends Fragment {
         ButterKnife.bind(this, rootView);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setAdapter(new VillageAdapter(getActivity(), Data.PEOPLE_LIST));
+        ArrayList<People> discoveredPeople = new ArrayList<>();
+        for (People people : Data.PEOPLE_LIST) {
+            if (people.isDiscovered()) {
+                discoveredPeople.add(people);
+            }
+        }
+        mRecyclerView.setAdapter(new VillageAdapter(getActivity(), discoveredPeople));
         updateVillageInfo();
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
@@ -77,7 +85,7 @@ public class VillageFragment extends Fragment {
         }
     }
     private void updateVillageInfo() {
-        mVillageInfoTextView.setText("Village Info:\nMax Population: " + People.VILLAGE_MAX_POPULATION + "\nCurrent Population: " + People.VILLAGE_CURRENT_POPULATION + "\n\nFood per 5 Secs: " + People.FOOD_NEEDED * People.VILLAGE_CURRENT_POPULATION);
+        mVillageInfoTextView.setText("Village Info:\nMax Population: " + People.VILLAGE_MAX_POPULATION + "\nCurrent Population: " + People.VILLAGE_CURRENT_POPULATION + "\n\nFood Needed per 5 Secs: " + People.FOOD_NEEDED * People.VILLAGE_CURRENT_POPULATION);
     }
 
     @Subscribe

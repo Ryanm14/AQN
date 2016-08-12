@@ -117,6 +117,7 @@ public class App extends Application {
             Log.d(TAG, "First Run");
             Data.FIRSTRUN = true;
             prefs.edit().putBoolean("free", false).commit();
+            Paper.book().destroy();
             //TODO CHANGE PREF TO UPDATE SO IT DOESNT CRASH
         } else {
             getData();
@@ -124,6 +125,18 @@ public class App extends Application {
         Data.BUILDING_NEW_DATA = true;
         Data.CRAFTING_NEW_DATA = true;
         Data.RESEARCH_NEW_DATA = true;
+
+        if (true) {
+            for (CraftedItem allCraftedItem : Data.ALL_CRAFTED_ITEMS) {
+                allCraftedItem.setTimeToComplete(10);
+            }
+            for (Building allBuilding : Data.ALL_BUILDINGS) {
+                allBuilding.setTimeToComplete(10);
+            }
+            for (Research research : Data.ALL_RESEARCH) {
+                research.setTimeToComplete(10);
+            }
+        }
     }
 
 

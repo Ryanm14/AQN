@@ -102,6 +102,7 @@ public class People extends Object {
 
     public void setInfo(People info) {
         this.amount = info.getAmount();
+        setDiscovered(info.isDiscovered());
         VILLAGE_CURRENT_POPULATION += amount;
     }
 

@@ -39,6 +39,14 @@
             android:text="Stone"/>
 
         <Button
+            android:id="@+id/gather_food"
+            android:layout_width="125dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/buttonselector"
+            android:text="Food" />
+
+        <Button
             android:id="@+id/water"
             style="@drawable/button_shape"
             android:layout_width="125dp"
@@ -48,13 +56,6 @@
             android:text="Water" />
 
 
-        <Button
-            android:id="@+id/gather_food"
-            android:layout_width="125dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/buttonselector"
-            android:text="Food" />
     </LinearLayout>
 
 

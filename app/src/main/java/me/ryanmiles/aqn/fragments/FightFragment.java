@@ -18,6 +18,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.ryanmiles.aqn.R;
+import me.ryanmiles.aqn.WorldActivity;
 import me.ryanmiles.aqn.data.Data;
 import me.ryanmiles.aqn.events.CreatureDeadEvent;
 import me.ryanmiles.aqn.events.updates.PlayerDead;
@@ -119,7 +120,6 @@ public class FightFragment extends Fragment {
         mPlayerHealthText.setText(Data.PLAYER_CURRENT_HEALTH + "/" + Data.PLAYER_MAX_HEALTH);
         mPlayerHealthBar.setMax(Data.PLAYER_MAX_HEALTH);
         mPlayerHealthBar.setProgress(Data.PLAYER_CURRENT_HEALTH);
-        mStrongButton.setEnabled(false);
 
         //Enemy
         mCreatureCurrentHealth = mCreatureHealth;
@@ -129,7 +129,9 @@ public class FightFragment extends Fragment {
         mEnemyHealthBar.setProgress(mCreatureCurrentHealth);
         mEnemyHealthText.setText(mCreatureCurrentHealth + "/" + mCreatureHealth);
 
-        mStabButton.setVisibility(View.INVISIBLE);
+        if (!Data.STAB.isResearched()) {
+            mStabButton.setVisibility(View.INVISIBLE);
+        }
         mStrongButton.setVisibility(View.INVISIBLE);
 
         //Bars
@@ -147,7 +149,7 @@ public class FightFragment extends Fragment {
     }
 
     private void updateQuestStorage() {
-        mQuestStorage.setText("Meat: " + Data.FOOD.getAmount() + "/" + Data.FOOD.getMax());
+        mQuestStorage.setText("Meat: " + WorldActivity.food_count + "/" + Data.FOOD.getMax());
     }
 
     @OnClick(R.id.stab)
@@ -221,8 +223,8 @@ public class FightFragment extends Fragment {
 
     @OnClick(R.id.eat)
     public void onClickEat() {
-        if (Data.FOOD.getAmount() > 0) {
-            Data.FOOD.remove(1);
+        if (WorldActivity.food_count > 0) {
+            WorldActivity.food_count--;
             if (Data.PLAYER_CURRENT_HEALTH + 3 < Data.PLAYER_MAX_HEALTH) {
                 Data.PLAYER_CURRENT_HEALTH += 3;
             } else {
@@ -252,6 +254,7 @@ public class FightFragment extends Fragment {
             };
             swing_timer.start();
             setLogText("You Healed for 3");
+            updateQuestStorage();
         } else {
             setLogText("You are out of Meat!");
         }
