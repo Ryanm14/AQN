@@ -83,8 +83,8 @@ public class ResearchFragment extends Fragment {
         //Set Current Building Values
         if (mCurrentResearch != null) {
 
-            Log.d(TAG, "onCreateView: Current Crafting != null");
-            mCurrentCraftingTextView.setText("Crafting: " + mCurrentResearch.getName());
+            Log.d(TAG, "onCreateView: Current Researching != null");
+            mCurrentCraftingTextView.setText("Researching: " + mCurrentResearch.getName());
             circle.setValue(mCurrentResearch.getCurrentProgress());
 
             //Check for completed Building
@@ -100,8 +100,8 @@ public class ResearchFragment extends Fragment {
 
         } else {
 
-            Log.d(TAG, "onCreateView: Current Crafting = null");
-            mCurrentCraftingTextView.setText("Crafting: ");
+            Log.d(TAG, "onCreateView: Current Researching = null");
+            mCurrentCraftingTextView.setText("Researching: ");
             circle.setValue(0);
             mCompleteButton.setEnabled(false);
         }
@@ -146,9 +146,9 @@ public class ResearchFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
                         Dialog dialog = new AlertDialogWrapper.Builder(getActivity())
-                                .setTitle("Item: " + item.getName())
+                                .setTitle("Research: " + item.getName())
                                 .setMessage(item.getContentString())
-                                .setPositiveButton("Craft a " + item.getName(), new DialogInterface.OnClickListener() {
+                                .setPositiveButton("Research " + item.getName(), new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         if (mCurrentResearch == null || !mCurrentResearch.isDiscovered()) {
@@ -193,7 +193,7 @@ public class ResearchFragment extends Fragment {
         Data.RESEARCH_NEW_DATA = false;
 
         //Set Views
-        mCurrentCraftingTextView.setText("Crafting: " + item.getName());
+        mCurrentCraftingTextView.setText("Researching: " + item.getName());
         circle.setValue(0);
 
         //Start Background
@@ -203,7 +203,7 @@ public class ResearchFragment extends Fragment {
     private void resumeResearch() {
         Log.d(TAG, "resumeResearch() called");
         //Set Views
-        mCurrentCraftingTextView.setText("Crafting: " + mCurrentResearch.getName());
+        mCurrentCraftingTextView.setText("Researching: " + mCurrentResearch.getName());
         circle.setValue(mCurrentResearch.getCurrentProgress());
 
         //get time left

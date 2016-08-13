@@ -14,8 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.easyandroidanimations.library.FadeInAnimation;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -81,7 +79,7 @@ public class VillageFragment extends Fragment {
         Log.v(TAG, "setUserVisibleHint() called with: " + "isVisibleToUser = [" + isVisibleToUser + "]");
         if (isVisibleToUser && Data.OPENVILLAGE) {
             Data.OPENVILLAGE = false;
-            new FadeInAnimation(mLayout).setDuration(5000).animate();
+            //   new FadeInAnimation(mLayout).setDuration(5000).animate();
         }
     }
     private void updateVillageInfo() {

@@ -54,7 +54,7 @@ public class Data {
 
     public static Item WATER = new Item(
             0,
-            10,
+            15,
             "Water",
             "water",
             1
@@ -165,7 +165,7 @@ public class Data {
     public static Research MINING = new Research("Preserve", "preserve", new UpdateEvent().setDiscoveredEvent(COAL_MINER), 180);
     public static Research STAB = new Research("Stab", "stab", null, 200);
     public static Research PRESERVE = new Research("Preserve", "preserve", new UpdateEvent().setChangeMaxEvent(FOOD, 10), 200);
-    public static Research PURIFY = new Research("Purify", "purify", new UpdateEvent().setChangeMaxEvent(WATER, 20), 200);
+    public static Research PURIFY = new Research("Purify", "purify", new UpdateEvent().setChangeMaxEvent(WATER, 30), 200);
     public static Research ADVENTURE = new Research("Adventure", "adventure", null, 300);
     public static Research HOUSING = new Research("Housing", "housing", new UpdateEvent().setDiscoveredEvent(ADVENTURE).setDiscoveredEvent(SHACK).setDiscoveredEvent(HOUSE), 120);
     public static Building FOUNDATION = new Building(

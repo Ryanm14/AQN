@@ -2,10 +2,10 @@ package me.ryanmiles.aqn;
 
 import android.app.Application;
 import android.content.SharedPreferences;
-import android.support.v4.BuildConfig;
 import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
+import com.testfairy.TestFairy;
 
 import java.util.ArrayList;
 
@@ -107,10 +107,8 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Fabric.with(this);
-        if (!BuildConfig.DEBUG) {
-            Fabric.with(this, new Crashlytics());
-        }
+        TestFairy.begin(this, "873cb9ae0c2b9898c9bf38457d012dd54681fbfa");
+        Fabric.with(this, new Crashlytics());
         Paper.init(this);
         SharedPreferences prefs = getSharedPreferences("me.ryanmiles.aqn", MODE_PRIVATE);
         if (prefs.getBoolean("free", true)) {
@@ -125,18 +123,6 @@ public class App extends Application {
         Data.BUILDING_NEW_DATA = true;
         Data.CRAFTING_NEW_DATA = true;
         Data.RESEARCH_NEW_DATA = true;
-
-        if (true) {
-            for (CraftedItem allCraftedItem : Data.ALL_CRAFTED_ITEMS) {
-                allCraftedItem.setTimeToComplete(10);
-            }
-            for (Building allBuilding : Data.ALL_BUILDINGS) {
-                allBuilding.setTimeToComplete(10);
-            }
-            for (Research research : Data.ALL_RESEARCH) {
-                research.setTimeToComplete(10);
-            }
-        }
     }
 
 

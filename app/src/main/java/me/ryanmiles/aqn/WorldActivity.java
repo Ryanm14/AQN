@@ -94,10 +94,8 @@ public class WorldActivity extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             mCurrentCreaturePos = 0;
-                            //  Thanks();
                         }
                     }).show();
-            // startActivity(new Intent(WorldActivity.this, MainActivity.class));
         }
     }
 

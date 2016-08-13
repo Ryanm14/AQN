@@ -14,7 +14,7 @@ import me.ryanmiles.aqn.events.updates.UpdateVillageInfo;
 public class People extends Object {
     private static final String TAG = People.class.getCanonicalName();
     public static int VILLAGE_CURRENT_POPULATION;
-    public static int VILLAGE_MAX_POPULATION;
+    public static int VILLAGE_MAX_POPULATION = 0;
     public static int FOOD_NEEDED = 1;
     private int amount = 0;
     private Item increaseType;

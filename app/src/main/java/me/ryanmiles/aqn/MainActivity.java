@@ -3,6 +3,7 @@ package me.ryanmiles.aqn;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -25,7 +26,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.paperdb.Paper;
 import me.ryanmiles.aqn.data.Data;
+import me.ryanmiles.aqn.data.Places;
 import me.ryanmiles.aqn.data.model.Item;
+import me.ryanmiles.aqn.data.model.Place;
 import me.ryanmiles.aqn.events.ChangeFragmentEvent;
 import me.ryanmiles.aqn.events.ChangeWorldEvent;
 import me.ryanmiles.aqn.events.DataUpdateEvent;
@@ -68,11 +71,21 @@ public class MainActivity extends AppCompatActivity {
             new FadeInAnimation(mTransitionsContainer).setDuration(5000).animate();
         }
         Log.v(TAG, "onCreate");
+
+        boolean temp = true;
+        for (Place allPlace : Places.ALL_PLACES) {
+            if (!allPlace.isCompleted()) {
+                temp = false;
+            }
+        }
+
+        if (temp) {
+            survey();
+        }
     }
 
-   /* private void survey() {
-        temp = true;
-        final String url = "http://bit.ly/1U3aKad";
+    private void survey() {
+        final String url = "https://goo.gl/forms/Z2zeRCWM2t8PXz3f2";
         new AlertDialogWrapper.Builder(this)
                 .setTitle("Thank you for Testing!")
                 .setCancelable(false)
@@ -90,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                     }
                 }).show();
-    } */
+    }
 
     private void displayDeathDialog() {
         //TODO Customise death
@@ -158,15 +171,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-      /*  for (Loot loot : Data.ALL_LOOT) {
-            if (!loot.isDiscovered() && loot.getAmount() > 0) {
-                loot.setDiscovered(true);
-            }
-            if (loot.isDiscovered() && loot.isStorageDisplay()) {
-                appendStorageTextView(" " + loot.getName() + ": " + loot.getAmount() + " / " + loot.getMax());
-            }
-        }
-        */
     }
 
     private void appendStorageTextView(String string) {
